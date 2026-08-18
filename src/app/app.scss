@@ -1,0 +1,386 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    color: #fff4fa;
+    background: #302333;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.page-shell {
+    width: min(100% - 28px, 444px);
+    margin: auto;
+    padding: 18px 0 55px;
+}
+
+.status {
+    padding: 10px;
+    color: #302333;
+    background: #ffb35f;
+    font-size: .75rem;
+}
+
+.status.error {
+    color: #fff;
+    background: #a54e5d;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    min-height: 205px;
+    padding: 18px 0 28px;
+}
+
+.hero>div {
+    max-width: 280px;
+}
+
+.hero h1 {
+    margin: 12px 0 10px;
+    color: #ffb35f;
+    font-size: 2rem;
+    line-height: 1.02;
+}
+
+.hero h1 em {
+    font-style: normal;
+}
+
+.hero p {
+    margin-bottom: 15px;
+    font-size: .65rem;
+    line-height: 1.4;
+}
+
+.hero>strong {
+    align-self: end;
+    color: #ffb35f;
+    font-size: 2rem;
+}
+
+.hero small {
+    display: block;
+    color: #fff4fa;
+    font-size: .55rem;
+    font-weight: normal;
+}
+
+.eyebrow {
+    color: #ffc174;
+    font-size: .52rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.button {
+    border: 0;
+    border-radius: 4px;
+    padding: 9px 12px;
+    color: #302333;
+    background: #ffb35f;
+    font: 700 .65rem 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: .45;
+}
+
+.filters {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 10px 0;
+    border-top: 1px solid #4c3b50;
+    border-bottom: 1px solid #4c3b50;
+}
+
+.filters button {
+    border: 0;
+    border-radius: 12px;
+    padding: 5px 9px;
+    color: #fff4fa;
+    background: #4c3b50;
+    font-size: .55rem;
+    cursor: pointer;
+}
+
+.filters button.active {
+    color: #302333;
+    background: #ffb35f;
+}
+
+.section-title {
+    margin: 25px 0 12px;
+    color: #ffb35f;
+    font-size: 1.3rem;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.card,
+.list-item {
+    border: 0;
+    color: #fff4fa;
+    background: #4c3b50;
+    text-align: left;
+    cursor: pointer;
+}
+
+.card {
+    min-height: 125px;
+    padding: 11px;
+    border-radius: 0 24px 0 0;
+}
+
+.card.urgent {
+    background: #fcf7ff;
+    color: #302333;
+}
+
+.card small,
+.list-item small {
+    display: block;
+    margin-bottom: 9px;
+    color: #ffb35f;
+    font-size: .45rem;
+}
+
+.card.urgent small {
+    color: #68596d;
+}
+
+.card b,
+.list-item b {
+    display: block;
+    font-size: .65rem;
+    line-height: 1.2;
+}
+
+.card span,
+.list-item span {
+    display: block;
+    margin-top: 12px;
+    font-size: .48rem;
+    opacity: .75;
+}
+
+.list {
+    display: grid;
+    gap: 6px;
+}
+
+.list-item {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.list-item.past {
+    opacity: .7;
+}
+
+.list-item small {
+    margin-bottom: 4px;
+}
+
+.list-item span {
+    margin-top: 5px;
+}
+
+.back {
+    margin: 10px 0 25px;
+    border: 0;
+    color: #ffb35f;
+    background: none;
+    cursor: pointer;
+}
+
+.detail {
+    padding-bottom: 30px;
+}
+
+.detail h1 {
+    margin: 12px 0 8px;
+    color: #ffb35f;
+    font-size: 2rem;
+}
+
+.detail>p {
+    font-size: .75rem;
+    line-height: 1.5;
+}
+
+.poll-id {
+    color: #ae9db2;
+    font-family: monospace;
+    font-size: .62rem !important;
+}
+
+.another {
+    margin-top: 8px;
+}
+
+.detail-grid {
+    display: grid;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.detail h2 {
+    color: #ffb35f;
+    font-size: 1.2rem;
+}
+
+.answer {
+    display: block;
+    width: 100%;
+    margin: 7px 0;
+    padding: 12px;
+    border: 1px solid #6c5870;
+    border-radius: 5px;
+    color: #fff4fa;
+    background: #4c3b50;
+    text-align: left;
+    cursor: pointer;
+}
+
+.answer:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+}
+
+.notice {
+    color: #ffb35f;
+    font-size: .7rem;
+}
+
+.notice.success {
+    color: #77d0a3;
+}
+
+.result {
+    margin: 15px 0;
+    font-size: .7rem;
+}
+
+.result>div {
+    height: 7px;
+    margin-top: 5px;
+    background: #4c3b50;
+    border-radius: 5px;
+}
+
+.result i {
+    display: block;
+    height: 100%;
+    background: #ffb35f;
+    border-radius: inherit;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 14px;
+    background: #201625cc;
+}
+
+.modal {
+    position: relative;
+    width: min(100%, 390px);
+    max-height: 90vh;
+    overflow: auto;
+    padding: 23px;
+    color: #302333;
+    background: #fcf7ff;
+    border-radius: 8px;
+}
+
+.modal h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: 0;
+    color: #302333;
+    background: #eadfeb;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal form,
+fieldset {
+    display: grid;
+    gap: 12px;
+}
+
+.modal label,
+legend {
+    font-size: .7rem;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 9px;
+    border: 1px solid #cfc1d1;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.modal fieldset {
+    padding: 0;
+    border: 0;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+@media (min-width: 700px) {
+    .page-shell {
+        width: min(100% - 60px, 900px);
+    }
+
+    .hero {
+        min-height: 260px;
+    }
+
+    .hero h1 {
+        font-size: 3.8rem;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .list {
+        grid-template-columns: 1fr 1fr;
+    }
+}

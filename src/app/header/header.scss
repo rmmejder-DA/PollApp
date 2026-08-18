@@ -1,0 +1,7 @@
+:host { display: block; }
+.topbar { width: min(100%, 524px); height: 58px; display: flex; align-items: center; gap: 28px; margin: 0 auto; padding: 0 40px; background: #302333; }
+.brand { display: flex; align-items: center; gap: 10px; color: #ffb35f; font: 700 .72rem/1 'Trebuchet MS', sans-serif; text-decoration: none; }
+.brand-mark { display: grid; place-items: center; width: 23px; height: 17px; color: #302333; background: #ffb35f; border-radius: 2px; font-size: .68rem; }
+.header-meta { display: none; }
+.button { border: 0; border-radius: 3px; padding: 7px 10px; font: 700 .58rem 'Trebuchet MS', sans-serif; cursor: pointer; }
+.topbar .button { display: none; }
