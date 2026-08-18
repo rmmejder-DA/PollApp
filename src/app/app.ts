@@ -13,11 +13,11 @@ import { Poll, PollService } from './poll.service';
 })
 export class App {
   protected readonly service = inject(PollService);
-  protected readonly category = signal('Alle');
+  protected readonly category = signal('All');
   protected readonly selected = signal<Poll | null>(null);
   protected readonly showForm = signal(false);
   protected readonly voted = signal<string[]>([]);
-  protected readonly filteredPolls = computed(() => this.service.polls().filter((poll) => this.category() === 'Alle' || poll.category === this.category()));
+  protected readonly filteredPolls = computed(() => this.service.polls().filter((poll) => this.category() === 'All' || poll.category === this.category()));
   protected readonly activePolls = computed(() => this.filteredPolls().filter((poll) => !this.service.isPast(poll)));
   protected readonly pastPolls = computed(() => this.filteredPolls().filter((poll) => this.service.isPast(poll)));
   protected readonly urgentPolls = computed(() => this.activePolls()

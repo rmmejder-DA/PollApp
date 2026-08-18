@@ -27,21 +27,21 @@ export interface NewPoll {
 type RawOption = { id: string; label: string; poll_votes: Array<{ id: string }> | null };
 type RawPoll = { id: string; created_at: string; name: string | null; data: { category?: string; endsAt?: string } | null; describing_text: string | null; answers: string[] | null; title: string; description: string; category: string; ends_at: string; poll_options: RawOption[] | null };
 const defaultQuestions = [
-  ['Was machen wir am Wochenende?', 'Sammelt Ideen für den nächsten gemeinsamen Ausflug.', 'Freizeit', ['Wandern gehen', 'Gemeinsam kochen', 'Filmabend']],
-  ['Welches Feature kommt als Nächstes?', 'Hilf dem Produktteam bei der Priorisierung.', 'Produkt', ['Umfragen teilen', 'Mehr Statistiken', 'Neue Themes']],
-  ['Wann passt unser Community-Treffen?', 'Finde den besten Termin für alle.', 'Community', ['Montag, 18 Uhr', 'Mittwoch, 19 Uhr', 'Freitag, 17 Uhr']],
-  ['Welche Farbe passt zu PollApp?', 'Stimme für die nächste Markenfarbe ab.', 'Produkt', ['Koralle', 'Mint', 'Sonnenblumengelb']],
-  ['Wie lernst du am liebsten?', 'Teile deine bevorzugte Lernmethode.', 'Community', ['Videos', 'Praxisübungen', 'Lesen']],
-  ['Was gehört auf die Startseite?', 'Priorisiere die wichtigste Information.', 'Produkt', ['Aktive Umfragen', 'Ergebnisse', 'Kategorien']],
-  ['Welche Aktivität bringt das Team zusammen?', 'Wähle eine gemeinsame Teamaktivität.', 'Team', ['Quizabend', 'Kochkurs', 'Sporttag']],
-  ['Was ist dein Lieblingsgetränk?', 'Eine kleine Umfrage für den Alltag.', 'Freizeit', ['Kaffee', 'Tee', 'Limonade']],
-  ['Welche App-Funktion nutzt du am häufigsten?', 'Hilf uns, Nutzungsschwerpunkte zu verstehen.', 'Produkt', ['Abstimmen', 'Erstellen', 'Filtern']],
-  ['Wann soll der nächste Spieleabend stattfinden?', 'Finde einen passenden Termin.', 'Freizeit', ['Freitag', 'Samstag', 'Sonntag']],
+  ['What should we do this weekend?', 'Collect ideas for the next group outing.', 'Leisure', ['Go hiking', 'Cook together', 'Movie night']],
+  ['Which feature should come next?', 'Help the product team prioritize the next release.', 'Product', ['Share surveys', 'More analytics', 'New themes']],
+  ['When should our community meet?', 'Find the best time for everyone.', 'Community', ['Monday, 6 PM', 'Wednesday, 7 PM', 'Friday, 5 PM']],
+  ['Which color fits PollApp best?', 'Vote for the next brand color.', 'Product', ['Coral', 'Mint', 'Sunflower yellow']],
+  ['How do you prefer to learn?', 'Share your preferred learning method.', 'Community', ['Videos', 'Practice exercises', 'Reading']],
+  ['What belongs on the home screen?', 'Prioritize the most important information.', 'Product', ['Active surveys', 'Results', 'Categories']],
+  ['Which activity brings the team together?', 'Choose a shared team activity.', 'Team', ['Quiz night', 'Cooking class', 'Sports day']],
+  ['What is your favorite drink?', 'A small survey for everyday life.', 'Leisure', ['Coffee', 'Tea', 'Lemonade']],
+  ['Which app feature do you use most?', 'Help us understand the most useful features.', 'Product', ['Vote', 'Create', 'Filter']],
+  ['When should we have the next game night?', 'Find a date that works best.', 'Leisure', ['Friday', 'Saturday', 'Sunday']],
 ] as const;
 
 @Injectable({ providedIn: 'root' })
 export class PollService {
-  readonly categories = ['Alle', 'Produkt', 'Community', 'Freizeit', 'Team'];
+  readonly categories = ['All', 'Product', 'Community', 'Leisure', 'Team'];
   readonly polls = signal<Poll[]>([]);
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);
@@ -58,7 +58,7 @@ export class PollService {
       .order('ends_at', { ascending: true });
 
     if (error) {
-      this.error.set('Die Umfragen konnten nicht geladen werden. Bitte prüfe das Supabase-Schema.');
+      this.error.set('Surveys could not be loaded. Please check the Supabase schema.');
     } else {
       this.error.set(null);
       if (data.length === 0) {
@@ -87,7 +87,7 @@ export class PollService {
       .single();
 
     if (pollError || !poll) {
-      this.error.set('Die Umfrage konnte nicht erstellt werden.');
+      this.error.set('The survey could not be created.');
       return null;
     }
 
@@ -95,7 +95,7 @@ export class PollService {
       newPoll.options.map((label) => ({ poll_id: poll.id, label: label.trim() })),
     );
     if (optionsError) {
-      this.error.set('Die Antwortoptionen konnten nicht gespeichert werden.');
+      this.error.set('The answer options could not be saved.');
       return null;
     }
 
@@ -106,7 +106,7 @@ export class PollService {
   async vote(pollId: string, optionId: string): Promise<boolean> {
     const { error } = await supabase.from('poll_votes').insert({ poll_id: pollId, option_id: optionId });
     if (error) {
-      this.error.set('Deine Stimme konnte nicht gespeichert werden.');
+      this.error.set('Your vote could not be saved.');
       return false;
     }
     await this.loadPolls();
@@ -146,7 +146,7 @@ export class PollService {
       id: poll.id,
       title: poll.name ?? poll.title,
       description: poll.describing_text ?? poll.description,
-      category: poll.data?.category ?? poll.category,
+      category: this.translateCategory(poll.data?.category ?? poll.category),
       endsAt: poll.data?.endsAt ?? poll.ends_at,
       options: (poll.poll_options ?? []).map((option) => ({
         id: option.id,
@@ -154,5 +154,9 @@ export class PollService {
         votes: option.poll_votes?.length ?? 0,
       })),
     };
+  }
+
+  private translateCategory(category: string): string {
+    return { Alle: 'All', Produkt: 'Product', Freizeit: 'Leisure' }[category] ?? category;
   }
 }

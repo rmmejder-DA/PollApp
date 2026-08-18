@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #fff4fa;
+    background: #302333;
+    font-family: 'Coiny', cursive;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'Coiny';
+    src: url('/font/Coiny/Coiny-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+button,
+input,
+textarea,
+select,
+label,
+legend {
+    font-family: inherit;
+}
+
+app-root,
+app-root *,
+app-create-poll,
+app-create-poll * {
+    font-family: 'Coiny', cursive !important;
+}

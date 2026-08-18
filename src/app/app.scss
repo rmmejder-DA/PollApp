@@ -1,11 +1,3 @@
-:host {
-    display: block;
-    min-height: 100vh;
-    color: #fff4fa;
-    background: #302333;
-    font-family: 'Trebuchet MS', sans-serif;
-}
-
 * {
     box-sizing: border-box;
 }
@@ -42,8 +34,15 @@
 .hero h1 {
     margin: 12px 0 10px;
     color: #ffb35f;
+    font-family: 'Coiny', cursive;
     font-size: 2rem;
     line-height: 1.02;
+    display: inline-block;
+    /* wichtig für transform */
+    transform: skewX(4deg);
+    /* negativer Wert = nach links neigen */
+    transform-origin: left center;
+    /* Drehpunkt festlegen */
 }
 
 .hero h1 em {
@@ -54,6 +53,12 @@
     margin-bottom: 15px;
     font-size: .65rem;
     line-height: 1.4;
+        display: inline-block;
+    /* wichtig für transform */
+    transform: skewX(4deg);
+    /* negativer Wert = nach links neigen */
+    transform-origin: left center;
+    /* Drehpunkt festlegen */
 }
 
 .hero>strong {
@@ -74,6 +79,12 @@
     font-size: .52rem;
     letter-spacing: .08em;
     text-transform: uppercase;
+        display: inline-block;
+    /* wichtig für transform */
+    transform: skewX(4deg);
+    /* negativer Wert = nach links neigen */
+    transform-origin: left center;
+    /* Drehpunkt festlegen */
 }
 
 .button {
@@ -82,7 +93,7 @@
     padding: 9px 12px;
     color: #302333;
     background: #ffb35f;
-    font: 700 .65rem 'Trebuchet MS', sans-serif;
+    font: 700 .65rem 'Coiny', cursive;
     cursor: pointer;
 }
 
@@ -223,7 +234,6 @@
 
 .poll-id {
     color: #ae9db2;
-    font-family: monospace;
     font-size: .62rem !important;
 }
 

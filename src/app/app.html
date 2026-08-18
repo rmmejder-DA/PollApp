@@ -1,34 +1,34 @@
 <app-header (newSurvey)="openForm()" />
 
 <main class="page-shell">
-  @if (service.isLoading()) { <p class="status">Umfragen werden geladen ...</p> }
+  @if (service.isLoading()) { <p class="status">Loading surveys ...</p> }
   @if (service.error(); as error) { <p class="status error">{{ error }}</p> }
 
   @if (selected(); as poll) {
-    <button class="back" type="button" (click)="close()">← Zurück</button>
+    <button class="back" type="button" (click)="close()">← Back</button>
     <section class="detail" aria-labelledby="detail-title">
-      <span class="eyebrow">{{ poll.category }} · {{ service.isPast(poll) ? 'Beendet' : 'Aktiv' }}</span>
+      <span class="eyebrow">{{ poll.category }} · {{ service.isPast(poll) ? 'Past Survey' : 'Active' }}</span>
       <h1 id="detail-title">{{ poll.title }}</h1>
       <p>{{ poll.description }}</p>
       <p class="poll-id">ID: {{ poll.id }}</p>
-      <button class="button create another" type="button" (click)="openForm()">Weitere Umfrage erstellen</button>
+      <button class="button create another" type="button" (click)="openForm()">Create another survey</button>
       <div class="detail-grid">
-        <section><h2>Deine Antwort</h2>
+        <section><h2>Your answer</h2>
           @for (option of poll.options; track option.id) { <button class="answer" type="button" [disabled]="service.isPast(poll) || isVoted(poll)" (click)="vote(poll, option.id)">{{ option.label }}</button> }
-          @if (service.isPast(poll)) { <p class="notice">Diese Umfrage ist beendet.</p> }
-          @if (isVoted(poll)) { <p class="notice success">Danke, deine Stimme wurde gespeichert.</p> }
+          @if (service.isPast(poll)) { <p class="notice">This survey has ended.</p> }
+          @if (isVoted(poll)) { <p class="notice success">Thanks, your vote was saved.</p> }
         </section>
-        <section><h2>Ergebnis · {{ total(poll) }} Stimmen</h2>
+        <section><h2>Results · {{ total(poll) }} votes</h2>
           @for (option of poll.options; track option.id) { <div class="result"><span>{{ option.label }} ({{ percent(poll, option.votes) }}%)</span><div><i [style.width.%]="percent(poll, option.votes)"></i></div></div> }
         </section>
       </div>
     </section>
   } @else {
-    <section class="hero"><div><span class="eyebrow">YOUR VOICE, ORGANIZED</span><h1>Fragen stellen.<br /><em>Gemeinsam</em> entscheiden.</h1><p>Erstelle Umfragen, sammle Stimmen und treffe Entscheidungen gemeinsam.</p><button class="button create" type="button" (click)="openForm()">Neue Umfrage</button></div><strong>{{ activePolls().length }}<small> aktive Umfragen</small></strong></section>
-    <nav class="filters" aria-label="Kategorien">@for (item of service.categories; track item) { <button type="button" [class.active]="category() === item" (click)="selectCategory(item)">{{ item }}</button> }</nav>
-    @if (urgentPolls().length) { <section><h2 class="section-title">Bald endend</h2><div class="cards">@for (poll of urgentPolls(); track poll.id) { <button class="card urgent" type="button" (click)="open(poll)"><small>{{ poll.category }} · Noch {{ daysLeft(poll) }} Tage</small><b>{{ poll.title }}</b><span>{{ poll.options.length }} Antworten</span></button> }</div></section> }
-    <section><h2 class="section-title">Alle Umfragen</h2>@if (activePolls().length) { <div class="list">@for (poll of activePolls(); track poll.id) { <button class="list-item" type="button" (click)="open(poll)"><small>{{ poll.category }} · Endet {{ date(poll) }}</small><b>{{ poll.title }}</b><span>{{ total(poll) }} Stimmen</span></button> }</div> } @else { <p>Noch keine Umfragen vorhanden.</p> }</section>
-    @if (pastPolls().length) { <section><h2 class="section-title">Past Surveys</h2><div class="list">@for (poll of pastPolls(); track poll.id) { <button class="list-item past" type="button" (click)="open(poll)"><small>{{ poll.category }} · Beendet {{ date(poll) }}</small><b>{{ poll.title }}</b></button> }</div></section> }
+    <section class="hero"><div><span class="eyebrow">YOUR VOICE, ORGANIZED</span><h1>Ask questions.<br /><em>Decide</em> together.</h1><p>Create surveys, collect votes and make decisions together.</p><button class="button create" type="button" (click)="openForm()">New survey</button></div><strong>{{ activePolls().length }}<small> active surveys</small></strong></section>
+    <nav class="filters" aria-label="Categories">@for (item of service.categories; track item) { <button type="button" [class.active]="category() === item" (click)="selectCategory(item)">{{ item }}</button> }</nav>
+    @if (urgentPolls().length) { <section><h2 class="section-title">Ending soon</h2><div class="cards">@for (poll of urgentPolls(); track poll.id) { <button class="card urgent" type="button" (click)="open(poll)"><small>{{ poll.category }} · {{ daysLeft(poll) }} days left</small><b>{{ poll.title }}</b><span>{{ poll.options.length }} answers</span></button> }</div></section> }
+    <section><h2 class="section-title">All surveys</h2>@if (activePolls().length) { <div class="list">@for (poll of activePolls(); track poll.id) { <button class="list-item" type="button" (click)="open(poll)"><small>{{ poll.category }} · Ends {{ date(poll) }}</small><b>{{ poll.title }}</b><span>{{ total(poll) }} votes</span></button> }</div> } @else { <p>No surveys available yet.</p> }</section>
+    @if (pastPolls().length) { <section><h2 class="section-title">Past surveys</h2><div class="list">@for (poll of pastPolls(); track poll.id) { <button class="list-item past" type="button" (click)="open(poll)"><small>{{ poll.category }} · Ended {{ date(poll) }}</small><b>{{ poll.title }}</b></button> }</div></section> }
   }
 </main>
 
