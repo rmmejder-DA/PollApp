@@ -3,9 +3,12 @@
 }
 
 .page-shell {
-    width: min(100% - 28px, 444px);
-    margin: auto;
-    padding: 18px 0 55px;
+    width: 100%;
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
 }
 
 .status {
@@ -22,7 +25,7 @@
 
 .hero {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     min-height: 205px;
     padding: 18px 0 28px;
 }
@@ -367,30 +370,4 @@ legend {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-}
-
-@media (min-width: 700px) {
-    .page-shell {
-        width: min(100% - 60px, 900px);
-    }
-
-    .hero {
-        min-height: 260px;
-    }
-
-    .hero h1 {
-        font-size: 3.8rem;
-    }
-
-    .detail-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .cards {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .list {
-        grid-template-columns: 1fr 1fr;
-    }
 }

@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreatePoll } from './create-poll/create-poll';
 import { Header } from './header/header';
+import { Hero } from './hero/hero';
 import { Poll, PollService } from './poll.service';
 
 @Component({
   selector: 'app-root',
-  imports: [CreatePoll, Header, ReactiveFormsModule],
+  imports: [CreatePoll, Header, Hero, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

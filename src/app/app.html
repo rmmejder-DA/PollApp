@@ -24,7 +24,7 @@
       </div>
     </section>
   } @else {
-    <section class="hero"><div><span class="eyebrow">YOUR VOICE, ORGANIZED</span><h1>Ask questions.<br /><em>Decide</em> together.</h1><p>Create surveys, collect votes and make decisions together.</p><button class="button create" type="button" (click)="openForm()">New survey</button></div><strong>{{ activePolls().length }}<small> active surveys</small></strong></section>
+    <app-hero (createSurvey)="openForm()" />
     <nav class="filters" aria-label="Categories">@for (item of service.categories; track item) { <button type="button" [class.active]="category() === item" (click)="selectCategory(item)">{{ item }}</button> }</nav>
     @if (urgentPolls().length) { <section><h2 class="section-title">Ending soon</h2><div class="cards">@for (poll of urgentPolls(); track poll.id) { <button class="card urgent" type="button" (click)="open(poll)"><small>{{ poll.category }} · {{ daysLeft(poll) }} days left</small><b>{{ poll.title }}</b><span>{{ poll.options.length }} answers</span></button> }</div></section> }
     <section><h2 class="section-title">All surveys</h2>@if (activePolls().length) { <div class="list">@for (poll of activePolls(); track poll.id) { <button class="list-item" type="button" (click)="open(poll)"><small>{{ poll.category }} · Ends {{ date(poll) }}</small><b>{{ poll.title }}</b><span>{{ total(poll) }} votes</span></button> }</div> } @else { <p>No surveys available yet.</p> }</section>

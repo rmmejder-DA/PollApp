@@ -18,10 +18,10 @@ span {
     height: 58px;
     display: flex;
     align-items: center;
-    gap: 28px;
-    margin: 0 auto;
-    padding: 0 40px;
-    background: #302333;
+    position: relative;
+    padding-top: 20px;
+    opacity: 1;
+
 }
 
 .brand {

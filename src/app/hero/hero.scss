@@ -1,0 +1,110 @@
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 205px;
+    padding: 18px 0 28px;
+}
+
+.hero>div:first-child {
+    max-width: 100%;
+}
+
+.hero h1 {
+    margin: 12px 0 10px;
+    color: #ffb35f;
+    font-size: 3rem;
+    line-height: 1.02;
+}
+
+.hero h1 em {
+    font-style: normal;
+}
+
+.hero p {
+    width: 320px;
+    margin-bottom: 15px;
+    font-size: .65rem;
+    line-height: 1.4;
+}
+
+.eyebrow {
+    color: #ffc174;
+    font-size: .52rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.button {
+    border: 0;
+    border-radius: 4px;
+    padding: 9px 12px;
+    color: #221227;
+    background: #ffb35f;
+    font: 300 1rem 'Coiny';
+    cursor: pointer;
+
+}
+
+.button:hover:after {
+    content: "\002B";
+    margin-left: 0.5em;
+    border-radius: 50%;
+    border: 3px solid #221227;
+    padding-inline: 4px;
+}
+
+.hero-icons {
+    position: relative;
+    width: 145px;
+    min-height: 170px;
+    flex: 0 0 145px;
+}
+
+.hero-icons img {
+    position: absolute;
+    display: block;
+    object-fit: contain;
+}
+
+.icon-mobile {
+    bottom: -15px;
+    right: -242px;
+    width: 280px;
+    position: relative;
+}
+
+.icon-check {
+    right: 42px;
+    bottom: 6px;
+    width: 56px;
+    height: auto;
+    z-index: -1;
+}
+
+.icon-bubble {
+    top: 84px;
+    left: -84px;
+    width: 72px;
+    height: auto;
+}
+
+.icon-star {
+    bottom: -10px;
+    left: -120px;
+    width: 56px;
+    height: auto;
+}
+
+.icon-question {
+    top: 24px;
+    right: 28px;
+    width: 56px;
+    height: auto;
+    transform: rotate(20deg);
+}
+
+.hero-icons:hover {
+    transform: scale(1.1);
+    z-index: 1000;
+}
