@@ -1,15 +1,15 @@
-<fieldset class="question-card" [formGroup]="question()">
-    <div class="question-heading">
+<fieldset id="question-card-{{ questionNumber() }}" class="question-card" [formGroup]="question()">
+    <div id="question-heading-{{ questionNumber() }}" class="question-heading">
         <legend>{{ questionNumber() }}. Question</legend>
         <button class="icon-button" type="button" aria-label="Delete question" (click)="removeQuestion.emit()"
             [disabled]="!canRemove()">×</button>
     </div>
     <input class="question-input" formControlName="name" placeholder="Write your question" />
-    <div class="answers-heading"><strong>Answers</strong><label class="multiple"><input type="checkbox" /> Allow
+    <div id="answers-heading-{{ questionNumber() }}" class="answers-heading"><strong>Answers</strong><label class="multiple"><input type="checkbox" /> Allow
             multiple answers.</label></div>
-    <div class="answers" formArrayName="answers">
+    <div id="answers-{{ questionNumber() }}" class="answers" formArrayName="answers">
         @for (answer of answers().controls; track $index) {
-        <div class="answer-row"><span>{{ letter($index) }}.</span>
+        <div id="answer-row-{{ questionNumber() }}-{{ $index + 1 }}" class="answer-row"><span>{{ letter($index) }}.</span>
         <input type="text" [formControlName]="$index"
                 [placeholder]="'Answer ' + ($index + 1)" /><button class="icon-button" type="button"
                 aria-label="Delete answer" (click)="removeAnswer.emit($index)"

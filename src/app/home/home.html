@@ -1,5 +1,4 @@
-<main class="page-shell home-page-shell">
-  @if (service.isLoading()) { <p class="status home-status">Loading surveys ...</p> }
+<main id="survey-overview" class="page-shell home-page-shell">
   @if (service.error(); as error) { <p class="status error home-status-error">{{ error }}</p> }
 
   <app-hero class="home-hero" (createSurvey)="goToCreate()" />
@@ -8,9 +7,17 @@
     <app-urgent-section [polls]="urgentPolls()" [daysLeft]="daysLeft.bind(this)" />
   }
 
-  <app-survey-list-section [polls]="activePolls()" [formatDate]="date.bind(this)" [totalVotes]="total.bind(this)" />
+  <div id="survey-toolbar" class="survey-toolbar">
+    <div id="survey-tabs" class="survey-tabs" role="tablist" aria-label="Survey status">
+      <button class="tab" [class.tab--active]="view() === 'active'" type="button" role="tab" [attr.aria-selected]="view() === 'active'" (click)="setView('active')">Active survey</button>
+      <button class="tab" [class.tab--active]="view() === 'past'" type="button" role="tab" [attr.aria-selected]="view() === 'past'" (click)="setView('past')">Past survey</button>
+    </div>
+    <label class="category-sort">Sort by categories
+      <select [value]="category()" (change)="setCategory($event)" aria-label="Sort surveys by category">
+        @for (item of service.categories; track item) { <option [value]="item">{{ item }}</option> }
+      </select>
+    </label>
+  </div>
 
-  @if (pastPolls().length) {
-    <app-past-surveys-section [polls]="pastPolls()" [formatDate]="date.bind(this)" />
-  }
+  <app-survey-list-section [polls]="visiblePolls()" [past]="view() === 'past'" />
 </main>

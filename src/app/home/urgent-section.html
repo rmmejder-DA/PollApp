@@ -1,6 +1,7 @@
-<section class="home-section home-section--urgent">
+<section id="urgent-surveys" class="home-section home-section--urgent">
   <h2 class="section-title">Your surveys</h2>
-  <div class="cards home-cards">
+  <p class="home-section-description">Ending soon surveys</p>
+  <div id="urgent-cards" class="cards home-cards">
     @for (poll of polls; track poll.id) {
       <a class="card urgent home-card" [routerLink]="['/survey', poll.id]">
         <small>{{ poll.category }} · {{ daysLeft(poll) }} days left</small>

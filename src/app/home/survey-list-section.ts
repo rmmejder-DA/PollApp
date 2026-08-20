@@ -13,6 +13,11 @@ import { Poll } from '../poll.service';
 })
 export class SurveyListSection {
   @Input() polls: Poll[] = [];
-  @Input() formatDate: (poll: Poll) => string = () => '';
-  @Input() totalVotes: (poll: Poll) => number = () => 0;
+  @Input() past = false;
+
+  protected endLabel(poll: Poll): string {
+    if (this.past) return 'Past survey';
+    const days = Math.max(0, Math.ceil((new Date(poll.endsAt).getTime() - Date.now()) / 86_400_000));
+    return `Ends in ${days} Day${days === 1 ? '' : 's'}`;
+  }
 }

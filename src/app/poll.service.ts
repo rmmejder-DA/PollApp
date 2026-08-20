@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, OnDestroy, signal } from '@angular/core';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 
 export interface PollOption {
@@ -40,14 +41,25 @@ const defaultQuestions = [
 ] as const;
 
 @Injectable({ providedIn: 'root' })
-export class PollService {
+export class PollService implements OnDestroy {
   readonly categories = ['All', 'Product', 'Community', 'Leisure', 'Team'];
   readonly polls = signal<Poll[]>([]);
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);
+  private readonly voteChannel: RealtimeChannel;
 
   constructor() {
+    this.voteChannel = supabase
+      .channel('poll-votes-live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'poll_votes' }, () => {
+        void this.loadPolls();
+      })
+      .subscribe();
     void this.loadPolls();
+  }
+
+  ngOnDestroy(): void {
+    void supabase.removeChannel(this.voteChannel);
   }
 
   async loadPolls(): Promise<void> {
@@ -104,7 +116,13 @@ export class PollService {
   }
 
   async vote(pollId: string, optionId: string): Promise<boolean> {
-    const { error } = await supabase.from('poll_votes').insert({ poll_id: pollId, option_id: optionId });
+    return this.voteMany(pollId, [optionId]);
+  }
+
+  async voteMany(pollId: string, optionIds: string[]): Promise<boolean> {
+    const { error } = await supabase.from('poll_votes').insert(
+      optionIds.map((optionId) => ({ poll_id: pollId, option_id: optionId })),
+    );
     if (error) {
       this.error.set('Your vote could not be saved.');
       return false;

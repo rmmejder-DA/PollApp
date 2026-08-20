@@ -3,22 +3,27 @@
 }
 
 .section-title {
-    margin: 25px 0 12px;
+    margin: 0 0 10px;
     color: #ffb35f;
-    font-size: 1.3rem;
+    font-size: 2rem;
+    text-align: center;
 }
-
+.home-section-description{
+    margin: 0 0 12px;
+    color: #fff4fa;
+    font-size: .78rem;
+}
 .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 12px;
 }
 
 .card {
     min-height: 125px;
     display: block;
     padding: 11px;
-    border-radius: 0 24px 0 0;
+    border-radius: 0 32px 0 0;
     color: #302333;
     background: #fcf7ff;
     text-align: left;
@@ -35,7 +40,7 @@
 
 .card b {
     display: block;
-    font-size: .65rem;
+    font-size: .72rem;
     line-height: 1.2;
 }
 
@@ -47,7 +52,27 @@
 }
 
 @media (max-width: 700px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+
     .cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .card {
+        min-height: 100px;
+        padding: 9px;
+        border-radius: 0 24px 0 0;
+    }
+
+    .card b {
+        font-size: .58rem;
+    }
+
+    .card small,
+    .card span {
+        font-size: .4rem;
     }
 }

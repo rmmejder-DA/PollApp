@@ -6,10 +6,14 @@
     padding: 18px 0 28px;
     margin-top: 120px;
     margin-bottom: 120px;
+    &-text {
+        gap:20px;
+    }
 }
 
 .hero>div:first-child {
     max-width: 100%;
+    gap: 20px;
 }
 
 .hero h1 {
@@ -43,7 +47,7 @@
     padding: 9px 12px;
     color: #221227;
     background: #ffcfa1;
-    font: 300 1.25rem 'Arial';
+    font: 300 1.55rem 'Arial';
     cursor: pointer;
     transition: background 0.7s ease;
 }
@@ -62,6 +66,7 @@
     transform: translate(-50%, -50%);
     opacity: 1;
     transition: opacity 350ms ease, transform 350ms ease;
+    position: relative;
 }
 
 .button:not(:hover):after {
@@ -73,8 +78,9 @@
 .hero-icons {
     position: relative;
     width: 100%;
-    min-height: 170px;
-    flex: 0 0 145px;
+    min-height: 440px;
+    flex: 0 0 204px;
+    left: -200px;
 }
 
 .hero-icons img {
@@ -91,36 +97,36 @@
 }
 
 .icon-check {
-    right: 42px;
-    bottom: -60px;
+    right: -32px;
+    bottom: 29px;
     width: 92px;
     height: auto;
     z-index: -1;
 }
 
 .icon-bubble {
-    top: -32px;
-    left: -280px;
-    width: 132px;
+    top: 72px;
+    left: -184px;
+    width: 180px;
     height: auto;
 }
 
 .icon-star {
-    bottom: -100px;
-    left: -300px;
+    bottom: -54px;
+    left: -180px;
     width: 92px;
     height: auto;
 }
 
 .icon-question {
-    top: -154px;
-    right: 38px;
+    top: -48px;
+    right: -90px;
     width: 92px;
     height: auto;
     transform: rotate(20deg);
 }
 
 .hero-icons:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     z-index: 1000;
 }

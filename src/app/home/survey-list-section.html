@@ -1,16 +1,15 @@
-<section class="home-section home-section--all">
-  <h2 class="section-title">All surveys</h2>
+<section id="survey-cards" class="home-section home-section--all">
   @if (polls.length) {
-    <div class="list home-list">
-      @for (poll of polls; track poll.id) {
-        <a class="list-item home-list-item" [routerLink]="['/survey', poll.id]">
-          <small>{{ poll.category }} · Ends {{ formatDate(poll) }}</small>
+    <div id="survey-grid" class="survey-grid">
+      @for (poll of polls; track poll.id; let pollIndex = $index) {
+        <a id="survey-card-{{ pollIndex + 1 }}" class="survey-card" [class.survey-card--past]="past" [routerLink]="['/survey', poll.id]">
+          <small>{{ poll.category }}</small>
           <b>{{ poll.title }}</b>
-          <span>{{ totalVotes(poll) }} votes</span>
+          <span class="survey-end">{{ endLabel(poll) }}</span>
         </a>
       }
     </div>
   } @else {
-    <p class="home-empty-state">No surveys available yet.</p>
+    <p id="empty-surveys" class="home-empty-state">No surveys available.</p>
   }
 </section>

@@ -3,12 +3,13 @@
 }
 
 .page-shell {
-    width: 100%;
-    max-width: 1440px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    width: min(100% - 40px, 1040px);
     margin: 0 auto;
+    padding: 0 0 70px;
+}
+
+.home-hero {
+    display: block;
 }
 
 .status {
@@ -21,4 +22,61 @@
 .status.error {
     color: #fff;
     background: #a54e5d;
+}
+
+.survey-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0 0 28px;
+}
+
+.survey-tabs {
+    display: flex;
+    gap: 18px;
+}
+
+.tab {
+    border: 0;
+    border-radius: 15px;
+    padding: 5px 13px;
+    color: #f4eaf4;
+    background: #f4eaf4;
+    font: inherit;
+    font-size: .65rem;
+    cursor: pointer;
+}
+
+.tab--active {
+    color: #302333;
+    background: #ffb35f;
+}
+
+.category-sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff4fa;
+    font-size: .7rem;
+}
+
+.category-sort select {
+    border: 0;
+    color: #fff4fa;
+    background: #302333;
+    font: inherit;
+    font-size: .7rem;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .page-shell {
+        width: min(100% - 24px, 1040px);
+    }
+
+    .survey-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
