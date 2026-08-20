@@ -105,30 +105,6 @@
     opacity: .45;
 }
 
-.filters {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 10px 0;
-    border-top: 1px solid #4c3b50;
-    border-bottom: 1px solid #4c3b50;
-}
-
-.filters button {
-    border: 0;
-    border-radius: 12px;
-    padding: 5px 9px;
-    color: #fff4fa;
-    background: #4c3b50;
-    font-size: .55rem;
-    cursor: pointer;
-}
-
-.filters button.active {
-    color: #302333;
-    background: #ffb35f;
-}
-
 .section-title {
     margin: 25px 0 12px;
     color: #ffb35f;
@@ -370,4 +346,8 @@ legend {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+}
+:host {
+     display: block;
+     min-height: 100vh;
 }

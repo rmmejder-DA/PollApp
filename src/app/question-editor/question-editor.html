@@ -9,7 +9,8 @@
             multiple answers.</label></div>
     <div class="answers" formArrayName="answers">
         @for (answer of answers().controls; track $index) {
-        <div class="answer-row"><span>{{ letter($index) }}.</span><input type="text" [formControlName]="$index"
+        <div class="answer-row"><span>{{ letter($index) }}.</span>
+        <input type="text" [formControlName]="$index"
                 [placeholder]="'Answer ' + ($index + 1)" /><button class="icon-button" type="button"
                 aria-label="Delete answer" (click)="removeAnswer.emit($index)"
                 [disabled]="answers().length <= 2">×</button></div>

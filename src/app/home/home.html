@@ -1,0 +1,16 @@
+<main class="page-shell home-page-shell">
+  @if (service.isLoading()) { <p class="status home-status">Loading surveys ...</p> }
+  @if (service.error(); as error) { <p class="status error home-status-error">{{ error }}</p> }
+
+  <app-hero class="home-hero" (createSurvey)="goToCreate()" />
+
+  @if (urgentPolls().length) {
+    <app-urgent-section [polls]="urgentPolls()" [daysLeft]="daysLeft.bind(this)" />
+  }
+
+  <app-survey-list-section [polls]="activePolls()" [formatDate]="date.bind(this)" [totalVotes]="total.bind(this)" />
+
+  @if (pastPolls().length) {
+    <app-past-surveys-section [polls]="pastPolls()" [formatDate]="date.bind(this)" />
+  }
+</main>

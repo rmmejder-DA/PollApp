@@ -1,0 +1,16 @@
+<section class="home-section home-section--all">
+  <h2 class="section-title">All surveys</h2>
+  @if (polls.length) {
+    <div class="list home-list">
+      @for (poll of polls; track poll.id) {
+        <a class="list-item home-list-item" [routerLink]="['/survey', poll.id]">
+          <small>{{ poll.category }} · Ends {{ formatDate(poll) }}</small>
+          <b>{{ poll.title }}</b>
+          <span>{{ totalVotes(poll) }} votes</span>
+        </a>
+      }
+    </div>
+  } @else {
+    <p class="home-empty-state">No surveys available yet.</p>
+  }
+</section>

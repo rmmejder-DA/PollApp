@@ -1,0 +1,39 @@
+@if (poll(); as selected) {
+  <main class="page-shell">
+    <button class="back" type="button" (click)="goBack()">← Back</button>
+    <section class="detail" aria-labelledby="detail-title">
+      <span class="eyebrow">{{ selected.category }} · {{ service.isPast(selected) ? 'Past Survey' : 'Active' }}</span>
+      <h1 id="detail-title">{{ selected.title }}</h1>
+      <p>{{ selected.description }}</p>
+      <p class="poll-id">ID: {{ selected.id }}</p>
+      <button class="button create another" type="button" (click)="goToCreate()">Create another survey</button>
+
+      <div class="detail-grid">
+        <section>
+          <h2>Your answer</h2>
+          @for (option of selected.options; track option.id) {
+            <button class="answer" type="button" [disabled]="service.isPast(selected) || isVoted(selected)" (click)="vote(selected, option.id)">
+              {{ option.label }}
+            </button>
+          }
+          @if (service.isPast(selected)) { <p class="notice">This survey has ended.</p> }
+          @if (isVoted(selected)) { <p class="notice success">Thanks, your vote was saved.</p> }
+        </section>
+
+        <section>
+          <h2>Results · {{ total(selected) }} votes</h2>
+          @for (option of selected.options; track option.id) {
+            <div class="result">
+              <span>{{ option.label }} ({{ percent(selected, option.votes) }}%)</span>
+              <div><i [style.width.%]="percent(selected, option.votes)"></i></div>
+            </div>
+          }
+        </section>
+      </div>
+    </section>
+  </main>
+} @else {
+  <main class="page-shell">
+    <p class="status error">Survey not found.</p>
+  </main>
+}

@@ -1,0 +1,24 @@
+:host {
+    display: block;
+}
+
+.page-shell {
+    width: 100%;
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.status {
+    padding: 10px;
+    color: #302333;
+    background: #ffb35f;
+    font-size: .75rem;
+}
+
+.status.error {
+    color: #fff;
+    background: #a54e5d;
+}

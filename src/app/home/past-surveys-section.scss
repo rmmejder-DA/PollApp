@@ -1,0 +1,43 @@
+.home-section {
+    width: 100%;
+}
+
+.section-title {
+    margin: 25px 0 12px;
+    color: #ffb35f;
+    font-size: 1.3rem;
+}
+
+.list {
+    display: grid;
+    gap: 6px;
+}
+
+.list-item {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff4fa;
+    background: #4c3b50;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.list-item.past {
+    opacity: .7;
+}
+
+.list-item small {
+    display: block;
+    margin-bottom: 4px;
+    color: #ffb35f;
+    font-size: .45rem;
+}
+
+.list-item b {
+    display: block;
+    font-size: .65rem;
+    line-height: 1.2;
+}

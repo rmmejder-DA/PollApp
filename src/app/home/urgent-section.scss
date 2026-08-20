@@ -1,0 +1,53 @@
+.home-section {
+    width: 100%;
+}
+
+.section-title {
+    margin: 25px 0 12px;
+    color: #ffb35f;
+    font-size: 1.3rem;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.card {
+    min-height: 125px;
+    display: block;
+    padding: 11px;
+    border-radius: 0 24px 0 0;
+    color: #302333;
+    background: #fcf7ff;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.card small {
+    display: block;
+    margin-bottom: 9px;
+    color: #68596d;
+    font-size: .45rem;
+}
+
+.card b {
+    display: block;
+    font-size: .65rem;
+    line-height: 1.2;
+}
+
+.card span {
+    display: block;
+    margin-top: 12px;
+    font-size: .48rem;
+    opacity: .75;
+}
+
+@media (max-width: 700px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
