@@ -30,6 +30,7 @@
     justify-content: center;
     align-items: center;
     gap: 22px;
+    max-width: 1042px;
 }
 
 .card {
@@ -48,6 +49,13 @@
     justify-content: space-around;
     color: #68596d;
 
+    &:hover {
+        background-color: #f8e2ff;
+    }
+
+    &:hover p {
+        background-color: #ffb35f;
+    }
 }
 
 .card b {
@@ -58,7 +66,8 @@
 }
 
 .card p {
-    background-color: #ffb35f;
+    background-color: #ffcfa1;
+
     width: max-content;
     padding: 3px 9px 3px 9px;
     border-radius: 0 12px 0 0;

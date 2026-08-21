@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,23 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header {}
+export class Header implements OnInit {
+  readonly imgPath = signal('/icon/Frame-dark.svg');
+  readonly showCreateButton = signal(false);
+
+  constructor(private readonly router: Router) {}
+
+  ngOnInit(): void {
+    this.setFrame(this.router.url);
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => this.setFrame(event.urlAfterRedirects));
+  }
+
+  private setFrame(url: string): void {
+    const isHome = url === '/';
+    this.imgPath.set(isHome ? '/icon/Frame-dark.svg' : '/icon/Frame-ligth.svg');
+    this.showCreateButton.set(!isHome);
+    document.body.classList.toggle('survey-page', url !== '/');
+  }
+}

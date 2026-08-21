@@ -41,7 +41,7 @@ const defaultQuestions = [
 
 @Injectable({ providedIn: 'root' })
 export class PollService implements OnDestroy {
-  readonly categories = ['All', 'Product', 'Community', 'Leisure', 'Team'];
+  readonly categories = ['All Surveys', 'Product', 'Community', 'Leisure', 'Team'];
   readonly polls = signal<Poll[]>([]);
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);

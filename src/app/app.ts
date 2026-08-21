@@ -9,4 +9,6 @@ import { Header } from './header/header';
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {}
+export class App {
+  
+}

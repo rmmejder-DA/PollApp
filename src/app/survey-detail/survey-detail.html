@@ -1,61 +1,63 @@
 @if (poll(); as selected) {
-  <main class="page-shell">
-    <button class="back" type="button" (click)="goBack()">← Back to surveys</button>
-    <section id="survey-detail" class="detail-layout" aria-labelledby="detail-title">
-      <article id="survey-panel" class="survey-panel">
-        <div id="survey-meta" class="survey-meta">
-          <span class="status-badge">{{ statusLabel(selected) }}</span>
+<main class="page-shell">
+  <section id="survey-detail" class="detail-layout" aria-labelledby="detail-title">
+    <article id="survey-panel" class="survey-panel">
+      <div id="survey-meta" class="survey-meta">
+        <span class="status-badge">{{ statusLabel(selected) }}</span>
+        <div class="survey-meta-info">
           <span>Ends on {{ formatDate(selected.endsAt) }}</span>
           <span class="category">Category: {{ selected.category }}</span>
         </div>
+      </div>
 
-        <h1 id="detail-title">{{ selected.title }}</h1>
-        <p class="description">{{ selected.description }}</p>
+      <h1 id="detail-title">{{ selected.title }}</h1>
+      <p class="description">{{ selected.description }}</p>
 
-        <div id="question-grid" class="question-grid">
-          <section id="answer-panel" class="answer-panel" aria-labelledby="answer-title">
-            <h2 id="answer-title">Choose your answers</h2>
-            @for (option of selected.options; track option.id; let optionIndex = $index) {
-              <button class="answer" type="button" [class.answer--selected]="isSelected(option.id)" [disabled]="service.isPast(selected) || isVoted(selected)" (click)="toggleOption(selected, option.id)" [attr.aria-pressed]="isSelected(option.id)">
-                <span class="answer-marker">{{ isSelected(option.id) ? '✓' : ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
-                <span>{{ option.label }}</span>
-              </button>
-            }
-            @if (!service.isPast(selected) && !isVoted(selected)) {
-              <button class="submit-votes" type="button" [disabled]="!selectedOptions().length" (click)="submitVotes(selected)">
-                Submit {{ selectedOptions().length || '' }} answer{{ selectedOptions().length === 1 ? '' : 's' }}
-              </button>
-            }
-            @if (service.isPast(selected)) { <p class="notice">This survey has ended.</p> }
-            @if (isVoted(selected)) { <p class="notice success">Thanks, your vote was saved.</p> }
-          </section>
+      <div id="question-grid" class="question-grid">
+        <section id="answer-panel" class="answer-panel" aria-labelledby="answer-title">
+          <h2 id="answer-title">Choose your answers</h2>
+          @for (option of selected.options; track option.id; let optionIndex = $index) {
+          <button class="answer" type="button" [disabled]="service.isPast(selected) || isVoted(selected)"
+            (click)="toggleOption(selected, option.id)">
+            <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1" aria-hidden="true" />
+            <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
+            <span class="answer-text">{{ option.label }}</span>
+          </button>
+          }
+          @if (service.isPast(selected)) { <p class="notice">This survey has ended.</p> }
+          @if (isVoted(selected)) { <p class="notice success">Thanks, your vote was saved.</p> }
+        </section>
 
-          <div id="survey-actions" class="survey-actions">
-            <button class="button" type="button" (click)="goToCreate()">Create another survey</button>
-          </div>
+        <div id="survey-actions" class="survey-actions">
+          <button class="button" type="button" [disabled]="service.isPast(selected) || isVoted(selected) || !selectedOptionIds().length" (click)="completeSurvey(selected)">Complete survey</button>
+
         </div>
-      </article>
+      </div>
+    </article>
 
-      <aside id="results-panel" class="results-panel" aria-labelledby="results-title">
-        <div id="results-heading" class="results-heading">
-          <h2 id="results-title">Survey results <span class="live-badge"><i></i> LIVE</span></h2>
-          <span class="vote-count">{{ total(selected) }} votes</span>
+    <aside id="results-panel" class="results-panel" aria-labelledby="results-title">
+      <div id="results-heading" class="results-heading">
+        <h2 id="results-title">Survey results <span class="live-badge"><i></i> LIVE</span></h2>
+        <span class="vote-count">{{ total(selected) }} votes</span>
+      </div>
+
+      @for (option of selected.options; track option.id; let optionIndex = $index) {
+      <div id="result-{{ optionIndex + 1 }}" class="result"
+        [attr.aria-label]="option.label + ': ' + percent(selected, option.votes) + ' percent'">
+        <span class="result-label">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
+        <div id="result-track-{{ optionIndex + 1 }}" class="result-track" role="progressbar"
+          [attr.aria-valuenow]="percent(selected, option.votes)" aria-valuemin="0" aria-valuemax="100"
+          [attr.aria-label]="option.label">
+          <i [style.width.%]="percent(selected, option.votes)"></i>
         </div>
-
-        @for (option of selected.options; track option.id; let optionIndex = $index) {
-          <div id="result-{{ optionIndex + 1 }}" class="result" [attr.aria-label]="option.label + ': ' + percent(selected, option.votes) + ' percent'">
-            <span class="result-label">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
-            <div id="result-track-{{ optionIndex + 1 }}" class="result-track" role="progressbar" [attr.aria-valuenow]="percent(selected, option.votes)" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="option.label">
-              <i [style.width.%]="percent(selected, option.votes)"></i>
-            </div>
-            <strong>{{ percent(selected, option.votes) }}%</strong>
-          </div>
-        }
-      </aside>
-    </section>
-  </main>
+        <strong>{{ percent(selected, option.votes) }}%</strong>
+      </div>
+      }
+    </aside>
+  </section>
+</main>
 } @else {
-  <main class="page-shell">
-    <p class="status error">Survey not found.</p>
-  </main>
+<main class="page-shell">
+  <p class="status error">Survey not found.</p>
+</main>
 }

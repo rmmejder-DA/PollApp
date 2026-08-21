@@ -1,6 +1,18 @@
 <header class="topbar">
-  <a class="brand" [routerLink]="['/']" aria-label="PollApp Startseite">
-    <img src="/icon/Frame-dark.svg" alt="" aria-hidden="true" />
+  <a
+    class="brand"
+    [routerLink]="['/']"
+    aria-label="PollApp Startseite"
+  >
+    @if (imgPath() === '/icon/Frame-dark.svg') {
+      <img src="/icon/Frame-dark.svg" alt="" aria-hidden="true" />
+    } @else {
+      <img src="/icon/Frame-ligth.svg" alt="" aria-hidden="true" />
+    }
     <span>Poll<br />App</span>
   </a>
+
+  @if (showCreateButton()) {
+    <a class="create-survey-button" [routerLink]="['/new-survey']">Create survey</a>
+  }
 </header>

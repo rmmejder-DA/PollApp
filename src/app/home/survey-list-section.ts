@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Poll } from '../poll.service';
 
@@ -14,6 +14,21 @@ import { Poll } from '../poll.service';
 export class SurveyListSection {
   @Input() polls: Poll[] = [];
   @Input() past = false;
+  @Input() view: 'active' | 'past' = 'active';
+  @Input() category = 'All surveys';
+  @Input() categories: string[] = [];
+  @Output() viewChange = new EventEmitter<'active' | 'past'>();
+  @Output() categoryChange = new EventEmitter<string>();
+  protected readonly categoriesOpen = signal(false);
+
+  protected toggleCategories(): void {
+    this.categoriesOpen.update((open) => !open);
+  }
+
+  protected selectCategory(category: string): void {
+    this.categoryChange.emit(category);
+    this.categoriesOpen.set(false);
+  }
 
   protected endLabel(poll: Poll): string {
     if (this.past) return 'Past survey';

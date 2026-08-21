@@ -1,10 +1,5 @@
-:host {
-    display: block;
-}
-
 .page-shell {
     width: min(100% - 32px, 1180px);
-    margin: 0 auto;
     padding: 28px 0 70px;
 }
 
@@ -31,16 +26,23 @@
     padding: 32px 36px 36px;
     border-radius: 0 112px 0 0;
     color: #44394b;
-    background: #f4f0f6;
+    background-color: #dcdcdc;
 }
 
 .survey-meta {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    align-items: baseline;
+    flex-direction: column;
+    gap: 8px;
     flex-wrap: wrap;
     color: #665b6b;
     font-size: .66rem;
+
+    &-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
 }
 
 .status-badge {
@@ -101,46 +103,27 @@
     cursor: pointer;
 }
 
+.answer-letter {
+    min-width: 16px;
+    color: #302333;
+    font-weight: 700;
+}
+
+.answer-text {
+    line-height: 1.3;
+}
+
 .answer-marker {
-    display: grid;
-    place-items: center;
     width: 16px;
     height: 16px;
-    border: 1.5px solid #54475b;
-    border-radius: 3px;
-    font-size: .58rem;
-}
-
-.answer:hover:not(:disabled) .answer-marker {
-    color: #302333;
-    background: #ffb35f;
-}
-
-.answer--selected .answer-marker {
-    color: #302333;
-    border-color: #ffb35f;
-    background: #ffb35f;
+    margin: 0;
+    accent-color: #ffb35f;
+    pointer-events: none;
 }
 
 .answer:disabled {
     cursor: not-allowed;
     opacity: .55;
-}
-
-.submit-votes {
-    margin-top: 18px;
-    border: 0;
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #302333;
-    background: #ffb35f;
-    font: 700 .68rem 'DynaPuff', cursive;
-    cursor: pointer;
-}
-
-.submit-votes:disabled {
-    cursor: not-allowed;
-    opacity: .45;
 }
 
 .survey-actions {
@@ -153,11 +136,15 @@
 .button {
     border: 0;
     border-radius: 8px;
-    padding: 10px 14px;
+    padding: 8px 12px;
     color: #302333;
-    background: #ffcf9a;
-    font: 700 .68rem 'DynaPuff', cursive;
+    background: #ffcfa1;
+    font: 700 .72rem/1 'DynaPuff', cursive;
+    text-decoration: none;
     cursor: pointer;
+    &:hover {
+        background: #ffb770;
+    }
 }
 
 .notice {

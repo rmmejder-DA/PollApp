@@ -1,4 +1,26 @@
 <section id="survey-cards" class="home-section home-section--all">
+  <div id="survey-toolbar" class="survey-toolbar">
+    <div id="survey-tabs" class="survey-tabs" role="tablist" aria-label="Survey status">
+      <button class="tab" [class.tab--active]="view === 'active'" type="button" role="tab" [attr.aria-selected]="view === 'active'" (click)="viewChange.emit('active')">Active survey</button>
+      <button class="tab" [class.tab--active]="view === 'past'" type="button" role="tab" [attr.aria-selected]="view === 'past'" (click)="viewChange.emit('past')">Past survey</button>
+    </div>
+    <div class="category-sort">
+      <button class="category-trigger" type="button" (click)="toggleCategories()" [attr.aria-expanded]="categoriesOpen()" aria-haspopup="listbox">
+        <span>Sort by categories</span>
+        <span class="category-arrow" [class.category-arrow--open]="categoriesOpen()" aria-hidden="true"></span>
+      </button>
+      @if (categoriesOpen()) {
+        <div class="category-menu" role="listbox" aria-label="Sort surveys by category">
+          @for (item of categories; track item) {
+            <button class="category-option" [class.category-option--selected]="item === category" type="button" role="option" [attr.aria-selected]="item === category" (click)="selectCategory(item)">
+              {{ item }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
   @if (polls.length) {
     <div id="survey-grid" class="survey-grid">
       @for (poll of polls; track poll.id; let pollIndex = $index) {

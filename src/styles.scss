@@ -11,6 +11,10 @@ body {
     margin: 0;
 }
 
+body.survey-page {
+  background-color: white;
+}
+
 @font-face {
     font-family: 'DynaPuff';
     src: url('/font/DynaPuff/static/DynaPuff-Regular.ttf') format('truetype');
