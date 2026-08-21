@@ -15,6 +15,7 @@ export class SurveyDetail {
   protected readonly service = inject(PollService);
   protected readonly voted = signal<string[]>([]);
   protected readonly selectedOptionIds = signal<string[]>([]);
+  protected readonly isSubmitting = signal(false);
   protected readonly poll = computed(() =>
     this.service.polls().find((item) => item.id === this.route.snapshot.paramMap.get('id')) ?? null
   );
@@ -28,7 +29,7 @@ export class SurveyDetail {
   }
 
   protected toggleOption(poll: Poll, optionId: string): void {
-    if (this.service.isPast(poll) || this.isVoted(poll)) return;
+    if (this.service.isPast(poll) || this.isVoted(poll) || this.isSubmitting()) return;
     this.selectedOptionIds.update((ids) =>
       ids.includes(optionId) ? ids.filter((id) => id !== optionId) : [...ids, optionId],
     );
@@ -39,11 +40,12 @@ export class SurveyDetail {
   }
 
   protected async completeSurvey(poll: Poll): Promise<void> {
-    if (this.service.isPast(poll) || this.isVoted(poll) || !this.selectedOptionIds().length) return;
+    if (this.service.isPast(poll) || this.isVoted(poll) || this.isSubmitting() || !this.selectedOptionIds().length) return;
+    this.isSubmitting.set(true);
     if (await this.service.voteMany(poll.id, this.selectedOptionIds())) {
       this.voted.update((ids) => [...ids, poll.id]);
-      this.goBack();
     }
+    this.goBack();
   }
 
   protected isVoted(poll: Poll): boolean {

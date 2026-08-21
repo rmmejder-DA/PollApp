@@ -17,7 +17,7 @@
         <section id="answer-panel" class="answer-panel" aria-labelledby="answer-title">
           <h2 id="answer-title">Choose your answers</h2>
           @for (option of selected.options; track option.id; let optionIndex = $index) {
-          <button class="answer" type="button" [disabled]="service.isPast(selected) || isVoted(selected)"
+          <button class="answer" type="button" [disabled]="service.isPast(selected) || isVoted(selected) || isSubmitting()"
             (click)="toggleOption(selected, option.id)">
             <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1" aria-hidden="true" />
             <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
@@ -29,7 +29,7 @@
         </section>
 
         <div id="survey-actions" class="survey-actions">
-          <button class="button" type="button" [disabled]="service.isPast(selected) || isVoted(selected) || !selectedOptionIds().length" (click)="completeSurvey(selected)">Complete survey</button>
+          <button class="button" type="button" [disabled]="service.isPast(selected) || isVoted(selected) || isSubmitting() || !selectedOptionIds().length" (click)="completeSurvey(selected)">Complete survey</button>
 
         </div>
       </div>
