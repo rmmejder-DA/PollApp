@@ -37,7 +37,6 @@ const defaultQuestions = [
   ['Which activity brings the team together?', 'Choose a shared team activity.', 'Team', ['Quiz night', 'Cooking class', 'Sports day']],
   ['What is your favorite drink?', 'A small survey for everyday life.', 'Leisure', ['Coffee', 'Tea', 'Lemonade']],
   ['Which app feature do you use most?', 'Help us understand the most useful features.', 'Product', ['Vote', 'Create', 'Filter']],
-  ['When should we have the next game night?', 'Find a date that works best.', 'Leisure', ['Friday', 'Saturday', 'Sunday']],
 ] as const;
 
 @Injectable({ providedIn: 'root' })

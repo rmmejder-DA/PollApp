@@ -1,13 +1,17 @@
 <section id="urgent-surveys" class="home-section home-section--urgent">
   <h2 class="section-title">Your surveys</h2>
-  <p class="home-section-description">Ending soon surveys</p>
+
+  <div class="home-section-header">
+    <p class="home-section-description">Ending soon surveys</p>
+  </div>
+
   <div id="urgent-cards" class="cards home-cards">
     @for (poll of polls; track poll.id) {
-      <a class="card urgent home-card" [routerLink]="['/survey', poll.id]">
-        <small>{{ poll.category }} · {{ daysLeft(poll) }} days left</small>
-        <b>{{ poll.title }}</b>
-        <span>{{ poll.options.length }} answers</span>
-      </a>
+    <a class="card urgent home-card" [routerLink]="['/survey', poll.id]">
+      <span>{{ poll.category }}<b>{{ poll.title }}</b></span>
+      
+      <p> Ends in {{ daysLeft(poll) }} days</p>
+    </a>
     }
   </div>
 </section>

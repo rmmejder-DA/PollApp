@@ -3,9 +3,25 @@
 }
 
 .survey-grid {
+    max-height: 330px;
+    overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+    padding-right: 6px;
+}
+
+.survey-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.survey-grid::-webkit-scrollbar-track {
+    background: #302333;
+}
+
+.survey-grid::-webkit-scrollbar-thumb {
+    background: #ffb35f;
+    border-radius: 36px;
 }
 
 .survey-card {
