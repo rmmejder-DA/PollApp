@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Hero } from '../hero/hero';
 import { PollService } from '../poll.service';
 import { SurveyListSection } from './survey-list-section';
@@ -14,6 +15,7 @@ import { UrgentSection } from './urgent-section';
   standalone: true,
 })
 export class HomePage {
+  private readonly router = inject(Router);
   protected readonly service = inject(PollService);
   protected readonly view = signal<'active' | 'past'>('active');
   protected readonly category = signal('All');
@@ -38,6 +40,10 @@ export class HomePage {
 
   protected setView(view: 'active' | 'past'): void {
     this.view.set(view);
+  }
+
+  protected goToCreate(): void {
+    this.router.navigate(['/new-survey']);
   }
 
   protected setCategory(category: string): void {

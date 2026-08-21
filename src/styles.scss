@@ -12,7 +12,8 @@ body {
 }
 
 body.survey-page {
-  background-color: white;
+    background-color: white;
+    overflow-y: hidden;
 }
 
 @font-face {

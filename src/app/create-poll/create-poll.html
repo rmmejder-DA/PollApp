@@ -1,27 +1,32 @@
 <main id="create-survey-page" class="create-page">
   <section id="create-survey-window" class="create-window" aria-labelledby="form-title">
-    <div id="create-survey-topline" class="topline"><span class="draft">Draft</span><button class="cancel" type="button" (click)="close()">Cancel <span aria-hidden="true">×</span></button></div>
-    <h1 id="form-title">Create new survey</h1>
+    <span class="draft">Draft</span>
+    <div id="create-survey-topline" class="topline"><h1 id="form-title">Create new survey</h1><button class="cancel" type="button" (click)="close()">Cancel <span
+          aria-hidden="true">×</span></button></div>
+    
     <form [formGroup]="form" (ngSubmit)="save()">
       <section id="survey-meta" class="survey-meta">
-        <div id="survey-meta-left" class="meta-left"><label>Survey name<input formControlName="surveyName" placeholder="Survey name" /></label><div id="survey-meta-row" class="meta-row"><label>Set end date <span>(optional)</span><input type="date" formControlName="endsAt" /></label><label>Choose category<select formControlName="category">@for (item of service.categories.slice(1); track item) { <option [value]="item">{{ item }}</option> }</select></label></div></div>
-        <label class="description">Describing text <span>(optional)</span><textarea formControlName="describingText" rows="4" placeholder="Describe your survey"></textarea></label>
+        <div id="survey-meta-left" class="meta-left"><label>Survey name<input formControlName="surveyName"
+              placeholder="Survey name" /></label>
+          <div id="survey-meta-row" class="meta-row"><label>Set end date <span>(optional)</span><input type="date"
+                formControlName="endsAt" /></label><label>Choose category<select formControlName="category">@for (item
+                of service.categories.slice(1); track item) { <option [value]="item">{{ item }}</option>
+                }</select></label></div>
+        </div>
+        <label class="description">Describing text <span>(optional)</span><textarea formControlName="describingText"
+            rows="4" placeholder="Describe your survey"></textarea></label>
       </section>
       <section id="question-area" class="question-area" formArrayName="questions">
         @for (question of questions.controls; track $index; let questionIndex = $index) {
-          <app-question-editor
-            [question]="questionAt(questionIndex)"
-            [answers]="questionAnswers(questionIndex)"
-            [questionNumber]="questionIndex + 1"
-            [canRemove]="questions.length > 1"
-            (removeQuestion)="removeQuestion(questionIndex)"
-            (addAnswer)="addAnswer(questionIndex)"
-            (removeAnswer)="removeAnswer(questionIndex, $event)"
-          />
+        <app-question-editor [question]="questionAt(questionIndex)" [answers]="questionAnswers(questionIndex)"
+          [questionNumber]="questionIndex + 1" [canRemove]="questions.length > 1"
+          (removeQuestion)="removeQuestion(questionIndex)" (addAnswer)="addAnswer(questionIndex)"
+          (removeAnswer)="removeAnswer(questionIndex, $event)" />
         }
       </section>
       <button class="add-question" type="button" (click)="addQuestion()">Add next question <span>⊕</span></button>
-      <div id="form-actions" class="form-actions"><button class="button secondary" type="button" (click)="close()">Cancel</button><button class="button save" type="submit" [disabled]="form.invalid">Save survey</button></div>
+      <div id="form-actions" class="form-actions"><button class="button save" type="submit" [disabled]="form.invalid">
+          Publish</button></div>
     </form>
   </section>
 </main>

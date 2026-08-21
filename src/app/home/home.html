@@ -1,7 +1,7 @@
 <main id="survey-overview" class="page-shell home-page-shell">
   @if (service.error(); as error) { <p class="status error home-status-error">{{ error }}</p> }
 
-  <app-hero class="home-hero" />
+  <app-hero class="home-hero" (createSurvey)="goToCreate()" />
 
   @if (urgentPolls().length) {
     <app-urgent-section [polls]="urgentPolls()" [daysLeft]="daysLeft.bind(this)" />

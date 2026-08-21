@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
 @Component({
     selector: 'app-hero, app-api-image',
@@ -7,6 +7,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrl: './hero.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Hero {}
+export class Hero {
+    readonly createSurvey = output<void>();
+}
 
 
