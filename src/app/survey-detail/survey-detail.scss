@@ -1,5 +1,4 @@
 .page-shell {
-    width: min(100% - 32px, 1180px);
     padding: 28px 0 70px;
 }
 
@@ -16,7 +15,9 @@
 
 .detail-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+    min-width: 1220px;
+    width: 100%;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1.75fr);
     gap: 34px;
     align-items: stretch;
 }

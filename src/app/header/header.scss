@@ -12,9 +12,10 @@ span {
     transform-origin: left center;
     /* Drehpunkt festlegen */
 }
-
+header{
+    max-width: 1220px;
+}
 .topbar {
-    width: min(100%, 1040px);
     height: 58px;
     display: flex;
     align-items: center;
