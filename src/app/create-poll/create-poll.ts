@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NewPoll, Poll, PollService } from '../poll.service';
-import { QuestionEditor } from '../question-editor/question-editor';
 
 @Component({
   selector: 'app-create-poll',
-  imports: [QuestionEditor, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-poll.html',
   styleUrl: './create-poll.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +35,6 @@ export class CreatePoll {
     if (answers.length > 2) answers.removeAt(answerIndex);
   }
   protected questionAnswers(index: number): FormArray { return this.questions.at(index).get('answers') as FormArray; }
-  protected questionAt(index: number): FormGroup { return this.questions.at(index) as FormGroup; }
 
   protected async save(): Promise<void> {
     if (this.form.invalid || this.questions.controls.some((question) => this.questionAnswers(this.questions.controls.indexOf(question)).invalid)) {

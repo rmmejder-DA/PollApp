@@ -6,8 +6,11 @@
     
     <form [formGroup]="form" (ngSubmit)="save()">
       <section id="survey-meta" class="survey-meta">
-        <div id="survey-meta-left" class="meta-left"><label>Survey name<input formControlName="surveyName"
-              placeholder="Survey name" /></label>
+        <div id="survey-meta-left" class="meta-left">
+          <label>Survey name</label>
+          <input formControlName="surveyName" placeholder="Survey name" />
+          <img src="/icon/delete.svg" alt="Delete" />
+
           <div id="survey-meta-row" class="meta-row"><label>Set end date <span>(optional)</span><input type="date"
                 formControlName="endsAt" /></label><label>Choose category<select formControlName="category">@for (item
                 of service.categories.slice(1); track item) { <option [value]="item">{{ item }}</option>
@@ -18,10 +21,33 @@
       </section>
       <section id="question-area" class="question-area" formArrayName="questions">
         @for (question of questions.controls; track $index; let questionIndex = $index) {
-        <app-question-editor [question]="questionAt(questionIndex)" [answers]="questionAnswers(questionIndex)"
-          [questionNumber]="questionIndex + 1" [canRemove]="questions.length > 1"
-          (removeQuestion)="removeQuestion(questionIndex)" (addAnswer)="addAnswer(questionIndex)"
-          (removeAnswer)="removeAnswer(questionIndex, $event)" />
+        <fieldset id="question-card-{{ questionIndex + 1 }}" class="question-card" [formGroupName]="questionIndex">
+          <div id="question-heading-{{ questionIndex + 1 }}" class="question-heading">
+            <legend>{{ questionIndex + 1 }}. Question</legend>
+            <button class="icon-button" type="button" aria-label="Delete question" (click)="removeQuestion(questionIndex)"
+              [disabled]="questions.length <= 1"><img src="/icon/delete.svg" alt="Delete" /></button>
+          </div>
+
+          <input class="question-input" formControlName="name" placeholder="Write your question" />
+
+          <div id="answers-heading-{{ questionIndex + 1 }}" class="answers-heading">
+            <strong>Answers</strong>
+            <label class="multiple"><input type="checkbox" /> Allow multiple answers.</label>
+          </div>
+
+          <div id="answers-{{ questionIndex + 1 }}" class="answers" formArrayName="answers">
+            @for (answer of questionAnswers(questionIndex).controls; track $index) {
+            <div id="answer-row-{{ questionIndex + 1 }}-{{ $index + 1 }}" class="answer-row">
+              <span>{{ letter($index) }}.</span>
+              <input type="text" [formControlName]="$index" [placeholder]="'Answer ' + ($index + 1)" />
+              <button class="icon-button" type="button" aria-label="Delete answer"
+                (click)="removeAnswer(questionIndex, $index)" [disabled]="questionAnswers(questionIndex).length <= 2">×</button>
+            </div>
+            }
+          </div>
+
+          <button class="add-answer" type="button" (click)="addAnswer(questionIndex)">Add answer <span>⊕</span></button>
+        </fieldset>
         }
       </section>
       <button class="add-question" type="button" (click)="addQuestion()">Add next question <span>⊕</span></button>

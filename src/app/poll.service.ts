@@ -10,6 +10,7 @@ export interface PollOption {
 
 export interface Poll {
   id: string;
+  questionId: string;
   title: string;
   description: string;
   category: string;
@@ -26,7 +27,7 @@ export interface NewPoll {
 }
 
 type RawOption = { id: string; label: string; poll_votes: Array<{ id: string }> | null };
-type RawPoll = { id: string; created_at: string; name: string | null; data: { category?: string; endsAt?: string } | null; describing_text: string | null; answers: string[] | null; title: string; description: string; category: string; ends_at: string; poll_options: RawOption[] | null };
+type RawPoll = { id: string; created_at: string; name: string | null; data: { category?: string; endsAt?: string; questionId?: string } | null; describing_text: string | null; answers: string[] | null; title: string; description: string; category: string; ends_at: string; poll_options: RawOption[] | null };
 const defaultQuestions = [
   ['What should we do this weekend?', 'Collect ideas for the next group outing.', 'Leisure', ['Go hiking', 'Cook together', 'Movie night']],
   ['Which feature should come next?', 'Help the product team prioritize the next release.', 'Product', ['Share surveys', 'More analytics', 'New themes']],
@@ -82,11 +83,12 @@ export class PollService implements OnDestroy {
   }
 
   async createPoll(newPoll: NewPoll): Promise<Poll | null> {
+    const questionId = this.createQuestionId(newPoll.category);
     const { data: poll, error: pollError } = await supabase
       .from('polls')
       .insert({
         name: newPoll.title.trim(),
-        data: { category: newPoll.category, endsAt: newPoll.endsAt },
+        data: { category: newPoll.category, endsAt: newPoll.endsAt, questionId },
         describing_text: newPoll.description.trim(),
         answers: newPoll.options.map((label) => label.trim()),
         title: newPoll.title.trim(),
@@ -159,11 +161,13 @@ export class PollService implements OnDestroy {
   }
 
   private mapPoll(poll: RawPoll): Poll {
+    const category = this.translateCategory(poll.data?.category ?? poll.category);
     return {
       id: poll.id,
+      questionId: poll.data?.questionId ?? `${this.slugifyCategory(category)}-${poll.id.slice(0, 6)}`,
       title: poll.name ?? poll.title,
       description: poll.describing_text ?? poll.description,
-      category: this.translateCategory(poll.data?.category ?? poll.category),
+      category,
       endsAt: poll.data?.endsAt ?? poll.ends_at,
       options: (poll.poll_options ?? []).map((option) => ({
         id: option.id,
@@ -171,6 +175,17 @@ export class PollService implements OnDestroy {
         votes: option.poll_votes?.length ?? 0,
       })),
     };
+  }
+
+  private createQuestionId(category: string): string {
+    const prefix = this.slugifyCategory(category);
+    const stamp = Date.now().toString(36).slice(-6);
+    const rand = Math.random().toString(36).slice(2, 5);
+    return `${prefix}-${stamp}-${rand}`;
+  }
+
+  private slugifyCategory(category: string): string {
+    return category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'survey';
   }
 
   private translateCategory(category: string): string {

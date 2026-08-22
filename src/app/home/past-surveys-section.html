@@ -2,7 +2,7 @@
   <h2 class="section-title">Past surveys</h2>
   <div id="past-survey-list" class="list home-list home-list--past">
     @for (poll of polls; track poll.id) {
-      <a class="list-item past home-list-item home-list-item--past" [routerLink]="['/survey', poll.id]">
+      <a class="list-item past home-list-item home-list-item--past" [routerLink]="['/survey', poll.category, poll.questionId]">
         <small>{{ poll.category }} · Ended {{ formatDate(poll) }}</small>
         <b>{{ poll.title }}</b>
       </a>

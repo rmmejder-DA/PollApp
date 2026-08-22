@@ -18,12 +18,12 @@ export class HomePage {
   private readonly router = inject(Router);
   protected readonly service = inject(PollService);
   protected readonly view = signal<'active' | 'past'>('active');
-  protected readonly category = signal('All');
+  protected readonly category = signal('All Surveys');
 
   protected readonly visiblePolls = computed(() =>
     this.service.polls()
       .filter((poll) => this.view() === 'past' ? this.service.isPast(poll) : !this.service.isPast(poll))
-      .filter((poll) => this.category() === 'All' || poll.category === this.category())
+      .filter((poll) => this.isAllCategory(this.category()) || poll.category === this.category())
       .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
   );
 
@@ -48,5 +48,9 @@ export class HomePage {
 
   protected setCategory(category: string): void {
     this.category.set(category);
+  }
+
+  private isAllCategory(category: string): boolean {
+    return category.trim().toLowerCase().startsWith('all');
   }
 }

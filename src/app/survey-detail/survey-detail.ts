@@ -16,9 +16,25 @@ export class SurveyDetail {
   protected readonly voted = signal<string[]>([]);
   protected readonly selectedOptionIds = signal<string[]>([]);
   protected readonly isSubmitting = signal(false);
-  protected readonly poll = computed(() =>
-    this.service.polls().find((item) => item.id === this.route.snapshot.paramMap.get('id')) ?? null
-  );
+  protected readonly poll = computed(() => {
+    const categoryParam = this.route.snapshot.paramMap.get('category');
+    const questionIdParam = this.route.snapshot.paramMap.get('questionId');
+    const legacyIdParam = this.route.snapshot.paramMap.get('id');
+
+    if (questionIdParam) {
+      return this.service.polls().find((item) => item.questionId === questionIdParam) ?? null;
+    }
+
+    if (legacyIdParam) {
+      return this.service.polls().find((item) => item.id === legacyIdParam) ?? null;
+    }
+
+    if (categoryParam) {
+      return this.service.polls().find((item) => item.category.toLowerCase() === categoryParam.toLowerCase()) ?? null;
+    }
+
+    return null;
+  });
 
   protected goBack(): void {
     this.router.navigate(['/']);
