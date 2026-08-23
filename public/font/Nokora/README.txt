@@ -1,30 +1,26 @@
-DynaPuff Variable Font
-======================
+Nokora Variable Font
+====================
 
-This download contains DynaPuff as both a variable font and static fonts.
+This download contains Nokora as both a variable font and static fonts.
 
-DynaPuff is a variable font with these axes:
-  wdth
+Nokora is a variable font with this axis:
   wght
 
 This means all the styles are contained in a single file:
-  DynaPuff-VariableFont_wdth,wght.ttf
+  Nokora/Nokora-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for DynaPuff:
-  static/DynaPuff_Condensed-Regular.ttf
-  static/DynaPuff_Condensed-Medium.ttf
-  static/DynaPuff_Condensed-SemiBold.ttf
-  static/DynaPuff_Condensed-Bold.ttf
-  static/DynaPuff_SemiCondensed-Regular.ttf
-  static/DynaPuff_SemiCondensed-Medium.ttf
-  static/DynaPuff_SemiCondensed-SemiBold.ttf
-  static/DynaPuff_SemiCondensed-Bold.ttf
-  static/DynaPuff-Regular.ttf
-  static/DynaPuff-Medium.ttf
-  static/DynaPuff-SemiBold.ttf
-  static/DynaPuff-Bold.ttf
+in those cases you can use the static font files for Nokora:
+  Nokora/static/Nokora-Thin.ttf
+  Nokora/static/Nokora-ExtraLight.ttf
+  Nokora/static/Nokora-Light.ttf
+  Nokora/static/Nokora-Regular.ttf
+  Nokora/static/Nokora-Medium.ttf
+  Nokora/static/Nokora-SemiBold.ttf
+  Nokora/static/Nokora-Bold.ttf
+  Nokora/static/Nokora-ExtraBold.ttf
+  Nokora/static/Nokora-Black.ttf
 
 Get started
 -----------

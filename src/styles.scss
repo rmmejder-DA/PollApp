@@ -7,7 +7,7 @@ body {
     min-height: 100vh;
     color: #fff4fa;
     background: #302333;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: NerkoOne;
     margin: 0;
 }
 
@@ -17,28 +17,35 @@ body.survey-page {
 }
 
 @font-face {
-    font-family: 'DynaPuff';
-    src: url('/font/DynaPuff/static/DynaPuff-Regular.ttf') format('truetype');
+    font-family: 'NerkoOne';
+    src: url('/font/Nerko_One/NerkoOne-Regular.ttf');
     font-style: normal;
-    font-weight: 400;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'DynaPuff';
-    src: url('/font/DynaPuff/static/DynaPuff-Bold.ttf') format('truetype');
+    font-family: 'Nokora';
+    src: url('/font/Nokora/Nokora-VariableFont_wght.ttf') format('truetype');
     font-style: normal;
-    font-weight: 700;
     font-display: swap;
 }
 
-button,
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('/font/Mulish/Mulish-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
 input,
 textarea,
 select,
 label,
+span,
+p,
+.tab,
 legend {
-    font-family: inherit;
+    font-family: 'Nokora'!important;
 }
 
 h1,
@@ -47,5 +54,6 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'DynaPuff', cursive;
+    font-family: 'NerkoOne', cursive;
+    font-weight: 500;
 }

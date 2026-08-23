@@ -3,18 +3,10 @@ img {
     height: auto;
 }
 
-span {
-    font-size: 2rem;
-    display: inline-block;
-    /* wichtig für transform */
-    transform: skewX(4deg);
-    /* negativer Wert = nach links neigen */
-    transform-origin: left center;
-    /* Drehpunkt festlegen */
-}
-header{
+header {
     max-width: 1220px;
 }
+
 .topbar {
     height: 58px;
     display: flex;
@@ -25,13 +17,20 @@ header{
     opacity: 1;
 }
 
+
 .brand {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     color: #ffb35f;
-    font: 700 .72rem/1 'DynaPuff', cursive;
+
+    font-size: 1.65rem;
     text-decoration: none;
+    line-height: .65em;
+
+    &-text {
+        font-family: 'NerkoOne', sans-serif!important;
+    }
 }
 
 .brand-mark {
@@ -50,20 +49,26 @@ header{
 }
 
 .create-survey-button {
+    max-width: max-content;
     border: 0;
     border-radius: 8px;
     padding: 12px 12px;
-    color: #302333;
-    background: #ffcfa1;
-    font: 700 .72rem/1 'DynaPuff', cursive;
+    color: #221227;
+    background-color: #ffcfa1;
+    font-family: 'Nokora';
+    font-weight: 600;
+    cursor: pointer;
     text-decoration: none;
-    &:hover::after{
-        content: "+";
-        margin-right: 0.5em;
+
+    &:hover::after {
+        content: "\002B";
+        margin-left: 0.5em;
         border-radius: 50%;
-        border: 3px solid black;
-        padding: 4px;
-        height: auto;
+        border: 2px solid #221227;
+        padding-inline: 5px;
+        position: relative;
+        background-color: #ffb770;
+        font-size: 1rem;
     }
 }
 

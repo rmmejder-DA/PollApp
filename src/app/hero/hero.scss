@@ -7,10 +7,8 @@
     margin-top: 120px;
     margin-bottom: 120px;
     max-width: 1220px;
-    &-text {
-        gap: 20px;
-    }
 }
+
 
 .hero-text {
     display: flex;
@@ -31,7 +29,7 @@
 
 .hero p {
     width: 600px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     font-size: 1.3rem;
     line-height: 1.4;
 }
@@ -50,14 +48,14 @@
     padding: 12px 12px;
     color: #221227;
     background-color: #ffcfa1;
-    font: 300 1.55rem 'Arial';
+    font-family: 'Nokora' sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .create:hover {
     background-color: #ffb770;
-    transition: background-color 0.3s ease;
 
 }
 
@@ -70,7 +68,6 @@
     position: relative;
     background-color: #ffb770;
     font-weight: bold;
-
 }
 
 .hero-icons {
