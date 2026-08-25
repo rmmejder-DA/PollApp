@@ -34,10 +34,6 @@ const defaultQuestions = [
   ['When should our community meet?', 'Find the best time for everyone.', 'Community', ['Monday, 6 PM', 'Wednesday, 7 PM', 'Friday, 5 PM']],
   ['Which color fits PollApp best?', 'Vote for the next brand color.', 'Product', ['Coral', 'Mint', 'Sunflower yellow']],
   ['How do you prefer to learn?', 'Share your preferred learning method.', 'Community', ['Videos', 'Practice exercises', 'Reading']],
-  ['What belongs on the home screen?', 'Prioritize the most important information.', 'Product', ['Active surveys', 'Results', 'Categories']],
-  ['Which activity brings the team together?', 'Choose a shared team activity.', 'Team', ['Quiz night', 'Cooking class', 'Sports day']],
-  ['What is your favorite drink?', 'A small survey for everyday life.', 'Leisure', ['Coffee', 'Tea', 'Lemonade']],
-  ['Which app feature do you use most?', 'Help us understand the most useful features.', 'Product', ['Vote', 'Create', 'Filter']],
 ] as const;
 
 @Injectable({ providedIn: 'root' })
@@ -73,11 +69,12 @@ export class PollService implements OnDestroy {
       this.error.set('Surveys could not be loaded. Please check the Supabase schema.');
     } else {
       this.error.set(null);
-      if (data.length === 0) {
+      const polls = (data as unknown as RawPoll[]).map((poll) => this.mapPoll(poll));
+      if (!polls.some((poll) => !this.isPast(poll))) {
         await this.seedDefaultQuestions();
         return;
       }
-      this.polls.set((data as unknown as RawPoll[]).map((poll) => this.mapPoll(poll)));
+      this.polls.set(polls);
     }
     this.isLoading.set(false);
   }
@@ -138,7 +135,6 @@ export class PollService implements OnDestroy {
 
   private async seedDefaultQuestions(): Promise<void> {
     const endsAt = new Date(Date.now() + 7 * 86_400_000);
-    endsAt.setUTCHours(18, 0, 0, 0);
     const endDate = endsAt.toISOString();
 
     for (const [name, describingText, category, answers] of defaultQuestions) {

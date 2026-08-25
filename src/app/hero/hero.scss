@@ -48,26 +48,41 @@
     padding: 12px 12px;
     color: #221227;
     background-color: #ffcfa1;
-    font-family: 'Nokora' sans-serif;
     font-size: 1.05rem;
     font-weight: 700;
     cursor: pointer;
+    font-family: 'Nokora';
+    text-decoration: none;
+
+    &:after {
+        content: "\002B";
+        opacity: 0;
+        position: absolute;
+    }
+
+    &:hover::after {
+        border-radius: 50%;
+        border: 3px solid #221227;
+        padding-inline: 4px;
+        position: relative;
+        font-weight: bold;
+        transition: .1s ease-in-out;
+        opacity: 1;
+        margin-left: 0.5em;
+        background-color: #ffb770;
+    }
+
+    &:active::after {
+        content: url("/icon/check-small.svg");
+        border: none;
+    }
 }
+
+
 
 .create:hover {
     background-color: #ffb770;
 
-}
-
-.button:hover:after {
-    content: "\002B";
-    margin-left: 0.5em;
-    border-radius: 50%;
-    border: 3px solid #221227;
-    padding-inline: 5px;
-    position: relative;
-    background-color: #ffb770;
-    font-weight: bold;
 }
 
 .hero-icons {

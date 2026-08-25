@@ -30,13 +30,16 @@
     border-radius: 15px;
     padding: 5px 13px;
     color: #302333;
-    background: #fee9d4;
+    background-color: #fee9d4;
     font: inherit;
     font-size: 16px;
     cursor: pointer;
 
     &:hover {
         background-color: #ffcfa1;
+    }
+    &:active{
+        background-color: #ffb770;
     }
 }
 
@@ -62,15 +65,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    min-height: 36px;
-    padding: 6px 12px;
     border: 0;
-    border-radius: 6px;
     color: #fff7ff;
-    background: #302333;
-    font: inherit;
+    background-color: #493c4d;
     font-size: 16px;
     cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
 }
 
 .category-arrow {
@@ -89,11 +90,11 @@
 .category-menu {
     position: absolute;
     z-index: 2;
-    top: calc(100% + 4px);
+    top: calc(55% + 4px);
     right: 0;
     left: 0;
     display: grid;
-    overflow: hidden;
+    overflow: auto;
     border-radius: 6px;
     background: #fff7ff;
     box-shadow: 0 5px 12px rgb(48 35 51 / 28%);
@@ -103,8 +104,7 @@
     border: 0;
     padding: 8px 8px;
     color: #493a4d;
-    background: #fff7ff;
-    font: inherit;
+    font-family: 'Nokora';
     font-size: 16px;
     text-align: left;
     cursor: pointer;
@@ -112,12 +112,15 @@
     margin-left: 4px;
 }
 
-.category-option:hover,
-.category-option--selected {
+.category-option:hover {
     background-color: #f8e2ff;
     border-radius: 6px;
 }
-
+.active-category{
+    margin: 0;
+    padding: 6px 8px;
+    color: #ffcfa1;
+}
 .survey-grid {
     max-height: 375px;
     overflow-y: auto;

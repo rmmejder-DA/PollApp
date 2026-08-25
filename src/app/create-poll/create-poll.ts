@@ -15,6 +15,9 @@ export class CreatePoll {
   protected readonly closed = output<void>();
   protected readonly created = output<Poll>();
   protected readonly savedMessage = signal('');
+  protected readonly saveError = signal('');
+  protected readonly isSaving = signal(false);
+  protected readonly published = signal(false);
   protected readonly form = this.formBuilder.nonNullable.group({
     surveyName: ['', Validators.required],
     describingText: [''],
@@ -41,20 +44,32 @@ export class CreatePoll {
       this.form.markAllAsTouched();
       return;
     }
-    const value = this.form.getRawValue();
-    let firstPoll: Poll | null = null;
-    for (const question of value.questions) {
-      const poll = await this.service.createPoll({
-        title: question.name,
-        description: value.describingText || value.surveyName,
-        category: value.category,
-        endsAt: value.endsAt ? new Date(`${value.endsAt}T18:00:00`).toISOString() : this.defaultEndDate(),
-        options: question.answers,
-      } satisfies NewPoll);
-      if (!poll) return;
-      firstPoll ??= poll;
+    this.saveError.set('');
+    this.isSaving.set(true);
+    try {
+      const value = this.form.getRawValue();
+      let firstPoll: Poll | null = null;
+      for (const question of value.questions) {
+        const poll = await this.service.createPoll({
+          title: question.name,
+          description: value.describingText || value.surveyName,
+          category: value.category,
+          endsAt: value.endsAt ? new Date(`${value.endsAt}T18:00:00`).toISOString() : this.defaultEndDate(),
+          options: question.answers,
+        } satisfies NewPoll);
+        if (!poll) {
+          this.saveError.set(this.service.error() ?? 'The survey could not be saved.');
+          return;
+        }
+        firstPoll ??= poll;
+      }
+      if (firstPoll) {
+        this.published.set(true);
+        window.setTimeout(() => this.created.emit(firstPoll), 2_000);
+      }
+    } finally {
+      this.isSaving.set(false);
     }
-    if (firstPoll) this.created.emit(firstPoll);
   }
 
   private questionGroup() {
