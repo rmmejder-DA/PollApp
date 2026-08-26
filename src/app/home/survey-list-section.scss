@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    margin: 0 0 28px;
+    margin: 0 0 42px;
 }
 
 .survey-tabs {
@@ -38,7 +38,8 @@
     &:hover {
         background-color: #ffcfa1;
     }
-    &:active{
+
+    &:active {
         background-color: #ffb770;
     }
 }
@@ -90,7 +91,7 @@
 .category-menu {
     position: absolute;
     z-index: 2;
-    top: calc(55% + 4px);
+    top: calc(100% + 4px);
     right: 0;
     left: 0;
     display: grid;
@@ -116,11 +117,15 @@
     background-color: #f8e2ff;
     border-radius: 6px;
 }
-.active-category{
+
+.active-category {
     margin: 0;
     padding: 6px 8px;
     color: #ffcfa1;
+    position: absolute;
+    top: 32px;
 }
+
 .survey-grid {
     max-height: 375px;
     overflow-y: auto;

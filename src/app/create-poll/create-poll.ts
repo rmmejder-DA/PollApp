@@ -18,17 +18,28 @@ export class CreatePoll {
   protected readonly saveError = signal('');
   protected readonly isSaving = signal(false);
   protected readonly published = signal(false);
+  protected readonly categories = this.service.categories.slice(1);
+  protected readonly categoriesOpen = signal(false);
   protected readonly form = this.formBuilder.nonNullable.group({
     surveyName: ['', Validators.required],
     describingText: [''],
     endsAt: [''],
-    category: ['Community', Validators.required],
+    category: ['', Validators.required],
     questions: this.formBuilder.array([this.questionGroup()]),
   });
 
   protected get questions(): FormArray { return this.form.controls.questions; }
 
   protected close(): void { this.closed.emit(); }
+  protected clearField(field: 'surveyName' | 'describingText' | 'endsAt'): void {
+    this.form.controls[field].setValue('');
+  }
+  protected toggleCategories(): void { this.categoriesOpen.update((open) => !open); }
+  protected selectCategory(category: string): void {
+    this.form.controls.category.setValue(category);
+    this.categoriesOpen.set(false);
+  }
+  protected get category(): string { return this.form.controls.category.value; }
   protected addQuestion(): void { this.questions.push(this.questionGroup()); }
   protected letter(index: number): string { return String.fromCharCode(65 + index); }
   protected removeQuestion(index: number): void { if (this.questions.length > 1) this.questions.removeAt(index); }

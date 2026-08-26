@@ -12,6 +12,7 @@ import { filter } from 'rxjs';
 export class Header implements OnInit {
   readonly imgPath = signal('/icon/Frame-dark.svg');
   readonly showCreateButton = signal(false);
+  readonly showHeader = signal(true);
 
   constructor(private readonly router: Router) {}
 
@@ -24,6 +25,7 @@ export class Header implements OnInit {
 
   private setFrame(url: string): void {
     const isHome = url === '/';
+    this.showHeader.set(url !== '/new-survey');
     this.imgPath.set(isHome ? '/icon/Frame-dark.svg' : '/icon/Frame-ligth.svg');
     this.showCreateButton.set(!isHome);
     document.body.classList.toggle('survey-page', url !== '/');
