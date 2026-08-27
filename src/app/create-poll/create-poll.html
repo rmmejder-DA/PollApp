@@ -1,342 +1,164 @@
 <main class="create-page">
 
-  <!-- Kopfbereich -->
-  <header class="page-header">
+    <!-- Kopfbereich -->
+    <header class="page-header">
 
-    <span class="draft">Draft</span>
+        <span class="draft">Draft</span>
 
-    <div class="header-row">
-      <h1>Create new survey</h1>
+        <div class="header-row">
+            <h1>Create new survey</h1>
 
-      <button
-        class="cancel-button"
-        type="button"
-        (click)="close()"
-      >
-        Cancel
-        <span>×</span>
-      </button>
-    </div>
-
-  </header>
-
-
-  <!-- Inhalt -->
-  <form
-    class="survey-container"
-    [formGroup]="form"
-    (ngSubmit)="save()"
-  >
-
-    <!-- Linke Seite -->
-    <section class="survey-left">
-      <div class="survey-meta">
-
-      <!-- Survey Name -->
-      <div class="field survey-name-field">
-
-        <label for="surveyName">
-          Survey name
-        </label>
-
-        <div class="input-with-delete">
-
-          <input
-            id="surveyName"
-            type="text"
-            formControlName="surveyName"
-          />
-
-          <button
-            type="button"
-            class="delete-button"
-            aria-label="Clear survey name"
-            [disabled]="!form.controls.surveyName.value"
-            (click)="clearField('surveyName')"
-          >
-            <img src="/icon/delete.svg" alt="">
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- Enddatum + Kategorie -->
-      <div class="date-category-row">
-
-        <div class="field">
-
-          <label for="endsAt">
-            Set end date
-            <span>(optional)</span>
-          </label>
-
-          <div class="input-with-delete">
-
-            <input
-              id="endsAt"
-              type="date"
-              formControlName="endsAt"
-            />
-
-            <button
-              type="button"
-              class="delete-button"
-              aria-label="Clear end date"
-              [disabled]="!form.controls.endsAt.value"
-              (click)="clearField('endsAt')"
-            >
-              <img src="/icon/delete.svg" alt="">
+            <button class="cancel-button" type="button" (click)="close()">
+                Cancel
+                <span>×</span>
             </button>
-
-          </div>
-
         </div>
 
-
-        <!-- Kategorie -->
-        <div class="category">
-
-          <label for="category-button">
-            Choose category
-          </label>
-
-          <button
-            id="category-button"
-            type="button"
-            class="category-button"
-            (click)="toggleCategories()"
-            [attr.aria-expanded]="categoriesOpen()"
-          >
-            <span>
-              {{ category }}
-            </span>
-
-            <span
-              class="category-arrow"
-              [class.open]="categoriesOpen()"
-            >
-              ▼
-            </span>
-          </button>
+    </header>
 
 
-          @if (categoriesOpen()) {
-
-            <div class="category-menu">
-
-              @for (item of categories; track item) {
-
-                <button
-                  type="button"
-                  class="category-option"
-                  [class.selected]="item === category"
-                  (click)="selectCategory(item)"
-                >
-                  {{ item }}
-                </button>
-
-              }
-
-            </div>
-
-          }
-
-        </div>
-
-      </div>
-
-      </div>
-
-      <!-- Fragen -->
-      <section
-        class="questions"
-        formArrayName="questions"
-      >
-
-        @for (
-          question of questions.controls;
-          track question;
-          let questionIndex = $index
-        ) {
-
-          <fieldset
-            class="question"
-            [formGroupName]="questionIndex"
-          >
-
-            <!-- Frage Überschrift -->
-            <div class="question-header">
-
-              <legend>
-                {{ questionIndex + 1 }}. Question
-              </legend>
-
-              <button
-                type="button"
-                class="delete-button"
-                aria-label="Delete question"
-                [disabled]="questions.length <= 1"
-                (click)="removeQuestion(questionIndex)"
-              >
-                <img src="/icon/delete.svg" alt="">
-              </button>
-
-            </div>
-
-
-            <!-- Frage -->
-            <input
-              class="question-input"
-              type="text"
-              formControlName="name"
-              placeholder="Write your question"
-            />
-
-
-            <!-- Antworten Überschrift -->
-            <div class="answers-header">
-
-              <strong>Answers</strong>
-
-              <label class="multiple-answers">
-                <input type="checkbox">
-                <span>Allow multiple answers.</span>
-              </label>
-
-            </div>
-
-
-            <!-- Antworten -->
-            <div
-              class="answers"
-              formArrayName="answers"
-            >
-
-              @for (
-                answer of questionAnswers(questionIndex).controls;
-                track $index
-              ) {
-
-                <div class="answer-row">
-
-                  <span class="answer-letter">
-                    {{ letter($index) }}.
-                  </span>
-
-                  <input
-                    type="text"
-                    [formControlName]="$index"
-                    [placeholder]="'Answer ' + ($index + 1)"
-                  />
-
-                  <button
-                    type="button"
-                    class="delete-button"
-                    aria-label="Delete answer"
-                    [disabled]="questionAnswers(questionIndex).length <= 2"
-                    (click)="removeAnswer(questionIndex, $index)"
-                  >
-                    <img src="/icon/delete.svg" alt="">
-                  </button>
-
+    <form class="survey-container" [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-grid">
+            <div class="field survey-name-field">
+                <label for="surveyName">Survey name</label>
+                <div class="height-all">
+                    <div class="input-with-delete">
+                        <input id="surveyName" type="text" formControlName="surveyName" />
+                        <button type="button" class="delete-button" aria-label="Clear survey name"
+                            [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
+                            <img src="/icon/delete.svg" alt="" />
+                        </button>
+                    </div>
+                    @if (form.controls.surveyName.touched && form.controls.surveyName.invalid) {
+                    <p class="error-message">Survey name is required.</p>
+                    }
                 </div>
 
-              }
+                <div class="date-category-row">
+                    <div class="field ends-at-field">
+                        <label for="endsAt">Set end date <span>(optional)</span></label>
+                        <div class="input-with-delete">
+                            <input id="endsAt" type="date" formControlName="endsAt" />
+                            <button type="button" class="delete-button" aria-label="Clear end date"
+                                [disabled]="!form.controls.endsAt.value" (click)="clearField('endsAt')">
+                                <img src="/icon/delete.svg" alt="" />
+                            </button>
+                        </div>
+                        @if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
+                        <p class="error-message">Please enter a valid date.</p>
+                        }
+                    </div>
+                    <div class="field category-field">
 
+                        <button id="category-button" type="button" class="category-button" (click)="toggleCategories()"
+                            [attr.aria-expanded]="categoriesOpen()">
+                            <span>{{ 'Choose category' }}</span>
+                            <span class="category-arrow" [class.open]="categoriesOpen()" aria-hidden="true">▼</span>
+                        </button>
+                        <p class="category-field--category">{{ category }}</p>
+                        @if (categoriesOpen()) {
+                        <div class="category-menu">
+                            @for (item of categories; track item) {
+                            <button type="button" class="category-option" [class.selected]="item === category"
+                                (click)="selectCategory(item)">
+                                {{ item }}
+                            </button>
+                            }
+                        </div>
+                        }
+                        @if (form.controls.category.touched && form.controls.category.invalid) {
+                        <p class="error-message">Category is required.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="field description-field">
+                <label for="description">Describing text <span>(optional)</span></label>
+                <div class="textarea-with-delete">
+                    <textarea id="description" formControlName="describingText" rows="4"
+                        placeholder="Describe your survey"></textarea>
+                    <button type="button" class="delete-button" aria-label="Clear description"
+                        [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
+                        <img src="/icon/delete.svg" alt="" />
+                    </button>
+                </div>
+                @if (form.controls.describingText.touched && form.controls.describingText.invalid) {
+                <p class="error-message">Describing text is invalid.</p>
+                }
             </div>
 
 
-            <!-- Antwort hinzufügen -->
-            <button
-              type="button"
-              class="add-answer"
-              (click)="addAnswer(questionIndex)"
-            >
-              Add answer
-              <span>⊕</span>
-            </button>
-
-          </fieldset>
-
-        }
-
-      </section>
-
-    </section>
-
-
-    <!-- Trennlinie -->
-    <div class="vertical-line"></div>
-
-
-    <!-- Rechte Seite -->
-    <section class="survey-right">
-
-      <div class="field description-field">
-
-        <label for="description">
-          Describing text
-          <span>(optional)</span>
-        </label>
-
-        <div class="textarea-with-delete">
-
-          <textarea
-            id="description"
-            formControlName="describingText"
-            rows="4"
-            placeholder="Describe your survey"
-          ></textarea>
-
-          <button
-            type="button"
-            class="delete-button"
-            aria-label="Clear description"
-            [disabled]="!form.controls.describingText.value"
-            (click)="clearField('describingText')"
-          >
-            <img src="/icon/delete.svg" alt="">
-          </button>
-
         </div>
 
-      </div>
+        <section class="questions" formArrayName="questions">
+            @for (question of questions.controls; track question; let questionIndex = $index) {
+            <fieldset class="question" [formGroupName]="questionIndex">
+                <div>
+                    <div class="question-header">
+                        <legend>{{ questionIndex + 1 }}. Question</legend>
+                        <button type="button" class="delete-button" aria-label="Delete question"
+                            [disabled]="questions.length <= 1" (click)="removeQuestion(questionIndex)">
+                            <img src="/icon/delete.svg" alt="" />
+                        </button>
+                    </div>
+                    <div class="height-all">
+                        <input class="question-input" type="text" formControlName="name"
+                            placeholder="Write your question" />
+                        @if (question.get('name')?.touched && question.get('name')?.invalid) {
+                        <p class="error-message">Question is required (min. 3 characters).</p>
+                        }
+                    </div>
+                </div>
 
+                <div class="answers-header">
+                    <strong>Answers</strong>
+                    <label class="multiple-answers">
+                        <input type="checkbox" />
+                        <span>Allow multiple answers.</span>
+                    </label>
+                </div>
 
-      <!-- Neue Frage -->
-      <button
-        type="button"
-        class="add-question"
-        (click)="addQuestion()"
-      >
-        Add next question
-        <span>⊕</span>
-      </button>
+                <div class="answers" formArrayName="answers">
+                    @for (answer of questionAnswers(questionIndex).controls; track $index) {
+                        <div class="height-all">
+                    <div class="answer-row">
+                        <span class="answer-letter">{{ letter($index) }}.</span>
+                        <input type="text" [formControlName]="$index" [placeholder]="'Answer ' + ($index + 1)" />
+                        <button type="button" class="delete-button" aria-label="Delete answer"
+                            [disabled]="questionAnswers(questionIndex).length <= 2"
+                            (click)="removeAnswer(questionIndex, $index)">
+                            <img src="/icon/delete.svg" alt="" />
+                        </button>
+                    </div>
+                    @if (questionAnswers(questionIndex).at($index).touched &&
+                    questionAnswers(questionIndex).at($index).invalid) {
+                    <p class="error-message answer-error">Answer is required.</p>
+                    }
+                        </div>
+                    }
+                    <button type="button" class="add-answer" (click)="addAnswer(questionIndex)">
+                        Add answer <span>+</span>
+                    </button>
+                </div>
+            </fieldset>
+            }
+            <button type="button" class="add-question" (click)="addQuestion()">
+                Add next question <span>&#43;</span>
+            </button>
+        </section>
+    </form>
 
-    </section>
-
-
-    <!-- Publish -->
     <div class="publish-area">
+        @if (saveError()) {
+        <p class="save-error" role="alert">{{ saveError() }}</p>
+        }
+        @if (published()) {
+        <p class="published-message">Your survey is now published!</p>
+        }
 
-      @if (saveError()) {
-        <p class="save-error" role="alert">
-          {{ saveError() }}
-        </p>
-      }
-
-      <button
-        class="publish-button"
-        type="submit"
-        [disabled]="form.invalid || isSaving()"
-      >
-        {{ isSaving() ? 'Saving...' : 'Publish' }}
-      </button>
-
+        <button class="publish-button" type="button" (click)="save()" [disabled]="form.invalid || isSaving()">
+            {{ isSaving() ? 'Saving...' : 'Publish' }}
+        </button>
     </div>
-
-  </form>
-
 </main>

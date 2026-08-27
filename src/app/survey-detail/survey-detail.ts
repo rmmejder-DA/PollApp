@@ -36,6 +36,15 @@ export class SurveyDetail {
     return null;
   });
 
+  protected readonly surveyQuestions = computed(() => {
+    const current = this.poll();
+    if (!current) return [];
+    const related = this.service.polls().filter(
+      (item) => item.description === current.description && item.category === current.category
+    );
+    return related.length > 0 ? related : [current];
+  });
+
   protected goBack(): void {
     this.router.navigate(['/']);
   }
@@ -55,17 +64,34 @@ export class SurveyDetail {
     return this.selectedOptionIds().includes(optionId);
   }
 
-  protected async completeSurvey(poll: Poll): Promise<void> {
-    if (this.service.isPast(poll) || this.isVoted(poll) || this.isSubmitting() || !this.selectedOptionIds().length) return;
+  protected async completeSurvey(mainPoll: Poll): Promise<void> {
+    const selectedIds = this.selectedOptionIds();
+    if (this.service.isPast(mainPoll) || this.isSubmitting() || !selectedIds.length) return;
     this.isSubmitting.set(true);
-    if (await this.service.voteMany(poll.id, this.selectedOptionIds())) {
-      this.voted.update((ids) => [...ids, poll.id]);
+    try {
+      const questions = this.surveyQuestions();
+      for (const question of questions) {
+        const questionSelectedOptionIds = question.options
+          .map((opt) => opt.id)
+          .filter((id) => selectedIds.includes(id));
+        if (questionSelectedOptionIds.length > 0) {
+          await this.service.voteMany(question.id, questionSelectedOptionIds);
+          this.voted.update((ids) => [...ids, question.id]);
+        }
+      }
+    } finally {
+      this.isSubmitting.set(false);
+      this.goBack();
     }
-    this.goBack();
   }
 
   protected isVoted(poll: Poll): boolean {
     return this.voted().includes(poll.id);
+  }
+
+  protected isSurveyVoted(): boolean {
+    const questions = this.surveyQuestions();
+    return questions.length > 0 && questions.every((q) => this.isVoted(q));
   }
 
   protected total(poll: Poll): number {

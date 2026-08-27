@@ -7,8 +7,8 @@
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    padding: 40px 52px;
-    
+    padding: 25px 53px;
+    border-radius: 0 84px 0 0;
     background: #30253a;
     color: #ffffff;
 
@@ -27,12 +27,12 @@
 .draft {
     display: inline-block;
 
-    padding: 4px 9px;
+    padding: 4px 12px;
 
     background: #ffd19f;
     color: #30253a;
 
-    border-radius: 0;
+    border-radius: 0 16px 0 0;
 
     font-size: 16px;
 }
@@ -50,8 +50,8 @@
 
     color: #f39a2d;
 
-    font-size: 43px;
-    font-weight: 800;
+    font-size: 48px;
+    font-weight: 500;
     letter-spacing: 1px;
 }
 
@@ -90,54 +90,66 @@
 
 .survey-container {
     position: relative;
-
-    display: grid;
-
-    grid-template-columns: 1fr 1px 1fr;
-
+    display: block;
     min-height: 548px;
-
-    padding: 40px 33px 72px;
-
+    padding: 32px 32px 84px;
     background: #49384f;
-
-    border-radius: 4px;
-
+    border-radius: 0 84px 0 0;
     box-sizing: border-box;
 }
 
+.form-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 24px 48px;
+    align-items: start;
+}
 
-/* =========================================
-   Linke Seite
-   ========================================= */
+.survey-name-field,
+.description-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.survey-name-field,
+.description-field,
+.ends-at-field,
+.category-field {
+    min-width: 0;
+}
+
+.category-field {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    &--category {
+        font-size: 16px;
+        margin: 0 !important;
+        padding: 0 12px;
+        color: #ffcfa1;
+    }
+}
 
 .survey-left {
     display: contents;
 }
 
 .survey-meta {
-    grid-column: 1;
-    padding-right: 40px;
+    display: contents;
 }
 
-
-/* =========================================
-   Rechte Seite
-   ========================================= */
-
 .survey-right {
-    position: relative;
-
-    grid-column: 3;
-    padding-left: 43px;
+    display: contents;
 }
 
 .questions {
-    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px 80px;
-    margin-top: 40px;
+    gap: 32px 48px;
+    margin-top: 44px;
 }
 
 
@@ -177,12 +189,34 @@ textarea {
     font-family: inherit;
 
     font-size: 16px;
+
+    transition: background-color 0.2s ease;
+
+    &:focus,
+    &:focus-visible {
+        background-color: #fee9d4;
+    }
+}
+
+.height-all {
+    height: 60px;
+}
+
+.error-message {
+    margin: 4px 0 0;
+    color: #ff8b8b;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.answer-error {
+    margin-left: 27px;
 }
 
 input {
     height: 37px;
 
-    border-radius: 7px;
+    border-radius: 4px 16px 4px 4px;
 
     padding: 0 13px;
 }
@@ -201,7 +235,7 @@ textarea {
    ========================================= */
 
 .survey-name-field {
-    width: 470px;
+    width: 100%;
 }
 
 .input-with-delete {
@@ -211,7 +245,9 @@ textarea {
 }
 
 .input-with-delete input {
-    width: 430px;
+    width: 100%;
+    min-width: 0;
+    height: 40px;
 }
 
 
@@ -236,9 +272,9 @@ textarea {
     cursor: pointer;
 }
 
-.delete-button img {
-    width: 18px;
-    height: 18px;
+img {
+    width: 22px;
+    height: 22px;
 
     filter: brightness(0) invert(1);
 }
@@ -254,20 +290,19 @@ textarea {
    ========================================= */
 
 .date-category-row {
-    display: flex;
-    align-items: flex-end;
-
-    gap: 51px;
-
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(170px, 180px);
+    gap: 24px;
     margin-top: 9px;
+    align-items: baseline;
 }
 
 .date-category-row .field {
-    width: 223px;
+    width: 100%;
 }
 
 .date-category-row .input-with-delete input {
-    width: 223px;
+    width: 100%;
 }
 
 
@@ -277,32 +312,35 @@ textarea {
 
 .category {
     position: relative;
-
-    width: 185px;
+    width: 100%;
 }
 
 .category-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    width: 185px;
-
-    padding: 0;
-
+    width: 100%;
+    padding: 10px 12px;
     border: none;
-
-    background: transparent;
-    color: white;
-
-    font-size: 18px;
+    border-radius: 7px;
+    background: #49384f;
+    color: #ffffff;
+    font-size: 17px;
     font-weight: 600;
-
     cursor: pointer;
 }
 
+.category-button span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .category-arrow {
-    font-size: 16px;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1;
+    transform: translateY(-1px);
 
     transition: transform 0.2s;
 }
@@ -313,25 +351,25 @@ textarea {
 
 .category-menu {
     position: absolute;
-    top: 53px;
-    left: 0;
+    top: 148px;
+    left: 282px;
 
     z-index: 10;
-
-    width: 185px;
+    padding: 4px 4px;
+    width: 170px;
 
     overflow: hidden;
 
     border-radius: 7px;
-
+    border: 0.5px solid #f8e2ff;
     background: #ffffff;
 }
 
 .category-option {
     display: block;
 
-    width: 100%;
-
+    width: fit-content;
+    border-radius: 8px;
     padding: 10px;
 
     border: none;
@@ -346,7 +384,8 @@ textarea {
 
 .category-option:hover,
 .category-option.selected {
-    background: #ffd19f;
+    background-color: #f8e2ff;
+    border-radius: 6px;
 }
 
 
@@ -365,7 +404,6 @@ textarea {
     min-width: 0;
     margin: 0;
     padding: 0;
-
     border: none;
 }
 
@@ -460,48 +498,47 @@ textarea {
    ========================================= */
 
 .add-answer {
-    margin-top: 23px;
-    margin-left: 38px;
-
-    padding: 0 0 3px;
-
     border: none;
     border-bottom: 1px solid white;
-
     background: transparent;
     color: white;
-
     font-size: 16px;
     font-weight: 700;
-
     cursor: pointer;
+    width: 32%;
+
+    & span {
+        display: inline-block;
+        padding: 5px 3px 2px 4px;
+        border: 2px solid #ffffff;
+        font-size: 20px;
+        text-align: center;
+        line-height: 0.5;
+        border-radius: 50%;
+        width: 10%;
+    }
 }
-
-.add-answer span {
-    margin-left: 4px;
-
-    font-size: 20px;
-}
-
 
 /* =========================================
    Beschreibung
    ========================================= */
 
 .description-field {
-    width: 450px;
+    width: 100%;
 }
 
 .textarea-with-delete {
     display: flex;
     align-items: flex-start;
-
     gap: 11px;
 }
 
 .description-field textarea {
-    width: 418px;
+    width: 100%;
+    min-height: 109px;
     height: 109px;
+    border-radius: 4px 16px 4px 4px;
+
 }
 
 
@@ -510,43 +547,50 @@ textarea {
    ========================================= */
 
 .add-question {
+    width: 49%;
+    height: fit-content;
     display: flex;
     align-items: center;
     gap: 10px;
-
-    margin-top: 63px;
-
+    margin-top: 28px;
     padding: 9px 13px;
-
     border: none;
     border-radius: 9px;
-
     background: #80615e;
     color: white;
-
     font-size: 16px;
     font-weight: 700;
-
     cursor: pointer;
-}
 
-.add-question span {
-    font-size: 21px;
+    & span {
+        display: inline-block;
+        padding: 4px 0px 0px 0px;
+        border: 2px solid #ffffff;
+        font-size: 20px;
+        text-align: center;
+        line-height: 0.5;
+        border-radius: 50%;
+        width: 10%;
+    }
 }
-
 
 /* =========================================
    Publish
    ========================================= */
 
 .publish-area {
-    position: absolute;
-
-    right: 0;
-    bottom: -96px;
-
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.published-message {
+    margin: 0;
+    color: #a8f0ad;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .publish-button {
@@ -564,6 +608,18 @@ textarea {
     font-weight: 800;
 
     cursor: pointer;
+
+    &::after {
+        content: url(/icon/check-small.svg);
+        opacity: 0;
+        display: none;
+    }
+
+    &:hover::after {
+        display: flex;
+        transition: 1s ease-in-out;
+        opacity: 1;
+    }
 }
 
 .publish-button:disabled {
