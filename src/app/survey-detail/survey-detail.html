@@ -10,8 +10,8 @@
         </div>
       </div>
 
-      <h1 id="detail-title">{{ selected.description || selected.title }}</h1>
-
+      <h1 id="detail-title">{{ selected.title }}</h1>
+      <p class="survey-description">{{ selected.description }}</p>
       <div class="questions-grid">
         @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
           <div class="question-block">
@@ -21,6 +21,10 @@
               }
               {{ question.title }}
             </h2>
+
+            @if (question.allowMultiple) {
+              <p class="multiple-answers-notice">More than one answer is allowed.</p>
+            }
 
             <div id="question-grid-{{ qIndex }}" class="question-grid">
               <section id="answer-panel-{{ qIndex }}" class="answer-panel" aria-labelledby="answer-title-{{ qIndex }}">

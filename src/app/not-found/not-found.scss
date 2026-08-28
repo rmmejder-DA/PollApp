@@ -1,0 +1,43 @@
+.not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    flex-direction: column;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.error-code {
+    margin: 0;
+    color: #ffb35f;
+    font-family: 'NerkoOne', cursive;
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.not-found h1 {
+    margin: 12px 0 8px;
+    color: #fff4fa;
+    font-size: 2.5rem;
+}
+
+.message {
+    margin: 0 0 24px;
+    color: #dcd0db;
+    font-size: 1rem;
+}
+
+.back-home {
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: #221227;
+    background: #ffcfa1;
+    font-family: 'Nokora';
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.back-home:hover {
+    background: #ffb770;
+}

@@ -10,7 +10,7 @@
     } @else {
       <img src="/icon/Frame-ligth.svg" alt="" aria-hidden="true" />
     }
-    <span class="brand-text">Poll<br />App</span>
+    <span class="brand-text" [class.home-brand-text]="isHome()">Poll<br />App</span>
   </a>
 
   @if (showCreateButton()) {

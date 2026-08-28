@@ -22,14 +22,19 @@ header {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    color: #ffb35f;
+    color: #ffb35f!important;
 
-    font-size: 1.65rem;
+    font-size: 1.8rem;
     text-decoration: none;
     line-height: .65em;
 
     &-text {
         font-family: 'NerkoOne', sans-serif !important;
+        color: #35273a;
+    }
+
+    &-text.home-brand-text {
+        color: #ffb35f;
     }
 }
 
@@ -73,7 +78,7 @@ header {
         padding-inline: 4px;
         position: relative;
         font-weight: bold;
-        transition: 0.8s;
+        transition: 0.1s ease-in-out;
         opacity: 1;
         margin-left: 0.5em;
         background-color: #ffb770;

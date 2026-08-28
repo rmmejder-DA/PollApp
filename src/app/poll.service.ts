@@ -87,7 +87,12 @@ export class PollService implements OnDestroy {
       .from('polls')
       .insert({
         name: newPoll.title.trim(),
-        data: { category: newPoll.category, endsAt: newPoll.endsAt, questionId },
+        data: {
+          category: newPoll.category,
+          endsAt: newPoll.endsAt,
+          questionId,
+          allowMultiple: newPoll.allowMultiple ?? false,
+        },
         describing_text: newPoll.description.trim(),
         answers: newPoll.options.map((label) => label.trim()),
         title: newPoll.title.trim(),
@@ -167,6 +172,7 @@ export class PollService implements OnDestroy {
       description: poll.describing_text ?? poll.description,
       category,
       endsAt: poll.data?.endsAt ?? poll.ends_at,
+      allowMultiple: poll.data?.allowMultiple ?? false,
       options: (poll.poll_options ?? []).map((option) => ({
         id: option.id,
         label: option.label,

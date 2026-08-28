@@ -15,12 +15,14 @@
 
 .detail-layout {
     display: flex;
-    gap: 20px;
+    gap: 70px;
 }
 
 .survey-panel {
     width: 100%;
     max-width: 700px;
+    height: fit-content;
+    max-height: 855px;
     padding: 32px 36px 36px;
     border-radius: 0 112px 0 0;
     color: #44394b;
@@ -47,11 +49,12 @@
 }
 
 .status-badge {
-    padding: 5px 10px;
-    border-radius: 3px;
-    color: #3d3044;
+        padding: 7px 11px 1px 11px;
+    border-radius: 0 12px 0 0;
+    color: black;
     background: #ffb35f;
-    font-weight: 700;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .category {
@@ -84,6 +87,12 @@
     font-size: 1.35rem;
 
     font-family: 'Nokora';
+}
+
+.multiple-answers-notice {
+    margin: -2px 0 12px;
+    color: #665b6b;
+    font-size: .75rem;
 }
 
 .answers-subheading {
@@ -205,6 +214,8 @@
     padding: 60px 22px 30px 0;
     overflow-wrap: break-word;
     word-break: break-word;
+    max-width: 320px;
+    max-height: 760px;
 }
 
 .question-results {

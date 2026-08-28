@@ -55,9 +55,18 @@ export class SurveyDetail {
 
   protected toggleOption(poll: Poll, optionId: string): void {
     if (this.service.isPast(poll) || this.isVoted(poll) || this.isSubmitting()) return;
-    this.selectedOptionIds.update((ids) =>
-      ids.includes(optionId) ? ids.filter((id) => id !== optionId) : [...ids, optionId],
-    );
+    this.selectedOptionIds.update((ids) => {
+      if (ids.includes(optionId)) {
+        return ids.filter((id) => id !== optionId);
+      }
+
+      if (poll.allowMultiple) {
+        return [...ids, optionId];
+      }
+
+      const optionIds = new Set(poll.options.map((option) => option.id));
+      return [...ids.filter((id) => !optionIds.has(id)), optionId];
+    });
   }
 
   protected isSelected(optionId: string): boolean {
