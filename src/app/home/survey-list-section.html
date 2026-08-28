@@ -29,7 +29,7 @@
       @for (poll of polls; track poll.id; let pollIndex = $index) {
         <a id="survey-card-{{ pollIndex + 1 }}" class="survey-card" [class.survey-card--past]="past" [routerLink]="['/survey', poll.category, poll.questionId]">
           <small>{{ poll.category }}</small>
-          <b>{{ poll.title }}</b>
+          <b>{{ poll.description || poll.title }}</b>
           <span class="survey-end">{{ endLabel(poll) }}</span>
         </a>
       }

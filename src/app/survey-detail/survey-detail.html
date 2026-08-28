@@ -12,32 +12,33 @@
 
       <h1 id="detail-title">{{ selected.description || selected.title }}</h1>
 
-      @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
-        <div class="question-block">
-          <h2 class="question-title">
-            @if (surveyQuestions().length > 1) {
-              {{ qIndex + 1 }}.
-            }
-            {{ question.title }}
-          </h2>
-
-          <div id="question-grid-{{ qIndex }}" class="question-grid">
-            <section id="answer-panel-{{ qIndex }}" class="answer-panel" aria-labelledby="answer-title-{{ qIndex }}">
-              <h3 id="answer-title-{{ qIndex }}" class="answers-subheading">Choose your answers</h3>
-              @for (option of question.options; track option.id; let optionIndex = $index) {
-              <button class="answer" type="button" [disabled]="service.isPast(question) || isVoted(question) || isSubmitting()"
-                (click)="toggleOption(question, option.id)">
-                <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1" aria-hidden="true" />
-                <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
-                <span class="answer-text">{{ option.label }}</span>
-              </button>
+      <div class="questions-grid">
+        @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
+          <div class="question-block">
+            <h2 class="question-title">
+              @if (surveyQuestions().length > 1) {
+                {{ qIndex + 1 }}.
               }
-              @if (service.isPast(question)) { <p class="notice">This survey has ended.</p> }
-              @if (isVoted(question)) { <p class="notice success">Thanks, your vote was saved.</p> }
-            </section>
+              {{ question.title }}
+            </h2>
+
+            <div id="question-grid-{{ qIndex }}" class="question-grid">
+              <section id="answer-panel-{{ qIndex }}" class="answer-panel" aria-labelledby="answer-title-{{ qIndex }}">
+                @for (option of question.options; track option.id; let optionIndex = $index) {
+                <button class="answer" [class.selected]="isSelected(option.id)" type="button" [disabled]="service.isPast(question) || isVoted(question) || isSubmitting()"
+                  (click)="toggleOption(question, option.id)">
+                  <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1" aria-hidden="true" />
+                  <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
+                  <span class="answer-text">{{ option.label }}</span>
+                </button>
+                }
+                @if (service.isPast(question)) { <p class="notice">This survey has ended.</p> }
+                @if (isVoted(question)) { <p class="notice success">Thanks, your vote was saved.</p> }
+              </section>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
 
       <div id="survey-actions" class="survey-actions">
         <button class="button" type="button" [disabled]="service.isPast(selected) || isSurveyVoted() || isSubmitting() || !selectedOptionIds().length" (click)="completeSurvey(selected)">Complete survey</button>

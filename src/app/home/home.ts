@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Hero } from '../hero/hero';
-import { PollService } from '../poll.service';
+import { Poll, PollService } from '../poll.service';
 import { SurveyListSection } from './survey-list-section';
 import { UrgentSection } from './urgent-section';
 
@@ -21,18 +21,31 @@ export class HomePage {
   protected readonly category = signal('All Surveys');
 
   protected readonly visiblePolls = computed(() =>
-    this.service.polls()
-      .filter((poll) => this.view() === 'past' ? this.service.isPast(poll) : !this.service.isPast(poll))
-      .filter((poll) => this.isAllCategory(this.category()) || poll.category === this.category())
-      .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
+    this.uniqueSurveys(
+      this.service.polls()
+        .filter((poll) => this.view() === 'past' ? this.service.isPast(poll) : !this.service.isPast(poll))
+        .filter((poll) => this.isAllCategory(this.category()) || poll.category === this.category())
+        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
+    )
   );
 
   protected readonly urgentPolls = computed(() =>
-    this.service.polls()
-      .filter((poll) => !this.service.isPast(poll))
-      .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
-      .slice(0, 3)
+    this.uniqueSurveys(
+      this.service.polls()
+        .filter((poll) => !this.service.isPast(poll))
+        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
+    ).slice(0, 3)
   );
+
+  private uniqueSurveys(polls: Poll[]): Poll[] {
+    const seen = new Set<string>();
+    return polls.filter((poll) => {
+      const key = `${poll.category}-${poll.description || poll.title}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
 
   protected daysLeft(poll: Parameters<PollService['isPast']>[0]): number {
     return Math.max(0, Math.ceil((new Date(poll.endsAt).getTime() - Date.now()) / 86_400_000));

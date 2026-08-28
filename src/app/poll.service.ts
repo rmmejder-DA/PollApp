@@ -15,6 +15,7 @@ export interface Poll {
   description: string;
   category: string;
   endsAt: string;
+  allowMultiple?: boolean;
   options: PollOption[];
 }
 
@@ -23,11 +24,12 @@ export interface NewPoll {
   description: string;
   category: string;
   endsAt: string;
+  allowMultiple?: boolean;
   options: string[];
 }
 
 type RawOption = { id: string; label: string; poll_votes: Array<{ id: string }> | null };
-type RawPoll = { id: string; created_at: string; name: string | null; data: { category?: string; endsAt?: string; questionId?: string } | null; describing_text: string | null; answers: string[] | null; title: string; description: string; category: string; ends_at: string; poll_options: RawOption[] | null };
+type RawPoll = { id: string; created_at: string; name: string | null; data: { category?: string; endsAt?: string; questionId?: string; allowMultiple?: boolean } | null; describing_text: string | null; answers: string[] | null; title: string; description: string; category: string; ends_at: string; poll_options: RawOption[] | null };
 const defaultQuestions = [
   ['What should we do this weekend?', 'Collect ideas for the next group outing.', 'Leisure', ['Go hiking', 'Cook together', 'Movie night']],
   ['Which feature should come next?', 'Help the product team prioritize the next release.', 'Product', ['Share surveys', 'More analytics', 'New themes']],

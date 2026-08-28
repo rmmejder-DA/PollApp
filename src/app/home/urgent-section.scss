@@ -59,10 +59,14 @@
 }
 
 .card b {
-    display: block;
+    display: flex;
     font-size: 1.72rem;
     font-weight: 700;
     color: rgba(0, 0, 0, 0.744);
+    text-transform: capitalize;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .card p {

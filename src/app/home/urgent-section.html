@@ -8,8 +8,8 @@
   <div id="urgent-cards" class="cards home-cards">
     @for (poll of polls; track poll.id) {
     <a class="card urgent home-card" [routerLink]="['/survey', poll.category, poll.questionId]">
-      <span>{{ poll.category }}<b>{{ poll.title }}</b></span>
-      
+      <span>{{ poll.category }}<b>{{ poll.description || poll.title }}</b></span>
+      <span class="description">{{ poll.description || poll.title }}</span>
       <p> Ends in {{ daysLeft(poll) }} days</p>
     </a>
     }

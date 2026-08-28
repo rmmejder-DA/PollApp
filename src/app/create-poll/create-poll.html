@@ -38,14 +38,16 @@
                     <div class="field ends-at-field">
                         <label for="endsAt">Set end date <span>(optional)</span></label>
                         <div class="input-with-delete">
-                            <input id="endsAt" type="date" formControlName="endsAt" />
+                            <input id="endsAt" type="date" formControlName="endsAt" [min]="minDate" />
                             <button type="button" class="delete-button" aria-label="Clear end date"
                                 [disabled]="!form.controls.endsAt.value" (click)="clearField('endsAt')">
                                 <img src="/icon/delete.svg" alt="" />
                             </button>
                         </div>
-                        @if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
-                        <p class="error-message">Please enter a valid date.</p>
+                        @if (form.controls.endsAt.touched && !form.controls.endsAt.value) {
+                        <p class="info-message">If left empty, an end date in<br> 7 days will be set automatically.</p>
+                        } @else if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
+                        <p class="error-message">End date must be in the future.</p>
                         }
                     </div>
                     <div class="field category-field">
@@ -114,25 +116,25 @@
                 <div class="answers-header">
                     <strong>Answers</strong>
                     <label class="multiple-answers">
-                        <input type="checkbox" />
+                        <input type="checkbox" formControlName="allowMultiple" />
                         <span>Allow multiple answers.</span>
                     </label>
                 </div>
 
                 <div class="answers" formArrayName="answers">
-                    @for (answer of questionAnswers(questionIndex).controls; track $index) {
+                    @for (answer of questionAnswers(questionIndex).controls; track answer; let answerIndex = $index) {
                         <div class="height-all">
                     <div class="answer-row">
-                        <span class="answer-letter">{{ letter($index) }}.</span>
-                        <input type="text" [formControlName]="$index" [placeholder]="'Answer ' + ($index + 1)" />
+                        <span class="answer-letter">{{ letter(answerIndex) }}.</span>
+                        <input type="text" [formControlName]="answerIndex" [placeholder]="'Answer ' + (answerIndex + 1)" />
                         <button type="button" class="delete-button" aria-label="Delete answer"
-                            [disabled]="questionAnswers(questionIndex).length <= 2"
-                            (click)="removeAnswer(questionIndex, $index)">
+                            [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
+                            (click)="removeAnswer(questionIndex, answerIndex)">
                             <img src="/icon/delete.svg" alt="" />
                         </button>
                     </div>
-                    @if (questionAnswers(questionIndex).at($index).touched &&
-                    questionAnswers(questionIndex).at($index).invalid) {
+                    @if (questionAnswers(questionIndex).at(answerIndex).touched &&
+                    questionAnswers(questionIndex).at(answerIndex).invalid) {
                     <p class="error-message answer-error">Answer is required.</p>
                     }
                         </div>
@@ -154,7 +156,10 @@
         <p class="save-error" role="alert">{{ saveError() }}</p>
         }
         @if (published()) {
-        <p class="published-message">Your survey is now published!</p>
+        <div class="published-card" role="status">
+            <span class="published-text">Your survey is now<br>published</span>
+            <button type="button" class="published-close" (click)="closePublished()" aria-label="Close message">✕</button>
+        </div>
         }
 
         <button class="publish-button" type="button" (click)="save()" [disabled]="form.invalid || isSaving()">
