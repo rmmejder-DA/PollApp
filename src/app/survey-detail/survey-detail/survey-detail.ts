@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Poll, PollService } from '../poll.service';
+import { Poll, PollService } from '../../core/services/poll.service';
 
 @Component({
   selector: 'app-survey-detail',

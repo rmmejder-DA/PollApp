@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Hero } from '../hero/hero';
-import { Poll, PollService } from '../poll.service';
-import { SurveyListSection } from './survey-list-section';
-import { UrgentSection } from './urgent-section';
+import { Hero } from '../../hero/hero/hero';
+import { Poll, PollService } from '../../core/services/poll.service';
+import { SurveyListSection } from '../survey-list-section/survey-list-section';
+import { UrgentSection } from '../urgent-section/urgent-section';
 
 @Component({
   selector: 'app-home-page',

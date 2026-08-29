@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CreatePoll } from '../create-poll/create-poll';
-import { Poll } from '../poll.service';
+import { CreatePoll } from '../../create-poll/create-poll/create-poll';
+import { Poll } from '../../core/services/poll.service';
 
 @Component({
   selector: 'app-new-survey',

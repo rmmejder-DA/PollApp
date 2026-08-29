@@ -39,7 +39,7 @@
     gap: 8px;
     flex-wrap: wrap;
     color: #665b6b;
-    font-size: 0.85rem;
+    font-size: 1rem;
 
     &-info {
         display: flex;
@@ -120,8 +120,8 @@
 .results-panel h2 {
     margin: 0 0 18px;
     color: #302333;
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 500;
 }
 
 .answer {
@@ -194,7 +194,7 @@
     font-weight: 800;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1rem;
+        font-size: 1rem;
 
     &:hover {
         background: #ffb770;
@@ -233,11 +233,11 @@
 .results-heading h2 {
     margin: 0;
     font-size: 1.35rem;
-    color: #000000c3;
+    color: #35273a;
 }
 
 .live-badge {
-    color: #f6a14a;
+    color: #f6a14ad6;
     font-family: 'NerkoOne' !important;
 }
 
@@ -263,9 +263,8 @@
     gap: 8px;
     align-items: center;
     margin: 14px 0;
-    color: #6b5e70;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: .7rem;
+        color: #35273a;
+    font-size: 1.15rem;
 }
 
 .result-label {
@@ -273,10 +272,11 @@
 }
 
 .result-track {
-    height: 11px;
+    height: 18px;
     overflow: hidden;
     border-radius: 8px;
     background: #e7e7e8;
+    border-radius: 0 16px 16px 0 ;
 }
 
 .result-track i {
@@ -289,8 +289,9 @@
 
 .result strong {
     color: #e89639;
-    font-size: .68rem;
+    font-size: 1.15rem;
     text-align: right;
+    font-family: 'Nokora';
 }
 
 .status.error {

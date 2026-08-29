@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomePage } from './home/home';
-import { NewSurveyPage } from './new-survey/new-survey';
-import { NotFoundPage } from './not-found/not-found';
-import { SurveyDetail } from './survey-detail/survey-detail';
+import { HomePage } from './home/home/home';
+import { NewSurveyPage } from './new-survey/new-survey/new-survey';
+import { NotFoundPage } from './not-found/not-found/not-found';
+import { SurveyDetail } from './survey-detail/survey-detail/survey-detail';
 
 export const routes: Routes = [
   { path: '', component: HomePage },

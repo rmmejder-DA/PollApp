@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { NewPoll, Poll, PollService } from '../poll.service';
+import { NewPoll, Poll, PollService } from '../../core/services/poll.service';
 
 @Component({
   selector: 'app-create-poll',

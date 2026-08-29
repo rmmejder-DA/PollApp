@@ -9,7 +9,6 @@
     max-width: 1220px;
 }
 
-
 .hero-text {
     display: flex;
     justify-content: center;
@@ -45,7 +44,7 @@
     max-width: max-content;
     border: 0;
     border-radius: 8px;
-    padding: 12px 12px;
+    padding: 12px;
     color: #221227;
     background-color: #ffcfa1;
     font-size: 1.05rem;
@@ -54,13 +53,12 @@
     font-family: 'Nokora';
     text-decoration: none;
 
-    &:after {
+    &::after {
         content: "\002B";
         opacity: 0;
         position: absolute;
-        padding: 0px 4px 0px 4px;
-        transition: 0.1s ease-in-out;
-        opacity: 0;
+        padding: 0 4px;
+        transition: 125ms ease-in-out;
         border-radius: 50%;
         border: 3px solid #221227;
         font-weight: bold;
@@ -68,9 +66,8 @@
     }
 
     &:hover::after {
-        opacity: 1;
         position: relative;
-        
+        opacity: 1;
         margin-left: 0.5em;
         background-color: #ffb770;
     }
@@ -80,8 +77,6 @@
         border: none;
     }
 }
-
-
 
 .create:hover {
     background-color: #ffb770;

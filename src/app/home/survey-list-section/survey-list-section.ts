@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Poll } from '../poll.service';
+import { Poll } from '../../core/services/poll.service';
 
 @Component({
   selector: 'app-survey-list-section',
