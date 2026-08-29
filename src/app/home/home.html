@@ -1,0 +1,19 @@
+<main id="survey-overview" class="page-shell home-page-shell">
+  @if (service.error(); as error) { <p class="status error home-status-error">{{ error }}</p> }
+
+  <app-hero class="home-hero" (createSurvey)="goToCreate()" />
+
+  @if (urgentPolls().length) {
+    <app-urgent-section [polls]="urgentPolls()" [daysLeft]="daysLeft.bind(this)" />
+  }
+
+  <app-survey-list-section
+    [polls]="visiblePolls()"
+    [past]="view() === 'past'"
+    [view]="view()"
+    [category]="category()"
+    [categories]="service.categories"
+    (viewChange)="setView($event)"
+    (categoryChange)="setCategory($event)"
+  />
+</main>
