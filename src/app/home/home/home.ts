@@ -25,18 +25,19 @@ export class HomePage {
       this.service.polls()
         .filter((poll) => this.view() === 'past' ? this.service.isPast(poll) : !this.service.isPast(poll))
         .filter((poll) => this.isAllCategory(this.category()) || poll.category === this.category())
-        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
-    )
+        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime()),
+    ),
   );
 
   protected readonly urgentPolls = computed(() =>
     this.uniqueSurveys(
       this.service.polls()
         .filter((poll) => !this.service.isPast(poll))
-        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime())
-    ).slice(0, 3)
+        .sort((first, second) => new Date(first.endsAt).getTime() - new Date(second.endsAt).getTime()),
+    ).slice(0, 3),
   );
 
+  /** Removes duplicate survey entries from the list. */
   private uniqueSurveys(polls: Poll[]): Poll[] {
     const seen = new Set<string>();
     return polls.filter((poll) => {
@@ -47,22 +48,27 @@ export class HomePage {
     });
   }
 
+  /** Calculates the remaining days before a poll closes. */
   protected daysLeft(poll: Parameters<PollService['isPast']>[0]): number {
     return Math.max(0, Math.ceil((new Date(poll.endsAt).getTime() - Date.now()) / 86_400_000));
   }
 
+  /** Switches the active or past view. */
   protected setView(view: 'active' | 'past'): void {
     this.view.set(view);
   }
 
+  /** Navigates to the new survey page. */
   protected goToCreate(): void {
     this.router.navigate(['/new-survey']);
   }
 
+  /** Updates the current category filter. */
   protected setCategory(category: string): void {
     this.category.set(category);
   }
 
+  /** Checks whether the selected category is in the all-surveys bucket. */
   private isAllCategory(category: string): boolean {
     return category.trim().toLowerCase().startsWith('all');
   }

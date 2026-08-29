@@ -14,10 +14,12 @@ import { Poll } from '../../core/services/poll.service';
 export class NewSurveyPage {
   private readonly router = inject(Router);
 
+  /** Returns to the home view. */
   protected goBack(): void {
     this.router.navigate(['/']);
   }
 
+  /** Handles creation completion by returning to the overview. */
   protected created(_poll: Poll): void {
     this.router.navigate(['/']);
   }
