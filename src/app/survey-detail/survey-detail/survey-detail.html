@@ -3,7 +3,11 @@
   <section id="survey-detail" class="detail-layout" aria-labelledby="detail-title">
     <article id="survey-panel" class="survey-panel">
       <div id="survey-meta" class="survey-meta">
-        <span class="status-badge">{{ statusLabel(selected) }}</span>
+        <div class="publishedMobile">
+          <span class="status-badge">{{ statusLabel(selected) }}</span>
+          <button class="closed" (click)="goBack()">&#x2715;</button>
+        </div>
+        
         <div class="survey-meta-info">
           <span>Ends on {{ formatDate(selected.endsAt) }}</span>
           <span class="category">Category: {{ selected.category }}</span>
@@ -45,11 +49,18 @@
       </div>
 
       <div id="survey-actions" class="survey-actions">
-        <button class="button" type="button" [disabled]="service.isPast(selected) || isSurveyVoted() || isSubmitting() || !selectedOptionIds().length" (click)="completeSurvey(selected)">Complete survey</button>
+        <button class="button" type="button" [disabled]="service.isPast(selected) || isSurveyVoted() || isSubmitting()" (click)="completeSurvey(selected)">Complete survey</button>
       </div>
     </article>
 
-    <aside id="results-panel" class="results-panel" aria-labelledby="results-title">
+    <div class="results-container">
+      <button class="results-toggle" type="button" [class.results-toggle--open]="isResultsOpen()"
+        [attr.aria-expanded]="isResultsOpen()" aria-controls="results-panel" (click)="toggleResults()">
+        {{ isResultsOpen() ? 'Close results' : 'Show results' }}
+        <span class="results-toggle-icon" aria-hidden="true"></span>
+      </button>
+
+    <aside id="results-panel" class="results-panel" [class.results-panel--closed]="!isResultsOpen()" aria-labelledby="results-title">
                   <h2 id="results-title" class="results-heading">
 
               Survey results <span class="live-badge"> LIVE</span>
@@ -81,6 +92,7 @@
         </div>
       }
     </aside>
+    </div>
   </section>
 </main>
 } @else {

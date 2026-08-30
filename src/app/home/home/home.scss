@@ -6,7 +6,8 @@
 }
 
 .home-hero {
-    display: block;
+    display: flex;
+    justify-content: center;
 }
 
 .status {
@@ -19,11 +20,4 @@
 .status.error {
     color: #fff;
     background: #a54e5d;
-}
-
-@media (max-width: 600px) {
-    .page-shell {
-        width: min(100% - 24px, 1040px);
-    }
-
 }

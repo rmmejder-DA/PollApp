@@ -5,11 +5,13 @@
     <p class="home-section-description">Ending soon surveys</p>
   </div>
 
-  <div id="urgent-cards" class="cards home-cards">
+  <div id="urgent-cards" class="cards home-cards" [class.cards--dragging]="isDragging()"
+    (pointerdown)="startDragging($event)" (pointermove)="dragCards($event)" (pointerup)="stopDragging($event)"
+    (pointercancel)="stopDragging($event)">
     @for (poll of polls; track poll.id) {
-    <a class="card urgent home-card" [routerLink]="['/survey', poll.category, poll.questionId]">
+    <a class="card urgent home-card" [routerLink]="['/survey', poll.category, poll.questionId]" draggable="false" (click)="handleCardClick($event)">
       <span>{{ poll.category }}<b>{{ poll.description || poll.title }}</b></span>
-      <span class="description">{{ poll.description || poll.title }}</span>
+      
       <p> Ends in {{ daysLeft(poll) }} days</p>
     </a>
     }

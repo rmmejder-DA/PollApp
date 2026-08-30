@@ -4,7 +4,9 @@ img {
 }
 
 header {
+    width: min(100% - 20px, 1220px);
     max-width: 1220px;
+    margin: 0 auto;
 }
 
 .topbar {
@@ -13,7 +15,7 @@ header {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding-top: 20px;
+    margin-top: 20px;
     opacity: 1;
 }
 
@@ -22,7 +24,7 @@ header {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    color: #ffb35f!important;
+    color: #ffb35f !important;
 
     font-size: 1.8rem;
     text-decoration: none;
@@ -92,4 +94,41 @@ header {
 
 .create-survey-button:hover {
     background: #ffb770;
+}
+@media (max-width: 820px){
+        .create-survey-button{
+        display: none!important;
+    }
+}
+
+@media (max-width: 480px) {
+    img {
+        width: 64px;
+    }
+
+    .brand {
+        gap: 7px;
+        font-size: 1.45rem;
+    }
+
+    .create-survey-button {
+        padding: 9px;
+        font-size: .82rem;
+    }
+}
+
+@media (max-width: 320px) {
+    header {
+        width: calc(100% - 16px);
+        padding-inline: 4px;
+    }
+
+    .brand {
+        font-size: 1.25rem;
+    }
+
+    .create-survey-button {
+        padding: 8px 6px;
+        font-size: .72rem;
+    }
 }

@@ -16,6 +16,7 @@ export class SurveyDetail {
   protected readonly voted = signal<string[]>([]);
   protected readonly selectedOptionIds = signal<string[]>([]);
   protected readonly isSubmitting = signal(false);
+  protected readonly isResultsOpen = signal(true);
 
   protected readonly poll = computed(() => {
     const categoryParam = this.route.snapshot.paramMap.get('category');
@@ -46,6 +47,11 @@ export class SurveyDetail {
     this.router.navigate(['/new-survey']);
   }
 
+  /** Toggles the results visibility on small screens. */
+  protected toggleResults(): void {
+    this.isResultsOpen.update((isOpen) => !isOpen);
+  }
+
   /** Toggles the selected state of one answer option. */
   protected toggleOption(poll: Poll, optionId: string): void {
     if (this.service.isPast(poll) || this.isVoted(poll) || this.isSubmitting()) return;
@@ -60,7 +66,7 @@ export class SurveyDetail {
   /** Submits all selected answers for the current survey. */
   protected async completeSurvey(mainPoll: Poll): Promise<void> {
     const selectedIds = this.selectedOptionIds();
-    if (this.service.isPast(mainPoll) || this.isSubmitting() || !selectedIds.length) return;
+    if (this.service.isPast(mainPoll) || this.isSubmitting()) return;
     this.isSubmitting.set(true);
     try {
       await this.submitSelectedQuestions(selectedIds);
