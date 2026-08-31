@@ -172,11 +172,6 @@
     transition: background-color .2s ease, transform .2s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .survey-card:hover {
-        background: #57455b;
-    }
-}
 
 .survey-card small {
     color: #e9b78d;
@@ -208,7 +203,19 @@
     color: #cbbdce;
     font-size: 16px;
 }
-
+@media (max-width: 1022px){
+    .tab{
+        cursor: default;
+        &:active{
+                background: #ffb35f;
+        }
+    }
+    .category-trigger{
+    cursor: default;}
+    .survey-card{
+        cursor: default;
+    }
+}
 @media (max-width: 600px) {
     .survey-toolbar {
         align-items: flex-start;
