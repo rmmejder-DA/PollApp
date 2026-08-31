@@ -17,7 +17,8 @@
 .hero-artwork {
     position: relative;
     flex: 0 0 202px;
-    left: 34px;
+    left: 24px;
+    top: 42px;
 }
 
 .hero h1 {
@@ -70,21 +71,25 @@
         font-size: 1.05rem;
     }
 
-    &:hover::after {
-        position: relative;
-        opacity: 1;
-        margin-left: 0.5em;
-        background-color: #ffb770;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover::after {
+            position: relative;
+            opacity: 1;
+            margin-left: 0.5em;
+            background-color: #ffb770;
+        }
     }
 
     &:active::after {
-        content: url("/icon/check-small.svg");
+        content: url("/angular-project/icon/check-small.svg");
         border: none;
     }
 }
 
-.create:hover {
-    background-color: #ffb770;
+@media (hover: hover) and (pointer: fine) {
+    .create:hover {
+        background-color: #ffb770;
+    }
 
 }
 
@@ -100,8 +105,10 @@
         object-fit: contain;
     }
 
-    &:hover {
-        transform: scale(1.1);
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            transform: scale(1.1);
+        }
     }
 }
 
@@ -148,15 +155,15 @@
 @media (max-width: 1188px) {
     .hero {
         margin: 80px auto;
-    }
 
-    .hero h1 {
-        font-size: 4rem;
-    }
+        & h1 {
+            font-size: 4rem;
+        }
 
-    .hero p {
-        width: min(50vw, 520px);
-        font-size: 1.15rem;
+        & p {
+            width: min(50vw, 520px);
+            font-size: 1.15rem;
+        }
     }
 }
 
@@ -213,16 +220,16 @@
         flex-direction: column;
         min-height: 0;
         margin: 0 auto;
-    }
 
-    .hero h1 {
-        font-size: 3rem;
-    }
+        & h1 {
+            font-size: 3rem;
+        }
 
-    .hero p {
-        width: auto;
-        margin-bottom: 24px;
-        font-size: 1rem;
+        &.hero p {
+            width: auto;
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
     }
 
     .hero-artwork {
@@ -276,39 +283,38 @@
 
     .button {
         cursor: default;
-
-        &::after {
-            opacity: 1;
-            position: relative;
-            margin-left: 0.5em;
-        }
-
-        &:hover::after {
+        margin: 0 auto;
+        &:hover {
             background-color: #ffcfa1;
         }
 
-        &:active::after {
-            display: none;
+        &::after {
+            position: relative;
+            opacity: 1;
+            margin-left: 0.5em;
+
+        }
+
+        &:hover::after {
+
+            background-color: #ffcfa1;
         }
     }
-
-    .create:hover {
-        background-color: #ffcfa1;
-    }
 }
+
 
 @media (max-width: 480px) {
     .hero {
         width: min(100% - 28px, 452px);
         margin: 36px auto;
-    }
 
-    .hero h1 {
-        font-size: 2.5rem;
-    }
+        & h1 {
+            font-size: 2.5rem;
+        }
 
-    .hero p {
-        font-size: .9rem;
+        & p {
+            font-size: .9rem;
+        }
     }
 
     .button {

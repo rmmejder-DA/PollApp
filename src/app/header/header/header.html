@@ -1,14 +1,14 @@
 @if (showHeader()) {
-<header class="topbar">
+<header class="topbar" [class.topbar--new-survey]="isNewSurvey()">
   <a
     class="brand"
     [routerLink]="['/']"
     aria-label="PollApp Startseite"
   >
     @if (imgPath() === '/icon/Frame-dark.svg') {
-      <img src="/icon/Frame-dark.svg" alt="" aria-hidden="true" />
+      <img src="icon/Frame-dark.svg" alt="" aria-hidden="true" />
     } @else {
-      <img src="/icon/Frame-ligth.svg" alt="" aria-hidden="true" />
+      <img src="icon/Frame-ligth.svg" alt="" aria-hidden="true" />
     }
     <span class="brand-text" [class.home-brand-text]="isHome()">Poll<br />App</span>
   </a>

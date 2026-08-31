@@ -64,24 +64,24 @@
 .cancel-button {
     display: flex;
     align-items: center;
-    gap: 14px;
-
+    justify-content: center;
+    gap: 4px;
     border: none;
     border-radius: 11px;
-
-    padding: 10px 14px;
-
+    width: 106px;
+    height: 42px;
     background: #775c5a;
     color: white;
-
     font-size: 18px;
     font-weight: 500;
     font-family: Nokora;
-
     cursor: pointer;
 
-    &:hover {
-        background-color: rgba(174, 126, 90);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: rgba(174, 126, 90);
+        }
     }
 
     &:active {
@@ -90,11 +90,8 @@
     }
 }
 
-.cancel-button span {
-    font-size: 28px;
-    line-height: 8px;
-    font-weight: 600;
-    padding-top: 4px;
+.mobile-delete {
+    display: none;
 }
 
 
@@ -144,6 +141,8 @@
         margin: 0 !important;
         padding: 0 12px;
         color: #ffcfa1;
+        position: absolute;
+        bottom: 71%;
     }
 }
 
@@ -173,12 +172,14 @@
 
 .field label,
 .category label {
-    display: block;
-
-    margin-bottom: 5px;
-
+    display: flex;
+    gap: 20px;
     font-size: 18px;
     font-weight: 600;
+}
+
+.label-with-delete .delete-button {
+    display: none;
 }
 
 label span {
@@ -320,7 +321,6 @@ img {
 
 .date-category-row .field {
     width: 100%;
-    height: 100px;
 }
 
 .date-category-row .input-with-delete input {
@@ -404,10 +404,16 @@ img {
     cursor: pointer;
 }
 
-.category-option:hover,
 .category-option.selected {
     background-color: #f8e2ff;
     border-radius: 6px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .category-option:hover {
+        background-color: #f8e2ff;
+        border-radius: 6px;
+    }
 }
 
 
@@ -521,7 +527,7 @@ img {
 
 .add-answer {
     border: none;
-    border-bottom: 1px solid white;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.471);
     background: transparent;
     color: white;
     font-size: 16px;
@@ -532,7 +538,7 @@ img {
 
     & span {
         display: inline-block;
-        padding: 5px 3px 2px 2px;
+        padding: 5px 14px 2px 2px;
         border: 2px solid #ffffff;
         font-size: 20px;
         text-align: center;
@@ -585,8 +591,10 @@ img {
     font-weight: 700;
     cursor: pointer;
 
-    &:hover {
-        background-color: rgb(174, 126, 90);
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: rgb(174, 126, 90);
+        }
     }
 
     & span {
@@ -648,8 +656,10 @@ img {
     margin-left: 8px;
     opacity: 0.8;
 
-    &:hover {
-        opacity: 1;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 
@@ -678,8 +688,10 @@ img {
     font-weight: 800;
     cursor: pointer;
 
-    &:not(:disabled):hover {
-        background-color: #ffb770;
+    @media (hover: hover) and (pointer: fine) {
+        &:not(:disabled):hover {
+            background-color: #ffb770;
+        }
     }
 
     &::after {
@@ -694,10 +706,12 @@ img {
         font-weight: bold;
     }
 
-    &:not(:disabled):hover::after {
-        position: relative;
-        opacity: 1;
-        transition: 0.5s ease-in-out;
+    @media (hover: hover) and (pointer: fine) {
+        &:not(:disabled):hover::after {
+            position: relative;
+            opacity: 1;
+            transition: 0.5s ease-in-out;
+        }
     }
 }
 
@@ -723,20 +737,154 @@ img {
     font-size: 14px;
 }
 
+.cancel-button-icon {
+    font-size: 36px;
+}
 
 /* =========================================
    Responsive
    ========================================= */
+@media (max-width: 1022px) {
+    .page-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-row {
+        display: contents;
+
+        & h1 {
+            order: 2;
+            flex-basis: 100%;
+            line-height: 1;
+        }
+    }
+
+    .cancel-button {
+        order: 1;
+        gap: 0;
+        width: 34px;
+        height: 32px;
+        font-size: 16px !important;
+        margin-right: 12px;
+        cursor: default;
+
+        &:hover {
+            background-color: #775c5a;
+        }
+    }
+
+    .cancel-button-label {
+        display: none;
+    }
+
+
+
+    .answers {
+        gap: 36px !important;
+    }
+
+    .answer-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px 12px;
+        align-items: center;
+    }
+
+    .answer-row input {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+    }
+
+    .answer-row .delete-button {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .form-grid {
+        display: flex;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px 48px;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .date-category-row[_ngcontent-ng-c1525984] {
+        flex-wrap: wrap;
+        flex-direction: column;
+        display: flex;
+    }
+}
 
 @media (max-width: 900px) {
+    .label-with-delete {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px;
+
+    }
+
+    .label-with-delete .delete-button {
+        display: grid;
+        margin-right: 12px;
+    }
+
+    img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .input-with-delete .delete-button,
+    .textarea-with-delete .delete-button {
+        display: none;
+    }
+
+    .category-button {
+        padding: 0;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .field label {
+        font-size: 16px;
+    }
+
+    .add-answer {
+        width: 47%;
+        cursor: default;
+    }
+
+    .add-question {
+        width: 77%;
+        margin: 0 auto;
+        cursor: default;
+
+        &:not(.disable):hover {
+            background-color: #80615e;
+        }
+    }
+
+    .publish-area {
+        justify-content: center;
+    }
+
+    .category-menu {
+        top: 265px;
+        left: 10px;
+    }
 
     .create-page {
-        padding: 25px;
+        padding: 36px 13px;
     }
 
     .survey-container {
         grid-template-columns: 1fr;
-
+        padding: 40px 10px;
         gap: 40px;
     }
 
@@ -747,6 +895,11 @@ img {
     .survey-left,
     .survey-right {
         padding: 0;
+    }
+
+    .answer-letter {
+        font-size: 16px;
+        font-weight: normal;
     }
 
     .survey-name-field,
@@ -762,8 +915,13 @@ img {
         width: 100%;
     }
 
+    .multiple-answers {
+        font-size: 12px;
+    }
+
     .date-category-row {
-        flex-wrap: wrap;
+        flex-direction: column;
+        display: flex;
     }
 
     .questions {
@@ -771,6 +929,7 @@ img {
     }
 
     .header-row h1 {
-        font-size: 32px;
+        font-size: 44px;
+        margin-top: 10px;
     }
 }

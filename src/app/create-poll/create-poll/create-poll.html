@@ -8,9 +8,9 @@
         <div class="header-row">
             <h1>Create new survey</h1>
 
-            <button class="cancel-button" type="button" (click)="close()">
-                Cancel
-                <span>×</span>
+            <button class="cancel-button" type="button" aria-label="Cancel survey creation" (click)="close()">
+                <span class="cancel-button-label">Cancel</span>
+                <span class="cancel-button-icon">×</span>
             </button>
         </div>
 
@@ -20,14 +20,16 @@
     <form class="survey-container" [formGroup]="form" (ngSubmit)="save()">
         <div class="form-grid">
             <div class="field survey-name-field">
-                <label for="surveyName">Survey name</label>
+                <div class="label-with-delete">
+                    <label for="surveyName">Survey name</label>
+                    <button type="button" class="delete-button" aria-label="Clear survey name"
+                        [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
+                        <img src="/icon/delete.svg" alt="" />
+                    </button>
+                </div>
                 <div class="height-all">
                     <div class="input-with-delete">
                         <input id="surveyName" type="text" formControlName="surveyName" />
-                        <button type="button" class="delete-button" aria-label="Clear survey name"
-                            [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
-                            <img src="/icon/delete.svg" alt="" />
-                        </button>
                     </div>
                     @if (form.controls.surveyName.touched && form.controls.surveyName.invalid) {
                     <p class="error-message">Survey name is required.</p>
@@ -36,13 +38,15 @@
 
                 <div class="date-category-row">
                     <div class="field ends-at-field">
-                        <label for="endsAt">Set end date <span>(optional)</span></label>
-                        <div class="input-with-delete">
-                            <input id="endsAt" type="date" formControlName="endsAt" [min]="minDate" />
+                        <div class="label-with-delete">
+                            <label for="endsAt">Set end date <span>(optional)</span></label>
                             <button type="button" class="delete-button" aria-label="Clear end date"
                                 [disabled]="!form.controls.endsAt.value" (click)="clearField('endsAt')">
                                 <img src="/icon/delete.svg" alt="" />
                             </button>
+                        </div>
+                        <div class="input-with-delete">
+                            <input id="endsAt" type="date" formControlName="endsAt" [min]="minDate" />
                         </div>
                         @if (form.controls.endsAt.touched && !form.controls.endsAt.value) {
                         <p class="info-message">If left empty, an end date in<br> 7 days will be set automatically.</p>
@@ -76,14 +80,16 @@
             </div>
 
             <div class="field description-field">
-                <label for="description">Describing text <span>(optional)</span></label>
-                <div class="textarea-with-delete">
-                    <textarea id="description" formControlName="describingText" rows="4"
-                        placeholder="Describe your survey"></textarea>
+                <div class="label-with-delete">
+                    <label for="description">Describing text <span>(optional)</span></label>
                     <button type="button" class="delete-button" aria-label="Clear description"
                         [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
                         <img src="/icon/delete.svg" alt="" />
                     </button>
+                </div>
+                <div class="textarea-with-delete">
+                    <textarea id="description" formControlName="describingText" rows="4"
+                        placeholder="Describe your survey"></textarea>
                 </div>
                 @if (form.controls.describingText.touched && form.controls.describingText.invalid) {
                 <p class="error-message">Describing text is invalid.</p>
@@ -101,7 +107,7 @@
                         <legend>{{ questionIndex + 1 }}. Question</legend>
                         <button type="button" class="delete-button" aria-label="Delete question"
                             [disabled]="questions.length <= 1" (click)="removeQuestion(questionIndex)">
-                            <img src="/icon/delete.svg" alt="" />
+                            <img src="/icon/delete.svg" alt="deleteIcon" />
                         </button>
                     </div>
                     <div class="height-all">
@@ -123,21 +129,22 @@
 
                 <div class="answers" formArrayName="answers">
                     @for (answer of questionAnswers(questionIndex).controls; track answer; let answerIndex = $index) {
-                        <div class="height-all">
-                    <div class="answer-row">
-                        <span class="answer-letter">{{ letter(answerIndex) }}.</span>
-                        <input type="text" [formControlName]="answerIndex" [placeholder]="'Answer ' + (answerIndex + 1)" />
-                        <button type="button" class="delete-button" aria-label="Delete answer"
-                            [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
-                            (click)="removeAnswer(questionIndex, answerIndex)">
-                            <img src="/icon/delete.svg" alt="" />
-                        </button>
-                    </div>
-                    @if (questionAnswers(questionIndex).at(answerIndex).touched &&
-                    questionAnswers(questionIndex).at(answerIndex).invalid) {
-                    <p class="error-message answer-error">Answer is required.</p>
-                    }
+                    <div class="height-all">
+                        <div class="answer-row">
+                            <span class="answer-letter">{{ letter(answerIndex) }}.</span>
+                            <input type="text" [formControlName]="answerIndex"
+                                [placeholder]="'Answer ' + (answerIndex + 1)" />
+                            <button type="button" class="delete-button" aria-label="Delete answer"
+                                [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
+                                (click)="removeAnswer(questionIndex, answerIndex)">
+                                <img src="/icon/delete.svg" alt="" />
+                            </button>
                         </div>
+                        @if (questionAnswers(questionIndex).at(answerIndex).touched &&
+                        questionAnswers(questionIndex).at(answerIndex).invalid) {
+                        <p class="error-message answer-error">Answer is required.</p>
+                        }
+                    </div>
                     }
                     <button type="button" class="add-answer" (click)="addAnswer(questionIndex)">
                         Add answer <span>+</span>
@@ -158,7 +165,8 @@
         @if (published()) {
         <div class="published-card" role="status">
             <span class="published-text">Your survey is now<br>published</span>
-            <button type="button" class="published-close" (click)="closePublished()" aria-label="Close message">✕</button>
+            <button type="button" class="published-close" (click)="closePublished()"
+                aria-label="Close message">✕</button>
         </div>
         }
 

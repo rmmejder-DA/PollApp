@@ -14,6 +14,7 @@ export class Header implements OnInit {
   readonly showCreateButton = signal(false);
   readonly showHeader = signal(true);
   readonly isHome = signal(true);
+  readonly isNewSurvey = signal(false);
 
   constructor(private readonly router: Router) {}
 
@@ -26,10 +27,12 @@ export class Header implements OnInit {
 
   private setFrame(url: string): void {
     const isHome = url === '/';
+    const isNewSurvey = url === '/new-survey';
     this.isHome.set(isHome);
-    this.showHeader.set(url !== '/new-survey');
+    this.isNewSurvey.set(isNewSurvey);
+    this.showHeader.set(true);
     this.imgPath.set(isHome ? '/icon/Frame-dark.svg' : '/icon/Frame-ligth.svg');
-    this.showCreateButton.set(!isHome);
+    this.showCreateButton.set(!isHome && !isNewSurvey);
     document.body.classList.toggle('survey-page', url !== '/');
   }
 }

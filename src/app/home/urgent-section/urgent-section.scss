@@ -76,12 +76,14 @@
     color: #68596d;
     scroll-snap-align: center;
     flex: 0 0 auto;
-    &:hover {
-        background-color: #f8e2ff;
-    }
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: #f8e2ff;
+        }
 
-    &:hover p {
-        background-color: #ffb35f;
+        &:hover p {
+            background-color: #ffb35f;
+        }
     }
 }
 

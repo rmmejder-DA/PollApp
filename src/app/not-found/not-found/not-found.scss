@@ -38,7 +38,9 @@
     text-decoration: none;
 }
 
-.back-home:hover {
-    background: #ffb770;
+@media (hover: hover) and (pointer: fine) {
+    .back-home:hover {
+        background: #ffb770;
+    }
 }
 

@@ -9,6 +9,7 @@
     &--all {
         display: block;
         margin: 0 auto;
+        padding: 10px;
     }
 }
 
@@ -35,8 +36,10 @@
     font-size: 16px;
     cursor: pointer;
 
-    &:hover {
-        background-color: #ffcfa1;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: #ffcfa1;
+        }
     }
 
     &:active {
@@ -48,8 +51,10 @@
     color: #302333;
     background: #ffb35f;
 
-    &:hover {
-        background: #ffb35f;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: #ffb35f;
+        }
     }
 }
 
@@ -113,9 +118,11 @@
     margin-left: 4px;
 }
 
-.category-option:hover {
-    background-color: #f8e2ff;
-    border-radius: 6px;
+@media (hover: hover) and (pointer: fine) {
+    .category-option:hover {
+        background-color: #f8e2ff;
+        border-radius: 6px;
+    }
 }
 
 .active-category {
@@ -165,8 +172,10 @@
     transition: background-color .2s ease, transform .2s ease;
 }
 
-.survey-card:hover {
-    background: #57455b;
+@media (hover: hover) and (pointer: fine) {
+    .survey-card:hover {
+        background: #57455b;
+    }
 }
 
 .survey-card small {
