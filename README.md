@@ -1,59 +1,55 @@
 # PollApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.20.
+PollApp is a web application for creating, managing, and evaluating surveys.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Create surveys with categories, an end date, and multiple questions.
+- Add answer options for each question and allow multiple answers.
+- Display active and past surveys on the home page.
+- Answer surveys or complete them without making a selection.
+- View live results with vote percentages.
+- Use the application on desktop, tablet, and mobile devices.
 
-```bash
-ng serve
-```
+## Development
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Prerequisites
 
-## Code scaffolding
+- Node.js 20 or newer
+- npm 11 or newer
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
-
-To build the project run:
+### Start the development server
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open [http://localhost:4200/angular-project/](http://localhost:4200/angular-project/) in a browser. The application automatically refreshes when source files change.
 
-## Running unit tests
+### Generate a component
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Generate a standalone Angular component inside the application source directory:
 
 ```bash
-ng test
+npx ng generate component component-name
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Replace `component-name` with the desired component path, for example:
 
 ```bash
-ng e2e
+npx ng generate component home/example-component
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Production Build
 
-## Additional Resources
+```bash
+npm run build
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The generated files are stored in `dist/PollApp/browser/`. Upload the contents of this folder to the `angular-project/` directory on the web server.
