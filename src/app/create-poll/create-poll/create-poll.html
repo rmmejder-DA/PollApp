@@ -87,7 +87,8 @@
                 </div>
                 <div class="textarea-with-delete">
                     <textarea id="description" formControlName="describingText" rows="4"
-                        placeholder="Describe your survey"></textarea>
+                        placeholder="Describe your survey"
+                        [class.date-input--empty]="form.controls.describingText.touched && !form.controls.describingText.value"></textarea>
                         <button type="button" class="delete-button" aria-label="Clear description"
                             [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
                             <img src="icon/delete.svg" alt="deleteIcon" />

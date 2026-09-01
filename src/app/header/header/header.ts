@@ -26,8 +26,9 @@ export class Header implements OnInit {
   }
 
   private setFrame(url: string): void {
-    const isHome = url === '/';
-    const isNewSurvey = url === '/new-survey';
+    const path = url.split('?')[0].replace(/\/$/, '');
+    const isHome = path === '' || path === '/' || path.endsWith('/angular-project');
+    const isNewSurvey = path.endsWith('/new-survey');
     this.isHome.set(isHome);
     this.isNewSurvey.set(isNewSurvey);
     this.showHeader.set(true);

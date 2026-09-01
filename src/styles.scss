@@ -19,6 +19,10 @@ body.survey-page {
     background-color: white;
 }
 
+body:has(#home-page) {
+    background-color: #302333;
+}
+
 @font-face {
     font-family: 'NerkoOne';
     src: url('/angular-project/font/Nerko_One/NerkoOne-Regular.ttf');

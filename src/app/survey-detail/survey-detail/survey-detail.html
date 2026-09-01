@@ -48,7 +48,7 @@
       </div>
 
       <div id="survey-actions" class="survey-actions">
-        <button class="button" type="button" [disabled]="service.isPast(selected) || isSurveyVoted() || isSubmitting()" (click)="completeSurvey(selected)">
+        <button class="button" type="button" [disabled]="isSurveyPast() || isSurveyVoted() || isSubmitting()" (click)="completeSurvey(selected)">
           <span class="complete-label">Complete survey</span>
           <span class="complete-label--compact">Complete</span>
         </button>

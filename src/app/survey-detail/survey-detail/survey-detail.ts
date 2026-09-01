@@ -37,9 +37,9 @@ export class SurveyDetail {
     return related.length > 0 ? related : [current];
   });
 
-  /** Navigates back to the home page. */
-  protected goBack(): void {
-    this.router.navigate(['/']);
+  /** Navigates back to the home page with the current category selected. */
+  protected goBack(category?: string): void {
+    this.router.navigate(['/'], { queryParams: category ? { category } : {} });
   }
 
   /** Opens the creation route. */
@@ -66,7 +66,7 @@ export class SurveyDetail {
   /** Submits all selected answers for the current survey. */
   protected async completeSurvey(mainPoll: Poll): Promise<void> {
     const selectedIds = this.selectedOptionIds();
-    if (this.service.isPast(mainPoll) || this.isSubmitting()) return;
+    if (this.isSurveyPast() || this.isSubmitting()) return;
     this.isSubmitting.set(true);
     try {
       await this.submitSelectedQuestions(selectedIds);
@@ -74,7 +74,7 @@ export class SurveyDetail {
       console.error('Survey submission failed:', error);
     } finally {
       this.isSubmitting.set(false);
-      this.goBack();
+      this.goBack(mainPoll.category);
     }
   }
 
@@ -87,6 +87,11 @@ export class SurveyDetail {
   protected isSurveyVoted(): boolean {
     const questions = this.surveyQuestions();
     return questions.length > 0 && questions.every((q) => this.isVoted(q));
+  }
+
+  /** Returns whether the current survey has expired. */
+  protected isSurveyPast(): boolean {
+    return this.surveyQuestions().some((question) => this.service.isPast(question));
   }
 
   /** Sums all votes for one poll. */

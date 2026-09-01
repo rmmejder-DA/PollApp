@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Hero } from '../../hero/hero/hero';
 import { Poll, PollService } from '../../core/services/poll.service';
 import { SurveyListSection } from '../survey-list-section/survey-list-section';
@@ -15,10 +15,11 @@ import { UrgentSection } from '../urgent-section/urgent-section';
   standalone: true,
 })
 export class HomePage {
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly service = inject(PollService);
   protected readonly view = signal<'active' | 'past'>('active');
-  protected readonly category = signal('All Surveys');
+  protected readonly category = signal(this.route.snapshot.queryParamMap.get('category') ?? 'All Surveys');
 
   protected readonly visiblePolls = computed(() =>
     this.uniqueSurveys(
