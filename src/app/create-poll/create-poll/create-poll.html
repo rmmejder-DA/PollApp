@@ -28,7 +28,7 @@
                         <input id="surveyName" type="text" formControlName="surveyName" />
                         <button type="button" class="delete-button" aria-label="Clear survey name"
                             [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
-                            <img src="/icon/delete.svg" alt="" />
+                            <img src="icon/delete.svg" alt="" />
                         </button>
                     </div>
                     @if (form.controls.surveyName.touched && form.controls.surveyName.invalid) {
@@ -46,7 +46,7 @@
                                 [class.date-input--empty]="form.controls.endsAt.touched && !form.controls.endsAt.value" />
                             <button type="button" class="delete-button" aria-label="Clear end date"
                                 [disabled]="!form.controls.endsAt.value" (click)="clearField('endsAt')">
-                                <img src="/icon/delete.svg" alt="" />
+                                <img src="icon/delete.svg" alt="" />
                             </button>
                         </div>
                         @if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
@@ -82,7 +82,7 @@
                     <label for="description">Describing text <span>(optional)</span></label>
                     <button type="button" class="delete-button" aria-label="Clear description"
                         [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
-                        <img src="/icon/delete.svg" alt="" />
+                        <img src="icon/delete.svg" alt="" />
                     </button>
                 </div>
                 <div class="textarea-with-delete">
@@ -108,7 +108,7 @@
                         <legend>{{ questionIndex + 1 }}. Question</legend>
                         <button type="button" class="delete-button" aria-label="Delete question"
                             [disabled]="questions.length <= 1" (click)="removeQuestion(questionIndex)">
-                            <img src="/icon/delete.svg" alt="deleteIcon" />
+                            <img src="icon/delete.svg" alt="deleteIcon" />
                         </button>
                     </div>
                     <div class="height-all">
@@ -138,7 +138,7 @@
                             <button type="button" class="delete-button" aria-label="Delete answer"
                                 [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
                                 (click)="removeAnswer(questionIndex, answerIndex)">
-                                <img src="/icon/delete.svg" alt="" />
+                                <img src="icon/delete.svg" alt="" />
                             </button>
                         </div>
                         @if (questionAnswers(questionIndex).at(answerIndex).touched &&

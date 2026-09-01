@@ -708,7 +708,7 @@ img {
     }
 
     &::after {
-        content: url(/icon/check-small.svg);
+        content: url(icon/check-small.svg);
         opacity: 0;
         transition: opacity 0.3s ease;
         position: absolute;
