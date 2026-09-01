@@ -10,7 +10,7 @@
 
             <button class="cancel-button" type="button" aria-label="Cancel survey creation" (click)="close()">
                 <span class="cancel-button-label">Cancel</span>
-                <span class="cancel-button-icon">×</span>
+                <span>×</span>
             </button>
         </div>
 
@@ -22,14 +22,14 @@
             <div class="field survey-name-field">
                 <div class="label-with-delete">
                     <label for="surveyName">Survey name</label>
-                    <button type="button" class="delete-button" aria-label="Clear survey name"
-                        [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
-                        <img src="/icon/delete.svg" alt="" />
-                    </button>
                 </div>
                 <div class="height-all">
                     <div class="input-with-delete">
                         <input id="surveyName" type="text" formControlName="surveyName" />
+                        <button type="button" class="delete-button" aria-label="Clear survey name"
+                            [disabled]="!form.controls.surveyName.value" (click)="clearField('surveyName')">
+                            <img src="/icon/delete.svg" alt="" />
+                        </button>
                     </div>
                     @if (form.controls.surveyName.touched && form.controls.surveyName.invalid) {
                     <p class="error-message">Survey name is required.</p>
@@ -40,22 +40,20 @@
                     <div class="field ends-at-field">
                         <div class="label-with-delete">
                             <label for="endsAt">Set end date <span>(optional)</span></label>
+                        </div>
+                        <div class="input-with-delete">
+                            <input id="endsAt" type="date" formControlName="endsAt" [min]="minDate"
+                                [class.date-input--empty]="form.controls.endsAt.touched && !form.controls.endsAt.value" />
                             <button type="button" class="delete-button" aria-label="Clear end date"
                                 [disabled]="!form.controls.endsAt.value" (click)="clearField('endsAt')">
                                 <img src="/icon/delete.svg" alt="" />
                             </button>
                         </div>
-                        <div class="input-with-delete">
-                            <input id="endsAt" type="date" formControlName="endsAt" [min]="minDate" />
-                        </div>
-                        @if (form.controls.endsAt.touched && !form.controls.endsAt.value) {
-                        <p class="info-message">If left empty, an end date in<br> 7 days will be set automatically.</p>
-                        } @else if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
+                        @if (form.controls.endsAt.touched && form.controls.endsAt.invalid) {
                         <p class="error-message">End date must be in the future.</p>
                         }
                     </div>
                     <div class="field category-field">
-
                         <button id="category-button" type="button" class="category-button" (click)="toggleCategories()"
                             [attr.aria-expanded]="categoriesOpen()">
                             <span>{{ 'Choose category' }}</span>
@@ -90,13 +88,15 @@
                 <div class="textarea-with-delete">
                     <textarea id="description" formControlName="describingText" rows="4"
                         placeholder="Describe your survey"></textarea>
+                        <button type="button" class="delete-button" aria-label="Clear description"
+                            [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
+                            <img src="icon/delete.svg" alt="deleteIcon" />
+                        </button>
                 </div>
                 @if (form.controls.describingText.touched && form.controls.describingText.invalid) {
                 <p class="error-message">Describing text is invalid.</p>
                 }
             </div>
-
-
         </div>
 
         <section class="questions" formArrayName="questions">

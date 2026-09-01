@@ -4,6 +4,9 @@ import { NewPoll, Poll, PollService } from '../../core/services/poll.service';
 
 @Component({
   selector: 'app-create-poll',
+  host: {
+    '(document:click)': 'closeCategoriesOnOutsideClick($event)',
+  },
   imports: [ReactiveFormsModule],
   templateUrl: './create-poll.html',
   styleUrl: './create-poll.scss',
@@ -38,7 +41,7 @@ export class CreatePoll {
     this.closed.emit();
   }
 
-  /** Clears one text field in the form. */
+  /** Clears one field in the form. */
   protected clearField(field: 'surveyName' | 'describingText' | 'endsAt'): void {
     this.form.controls[field].setValue('');
   }
@@ -46,6 +49,14 @@ export class CreatePoll {
   /** Toggles the category menu. */
   protected toggleCategories(): void {
     this.categoriesOpen.update((open) => !open);
+  }
+
+  /** Closes the category menu and validates an unselected category after an outside click. */
+  protected closeCategoriesOnOutsideClick(event: MouseEvent): void {
+    if (!this.categoriesOpen() || !(event.target instanceof Element) || event.target.closest('.category-field')) return;
+
+    this.categoriesOpen.set(false);
+    if (this.form.controls.category.invalid) this.form.controls.category.markAsTouched();
   }
 
   /** Stores the selected category. */

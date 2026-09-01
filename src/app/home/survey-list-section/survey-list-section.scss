@@ -221,7 +221,9 @@
         align-items: flex-start;
         flex-direction: column;
     }
-
+    .category-sort{
+        margin: 0 auto;
+    }
     .survey-grid {
         grid-template-columns: 1fr;
         padding-inline: 10px;

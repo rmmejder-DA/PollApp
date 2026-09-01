@@ -94,9 +94,10 @@ export class SurveyDetail {
     return poll.options.reduce((sum, option) => sum + option.votes, 0);
   }
 
-  /** Returns a percent value clipped to 100. */
-  protected percent(_poll: Poll, votes: number): number {
-    return Math.min(100, votes);
+  /** Returns the percentage of votes for one answer option. */
+  protected percent(poll: Poll, votes: number): number {
+    const totalVotes = this.total(poll);
+    return totalVotes === 0 ? 0 : Math.round((votes / totalVotes) * 100);
   }
 
   /** Formats a date for display. */

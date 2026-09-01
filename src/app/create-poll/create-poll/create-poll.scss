@@ -65,7 +65,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 14px;
     border: none;
     border-radius: 11px;
     width: 106px;
@@ -88,6 +88,12 @@
         transform: scale(0.95);
         box-shadow: 0px 0px 12px 0px #f39a2d;
     }
+}
+
+.cancel-button span {
+    font-size: 22px;
+    line-height: 8px;
+    font-weight: 600;
 }
 
 .mobile-delete {
@@ -131,6 +137,10 @@
     min-width: 0;
 }
 
+.category-field .error-message {
+    padding: 0 12px;
+}
+
 .category-field {
     display: flex;
     align-items: flex-start;
@@ -141,8 +151,6 @@
         margin: 0 !important;
         padding: 0 12px;
         color: #ffcfa1;
-        position: absolute;
-        bottom: 71%;
     }
 }
 
@@ -218,7 +226,7 @@ textarea {
 }
 
 .error-message {
-    margin: 4px 0 0;
+    padding-top: 4px;
     color: #ff8b8b;
     font-size: 13px;
     font-weight: 500;
@@ -229,10 +237,6 @@ textarea {
     color: #ffd19f;
     font-size: 12px;
     font-weight: 400;
-}
-
-.answer-error {
-    margin-left: 27px;
 }
 
 input {
@@ -327,6 +331,17 @@ img {
     width: 100%;
 }
 
+.date-input--empty {
+    animation: date-input-blink 0.8s ease-in-out 5;
+}
+
+@keyframes date-input-blink {
+    50% {
+        outline: 2px solid #fd0000;
+        outline-offset: 2px;
+    }
+}
+
 
 /* =========================================
    Kategorie
@@ -341,8 +356,8 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
     padding: 10px 12px;
+    gap: 4px;
     border: none;
     border-radius: 7px;
     background: #49384f;
@@ -373,8 +388,8 @@ img {
 
 .category-menu {
     position: absolute;
-    top: 166px;
-    left: 282px;
+    top: 160px;
+    left: 288px;
 
     z-index: 10;
     padding: 4px 4px;
@@ -390,7 +405,7 @@ img {
 .category-option {
     display: block;
 
-    width: fit-content;
+    width: 100%;
     border-radius: 8px;
     padding: 10px;
 
@@ -429,7 +444,7 @@ img {
 }
 
 .question {
-    min-width: 0;
+    min-width: 260px;
     margin: 0;
     padding: 0;
     border: none;
@@ -484,7 +499,7 @@ img {
     align-items: center;
     gap: 6px;
 
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .multiple-answers input {
@@ -498,8 +513,7 @@ img {
 .answers {
     display: flex;
     flex-direction: column;
-
-    gap: 8px;
+    gap: 34px;
 }
 
 .answer-row {
@@ -533,7 +547,7 @@ img {
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    width: 32%;
+    width: 120px;
     line-height: 1.4;
 
     & span {
@@ -576,7 +590,7 @@ img {
    ========================================= */
 
 .add-question {
-    width: 49%;
+    width: 200px;
     height: fit-content;
     display: flex;
     align-items: center;
@@ -737,9 +751,6 @@ img {
     font-size: 14px;
 }
 
-.cancel-button-icon {
-    font-size: 36px;
-}
 
 /* =========================================
    Responsive
@@ -754,12 +765,12 @@ img {
 
     .header-row {
         display: contents;
+    }
 
-        & h1 {
-            order: 2;
-            flex-basis: 100%;
-            line-height: 1;
-        }
+    .header-row h1 {
+        order: 2;
+        flex-basis: 100%;
+        margin-top: 16px;
     }
 
     .cancel-button {
@@ -769,27 +780,22 @@ img {
         height: 32px;
         font-size: 16px !important;
         margin-right: 12px;
-        cursor: default;
-
-        &:hover {
-            background-color: #775c5a;
-        }
     }
 
     .cancel-button-label {
         display: none;
     }
 
-
-
-    .answers {
-        gap: 36px !important;
+    .cancel-button span {
+        font-size: 34px;
+        line-height: 8px;
+        font-weight: 600;
     }
 
     .answer-row {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: 8px 12px;
+        gap: 0px 12px;
         align-items: center;
     }
 
@@ -817,10 +823,14 @@ img {
         flex-direction: column;
         display: flex;
     }
+
+    .category-menu {
+        top: 160px;
+        left: 410px;
+    }
 }
 
 @media (max-width: 900px) {
-
     .label-with-delete {
         display: flex;
         align-items: center;
@@ -840,7 +850,6 @@ img {
         height: 18px;
     }
 
-    .input-with-delete .delete-button,
     .textarea-with-delete .delete-button {
         display: none;
     }
@@ -856,7 +865,7 @@ img {
     }
 
     .add-answer {
-        width: 27%;
+        min-width: 120px;
         min-width: 100px;
         cursor: default;
     }
@@ -866,6 +875,7 @@ img {
         margin: 0 auto;
         cursor: default;
         justify-content: center;
+
         &:not(.disable):hover {
             background-color: #80615e;
         }
@@ -876,12 +886,12 @@ img {
     }
 
     .category-menu {
-        top: 265px;
-        left: 10px;
+        top: 258px;
+        left: 6px;
     }
 
     .create-page {
-        padding: 36px 13px;
+        padding: 36px 12px;
     }
 
     .survey-container {
@@ -897,11 +907,6 @@ img {
     .survey-left,
     .survey-right {
         padding: 0;
-    }
-
-    .answer-letter {
-        font-size: 16px;
-        font-weight: normal;
     }
 
     .survey-name-field,
@@ -931,7 +936,6 @@ img {
     }
 
     .header-row h1 {
-        font-size: 44px;
-        margin-top: 10px;
+        font-size: 32px;
     }
 }
