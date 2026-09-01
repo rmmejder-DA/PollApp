@@ -1,37 +1,37 @@
 PollApp
 =======
 
-PollApp ist eine Webanwendung zum Erstellen, Verwalten und Auswerten von Umfragen.
+PollApp is a web application for creating, managing, and evaluating surveys.
 
-Funktionen
+Features
+--------
+- Create surveys with categories, an end date, and multiple questions.
+- Add answer options for each question and allow multiple answers.
+- Display active and past surveys on the home page.
+- Answer surveys or complete them without making a selection.
+- View live results with vote percentages.
+- Responsive layout for desktop, tablet, and mobile devices.
+
+Technology
 ----------
-- Neue Umfragen mit Kategorien, Ablaufdatum und mehreren Fragen erstellen.
-- Antwortoptionen pro Frage anlegen und Mehrfachantworten erlauben.
-- Laufende und vergangene Umfragen auf der Startseite anzeigen.
-- Umfragen beantworten oder ohne Auswahl abschliessen.
-- Live-Ergebnisse mit Stimmenanteilen ansehen.
-- Responsive Darstellung fuer Desktop, Tablet und Mobilgeraete.
+The application is built with Angular and uses Supabase to store surveys.
 
-Technik
--------
-Die Anwendung basiert auf Angular und verwendet Supabase fuer die Speicherung der Umfragen.
-
-Entwicklung
+Development
 -----------
-Voraussetzungen:
-- Node.js 20 oder neuer
-- npm 11 oder neuer
+Prerequisites:
+- Node.js 20 or newer
+- npm 11 or newer
 
-Projekt installieren:
+Install the project dependencies:
   npm install
 
-Entwicklungsserver starten:
+Start the development server:
   npm start
 
-Die Anwendung ist danach unter diesem Pfad erreichbar:
+The application is then available at:
   http://localhost:4200/angular-project/
 
-Der Entwicklungsserver aktualisiert die Anwendung automatisch nach Aenderungen an den Quelldateien.
+The development server automatically refreshes the application when source files change.
 
-Produktions-Build erstellen:
+Create a production build:
   npm run build
