@@ -18,11 +18,20 @@ Die Anwendung basiert auf Angular und verwendet Supabase fuer die Speicherung de
 
 Entwicklung
 -----------
-Anwendung starten:
+Voraussetzungen:
+- Node.js 20 oder neuer
+- npm 11 oder neuer
+
+Projekt installieren:
+  npm install
+
+Entwicklungsserver starten:
   npm start
 
-Die Anwendung ist danach unter folgendem Pfad erreichbar:
+Die Anwendung ist danach unter diesem Pfad erreichbar:
   http://localhost:4200/angular-project/
+
+Der Entwicklungsserver aktualisiert die Anwendung automatisch nach Aenderungen an den Quelldateien.
 
 Produktions-Build erstellen:
   npm run build
