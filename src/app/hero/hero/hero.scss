@@ -81,7 +81,7 @@
     }
 
     &:active::after {
-        content: url("/angular-project/icon/check-small.svg");
+        content: url('/angular-project/icon/check-small.svg');
         border: none;
     }
 }

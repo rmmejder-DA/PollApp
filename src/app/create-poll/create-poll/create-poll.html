@@ -138,7 +138,7 @@
                             <button type="button" class="delete-button" aria-label="Delete answer"
                                 [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
                                 (click)="removeAnswer(questionIndex, answerIndex)">
-                                <img src="icon/delete.svg" alt="" />
+                                <img src="icon/delete.svg" alt="deleteIcon" />
                             </button>
                         </div>
                         @if (questionAnswers(questionIndex).at(answerIndex).touched &&
