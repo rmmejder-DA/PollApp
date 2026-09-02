@@ -7,7 +7,7 @@
           <span class="status-badge">{{ statusLabel(selected) }}</span>
           <button class="closed" (click)="goBack()">&#x2715;</button>
         </div>
-        
+
         <div class="survey-meta-info">
           <span>Ends on {{ formatDate(selected.endsAt) }}</span>
           <span class="category">Category: {{ selected.category }}</span>
@@ -18,37 +18,40 @@
       <p class="survey-description">{{ selected.description }}</p>
       <div class="questions-grid">
         @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
-          <div class="question-block">
-            <h2 class="question-title">
-              @if (surveyQuestions().length > 1) {
-                {{ qIndex + 1 }}.
-              }
-              {{ question.title }}
-            </h2>
-
-            @if (question.allowMultiple) {
-              <p class="multiple-answers-notice">More than one answer is allowed.</p>
+        <div class="question-block">
+          <h2 class="question-title">
+            @if (surveyQuestions().length > 1) {
+            {{ qIndex + 1 }}.
             }
+            {{ question.title }}
+          </h2>
 
-            <div id="question-grid-{{ qIndex }}" class="question-grid">
-              <section id="answer-panel-{{ qIndex }}" class="answer-panel" aria-labelledby="answer-title-{{ qIndex }}">
-                @for (option of question.options; track option.id; let optionIndex = $index) {
-                <button class="answer" [class.selected]="isSelected(option.id)" type="button" [disabled]="service.isPast(question) || isVoted(question) || isSubmitting()"
-                  (click)="toggleOption(question, option.id)">
-                  <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1" aria-hidden="true" />
-                  <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
-                  <span class="answer-text">{{ option.label }}</span>
-                </button>
-                }
-                @if (service.isPast(question)) { <p class="notice">This survey has ended.</p> }
-              </section>
-            </div>
+          @if (question.allowMultiple) {
+          <p class="multiple-answers-notice">More than one answer is allowed.</p>
+          }
+
+          <div id="question-grid-{{ qIndex }}" class="question-grid">
+            <section id="answer-panel-{{ qIndex }}" class="answer-panel" aria-labelledby="answer-title-{{ qIndex }}">
+              @for (option of question.options; track option.id; let optionIndex = $index) {
+              <button class="answer" [class.selected]="isSelected(option.id)" type="button"
+                [disabled]="service.isPast(question) || isVoted(question) || isSubmitting()"
+                (click)="toggleOption(question, option.id)">
+                <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1"
+                  aria-hidden="true" />
+                <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
+                <span class="answer-text">{{ option.label }}</span>
+              </button>
+              }
+              @if (service.isPast(question)) { <p class="notice">This survey has ended.</p> }
+            </section>
           </div>
+        </div>
         }
       </div>
 
       <div id="survey-actions" class="survey-actions">
-        <button class="button" type="button" [disabled]="isSurveyPast() || isSurveyVoted() || isSubmitting()" (click)="completeSurvey(selected)">
+        <button class="button" type="button" [disabled]="isSurveyPast() || isSurveyVoted() || isSubmitting()"
+          (click)="completeSurvey(selected)">
           <span class="complete-label">Complete survey</span>
           <span class="complete-label--compact">Complete</span>
         </button>
@@ -59,46 +62,46 @@
       <button class="results-toggle" type="button" [class.results-toggle--open]="isResultsOpen()"
         [attr.aria-expanded]="isResultsOpen()" aria-controls="results-panel" (click)="toggleResults()">
         {{ isResultsOpen() ? 'Close results' : 'Show results' }}
-        <span class="results-toggle-icon" aria-hidden="true"></span>
+        <span class="results-toggle-icon" aria-hidden="true">&#8227;</span>
       </button>
 
-    <aside id="results-panel" class="results-panel" [class.results-panel--closed]="!isResultsOpen()" aria-labelledby="results-title">
-                  <h2 id="results-title" class="results-heading">
+      <aside id="results-panel" class="results-panel" [class.results-panel--closed]="!isResultsOpen()"
+        aria-labelledby="results-title">
+        <h2 id="results-title" class="results-heading">
 
-              Survey results <span class="live-badge"> LIVE</span>
-            </h2>
-      @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
+          Survey results <span class="live-badge"> LIVE</span>
+        </h2>
+        @for (question of surveyQuestions(); track question.id; let qIndex = $index) {
         <div class="question-results">
           <div id="results-heading-{{ qIndex }}" class="results-heading">
-<h2 class="question-title">
-            @if (surveyQuestions().length > 1) {
+            <h2 class="question-title">
+              @if (surveyQuestions().length > 1) {
               {{ qIndex + 1 }}.
-            }
-            {{ question.title }}
-          </h2>
-            
+              }
+              {{ question.title }}
+            </h2>
+
           </div>
 
           @for (option of question.options; track option.id; let optionIndex = $index) {
           <div id="result-{{ qIndex }}-{{ optionIndex + 1 }}" class="result"
-            [attr.aria-label]="option.label + ': ' + percent(question, option.votes) + ' percent'">
+            [attr.aria-label]="option.label + ': ' + percent(question, option.id, option.votes) + ' percent'">
             <span class="result-label">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
             <div id="result-track-{{ qIndex }}-{{ optionIndex + 1 }}" class="result-track" role="progressbar"
-              [attr.aria-valuenow]="percent(question, option.votes)" aria-valuemin="0" aria-valuemax="100"
+              [attr.aria-valuenow]="percent(question, option.id, option.votes)" aria-valuemin="0" aria-valuemax="100"
               [attr.aria-label]="option.label">
-              <i [style.width.%]="percent(question, option.votes)"></i>
+              <i [style.width.%]="percent(question, option.id, option.votes)"></i>
             </div>
-            <strong>{{ percent(question, option.votes) }}%</strong>
+            <strong>{{ percent(question, option.id, option.votes) }}%</strong>
           </div>
           }
         </div>
-      }
-    </aside>
+        }
+      </aside>
+      
     </div>
   </section>
 </main>
 } @else {
-<main class="page-shell">
-  <p class="status error">Survey not found.</p>
-</main>
+<app-not-found />
 }

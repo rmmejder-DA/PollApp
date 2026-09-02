@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Poll, PollService } from '../../core/services/poll.service';
+import { NotFoundPage } from '../../not-found/not-found/not-found';
 
 @Component({
   selector: 'app-survey-detail',
+  imports: [NotFoundPage],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,9 +102,11 @@ export class SurveyDetail {
   }
 
   /** Returns the percentage of votes for one answer option. */
-  protected percent(poll: Poll, votes: number): number {
-    const totalVotes = this.total(poll);
-    return totalVotes === 0 ? 0 : Math.round((votes / totalVotes) * 100);
+  protected percent(poll: Poll, optionId: string, votes: number): number {
+    const selectedIds = this.selectedOptionIds();
+    const previewVotes = selectedIds.includes(optionId) ? 1 : 0;
+    const totalVotes = this.total(poll) + selectedIds.filter((id) => poll.options.some((option) => option.id === id)).length;
+    return totalVotes === 0 ? 0 : Math.round(((votes + previewVotes) / totalVotes) * 100);
   }
 
   /** Formats a date for display. */

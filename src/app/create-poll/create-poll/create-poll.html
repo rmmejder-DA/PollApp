@@ -9,8 +9,8 @@
             <h1>Create new survey</h1>
 
             <button class="cancel-button" type="button" aria-label="Cancel survey creation" (click)="close()">
-                <span class="cancel-button-label">Cancel</span>
-                <span>×</span>
+                <span class="cancel-button--label">Cancel</span>
+                <span class="cancel-button--icon">&#215;</span>
             </button>
         </div>
 
@@ -57,7 +57,7 @@
                         <button id="category-button" type="button" class="category-button" (click)="toggleCategories()"
                             [attr.aria-expanded]="categoriesOpen()">
                             <span>{{ 'Choose category' }}</span>
-                            <span class="category-arrow" [class.open]="categoriesOpen()" aria-hidden="true">▼</span>
+                            <span class="category-arrow" [class.open]="categoriesOpen()" aria-hidden="true">&#8227;</span>
                         </button>
                         <p class="category-field--category">{{ category }}</p>
                         @if (categoriesOpen()) {
@@ -82,7 +82,7 @@
                     <label for="description">Describing text <span>(optional)</span></label>
                     <button type="button" class="delete-button" aria-label="Clear description"
                         [disabled]="!form.controls.describingText.value" (click)="clearField('describingText')">
-                        <img src="icon/delete.svg" alt="" />
+                        <img src="icon/delete.svg" alt="deleteIcon" />
                     </button>
                 </div>
                 <div class="textarea-with-delete">
@@ -148,13 +148,13 @@
                     </div>
                     }
                     <button type="button" class="add-answer" (click)="addAnswer(questionIndex)">
-                        Add answer <span>+</span>
+                        Add answer <span>&#10010;</span>
                     </button>
                 </div>
             </fieldset>
             }
             <button type="button" class="add-question" (click)="addQuestion()">
-                Add next question <span>&#43;</span>
+                Add next question <span>&#10010;</span>
             </button>
         </section>
     </form>

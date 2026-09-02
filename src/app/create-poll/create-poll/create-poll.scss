@@ -77,6 +77,14 @@
     font-family: Nokora;
     cursor: pointer;
 
+    &--label {
+        font-size: 18px;
+    }
+
+    &--icon {
+        font-size: 32px;
+        font-weight: 600;
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
@@ -86,14 +94,8 @@
 
     &:active {
         transform: scale(0.95);
-        box-shadow: 0px 0px 12px 0px #f39a2d;
+        background-color: rgb(211, 146, 97);
     }
-}
-
-.cancel-button span {
-    font-size: 22px;
-    line-height: 8px;
-    font-weight: 600;
 }
 
 .mobile-delete {
@@ -357,7 +359,7 @@ img {
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
-    gap: 4px;
+    gap: 18px;
     border: none;
     border-radius: 7px;
     background: #49384f;
@@ -375,21 +377,21 @@ img {
 
 .category-arrow {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 42px;
     line-height: 1;
-    transform: translateY(-1px);
+    transform: rotate(90deg);
     transition: transform 0.2s;
     padding-top: 6px;
 }
 
 .category-arrow.open {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
 }
 
 .category-menu {
     position: absolute;
-    top: 160px;
-    left: 288px;
+    top: 168px;
+    left: 294px;
 
     z-index: 10;
     padding: 4px 4px;
@@ -540,24 +542,25 @@ img {
 
 .add-answer {
     border: none;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.471);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.471);
     background: transparent;
     color: white;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    width: 120px;
-    line-height: 1.4;
+    width: 125px;
+    line-height: 1.7;
 
     & span {
         display: inline-block;
-        padding: 5px 14px 2px 2px;
-        border: 2px solid #ffffff;
-        font-size: 20px;
+        border: 3px solid #ffffff;
+        font-size: 18px;
+        font-weight: 100;
         text-align: center;
-        line-height: 0.5;
+        line-height: 1.2;
         border-radius: 50%;
-        width: 10%;
+        width: 24px;
+        height: 24px;
     }
 }
 
@@ -612,13 +615,15 @@ img {
 
     & span {
         display: inline-block;
-        padding: 5px 0px 1px 0px;
-        border: 2px solid #ffffff;
-        font-size: 20px;
+        border: 3px solid #ffffff;
+        font-size: 18px;
+        font-weight: 100;
         text-align: center;
-        line-height: 0.5;
+        line-height: 1.2;
         border-radius: 50%;
-        width: 10%;
+        width: 14%;
+        width: 24px;
+        height: 24px;
     }
 }
 
@@ -779,16 +784,9 @@ img {
         height: 32px;
         font-size: 16px !important;
         margin-right: 12px;
-    }
-
-    .cancel-button-label {
-        display: none;
-    }
-
-    .cancel-button span {
-        font-size: 34px;
-        line-height: 8px;
-        font-weight: 600;
+        &--label{
+            display: none;
+        }
     }
 
     .answer-row {
@@ -824,13 +822,16 @@ img {
     }
 
     .category-menu {
-        top: 160px;
-        left: 410px;
+        top: 172px;
+        left: 418px;
     }
 }
 
 @media (max-width: 900px) {
-    .date-category-row .field {height: 60px;}
+    .date-category-row .field {
+        height: 60px;
+    }
+
     .label-with-delete {
         display: flex;
         align-items: center;
@@ -886,7 +887,7 @@ img {
     }
 
     .category-menu {
-        top: 246px;
+        top: 260px;
         left: 6px;
     }
 
@@ -938,7 +939,8 @@ img {
     .header-row h1 {
         font-size: 32px;
     }
-    .answers{
+
+    .answers {
         gap: 24px;
     }
 }

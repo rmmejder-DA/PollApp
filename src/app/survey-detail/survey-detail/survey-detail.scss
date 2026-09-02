@@ -1,7 +1,11 @@
 .page-shell {
     padding: 28px 0 70px;
 }
-
+:host{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .back {
     margin: 0 0 20px;
     border: 0;
@@ -17,7 +21,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 42px;
-    padding-inline: 10px;
+    padding: 10px;
 }
 
 .survey-description {
@@ -401,8 +405,9 @@
 
     .results-container {
         width: 100%;
-        align-items: center;
-        display: contents;
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
     }
 
     .results-toggle {
@@ -411,26 +416,25 @@
         justify-content: space-between;
         width: 100%;
         max-width: 320px;
-        margin: 0 0 16px;
         border: 0;
-        padding: 12px 14px;
         color: #302333;
         font: 700 1rem 'Nokora';
-        text-align: left;
         cursor: default;
+        background-color: transparent;
     }
 
     .results-toggle-icon {
-        width: 10px;
-        height: 10px;
-        border-right: 2px solid currentColor;
-        border-bottom: 2px solid currentColor;
-        transform: rotate(45deg) translateY(-3px);
+        color: #000000;
+        font-size: 42px;
+        line-height: 1;
+        transform: rotate(90deg);
+        transition: transform 0.2s;
+        transform: rotate(90deg);
         transition: transform .2s ease;
     }
 
     .results-toggle--open .results-toggle-icon {
-        transform: rotate(225deg) translateY(-3px);
+        transform: rotate(-90deg) translateY(-13px);
     }
 
     .detail-layout {
@@ -438,7 +442,6 @@
         flex-direction: column;
         align-items: center;
         gap: 24px;
-        padding-inline: 0;
     }
 
     .results-panel--closed {
@@ -456,11 +459,6 @@
 
 @media (max-width: 560px) {
 
-    :host {
-        display: flex;
-        justify-content: center;
-    }
-
     .button {
         width: fit-content;
 
@@ -470,7 +468,7 @@
     }
 
     .page-shell {
-        width: min(100% - 24px, 1180px);
+        width: min(100% - 7px, 1180px);
     }
 
     .survey-panel {
@@ -491,7 +489,7 @@
 
     .survey-actions {
         align-items: end;
-
+        margin: 0 10px 0 0;
     }
 
     .results-heading {

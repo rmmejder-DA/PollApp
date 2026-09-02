@@ -58,17 +58,26 @@
     cursor: pointer;
     font-family: 'Nokora';
     text-decoration: none;
+    display: flex;
 
     &::after {
         content: "\002B";
         opacity: 0;
         position: absolute;
-        padding: 0 4px;
+        display: inline-block;
+        border: 3px solid #ffffff;
+        font-size: 18px;
+        font-weight: 100;
+        text-align: center;
+        line-height: 0.8;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
         transition: 125ms ease-in-out;
         border-radius: 50%;
         border: 3px solid #221227;
         font-weight: bold;
-        font-size: 1.05rem;
+        font-size: 1.5rem;
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -284,6 +293,7 @@
     .button {
         cursor: default;
         margin: 0 auto;
+
         &:hover {
             background-color: #ffcfa1;
         }
