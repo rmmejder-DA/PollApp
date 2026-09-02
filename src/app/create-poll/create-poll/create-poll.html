@@ -112,7 +112,7 @@
                         </button>
                     </div>
                     <div class="height-all">
-                        <input class="question-input" type="text" formControlName="name"
+                        <input class="question-input" type="text" [id]="'question-' + questionIndex" formControlName="name"
                             placeholder="Write your question" />
                         @if (question.get('name')?.touched && question.get('name')?.invalid) {
                         <p class="error-message">Question is required (min. 3 characters).</p>
@@ -122,8 +122,8 @@
 
                 <div class="answers-header">
                     <strong>Answers</strong>
-                    <label class="multiple-answers">
-                        <input type="checkbox" formControlName="allowMultiple" />
+                    <label class="multiple-answers" [for]="'allow-multiple-' + questionIndex">
+                        <input [id]="'allow-multiple-' + questionIndex" type="checkbox" formControlName="allowMultiple" />
                         <span>Allow multiple answers.</span>
                     </label>
                 </div>
@@ -133,7 +133,9 @@
                     <div class="height-all">
                         <div class="answer-row">
                             <span class="answer-letter">{{ letter(answerIndex) }}.</span>
-                            <input type="text" [formControlName]="answerIndex"
+                            <input id="answer-{{ questionIndex }}-{{ answerIndex }}"
+                                name="answer-{{ questionIndex }}-{{ answerIndex }}" title="Answer" type="text" [formControlName]="answerIndex"
+                                [attr.aria-label]="'Answer ' + (answerIndex + 1)"
                                 [placeholder]="'Answer ' + (answerIndex + 1)" />
                             <button type="button" class="delete-button" aria-label="Delete answer"
                                 [disabled]="questionAnswers(questionIndex).length <= 2 && !questionAnswers(questionIndex).at(answerIndex).value"
