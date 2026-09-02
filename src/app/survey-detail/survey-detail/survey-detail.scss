@@ -459,11 +459,11 @@
         line-height: 1;
         transform: rotate(90deg);
         transition: transform .2s ease;
-        height: 40px;
+        height: 47px;
     }
 
     .results-toggle--open .results-toggle-icon {
-        transform: rotate(-90deg) translateY(-17px);
+        transform: rotate(-90deg) translateY(0);
     }
 
     .detail-layout {
@@ -509,6 +509,7 @@
 
         .page-shell {
             width: min(100% - 7px, 1180px);
+                    padding-left: 2px;
         }
 
         .survey-panel {
