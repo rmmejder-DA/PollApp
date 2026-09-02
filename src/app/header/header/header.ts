@@ -16,8 +16,10 @@ export class Header implements OnInit {
   readonly isHome = signal(true);
   readonly isNewSurvey = signal(false);
 
+  /** Creates the header with the router used to react to navigation changes. */
   constructor(private readonly router: Router) {}
 
+  /** Initializes the current frame and subscribes to later route changes. */
   ngOnInit(): void {
     this.setFrame(this.router.url);
     this.router.events
@@ -25,6 +27,7 @@ export class Header implements OnInit {
       .subscribe((event) => this.setFrame(event.urlAfterRedirects));
   }
 
+  /** Updates header visibility, logo, create action, and page-specific body styling. */
   private setFrame(url: string): void {
     const path = url.split('?')[0].replace(/\/$/, '');
     const isHome = path === '' || path === '/' || path.endsWith('/angular-project');

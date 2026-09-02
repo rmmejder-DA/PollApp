@@ -21,6 +21,7 @@ export class HomePage {
   protected readonly view = signal<'active' | 'past'>('active');
   protected readonly category = signal(this.route.snapshot.queryParamMap.get('category') ?? 'All Surveys');
 
+  /** Provides the filtered and date-sorted polls for the selected view and category. */
   protected readonly visiblePolls = computed(() =>
     this.uniqueSurveys(
       this.service.polls()
@@ -30,6 +31,7 @@ export class HomePage {
     ),
   );
 
+  /** Provides up to three active polls ordered by their nearest closing date. */
   protected readonly urgentPolls = computed(() =>
     this.uniqueSurveys(
       this.service.polls()

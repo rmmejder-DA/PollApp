@@ -61,6 +61,7 @@ export class PollService implements OnDestroy {
   readonly error = signal<string | null>(null);
   private readonly voteChannel: RealtimeChannel;
 
+  /** Creates the service, subscribes to live vote changes, and starts the initial load. */
   constructor() {
     this.voteChannel = supabase
       .channel('poll-votes-live')
@@ -80,18 +81,9 @@ export class PollService implements OnDestroy {
   async loadPolls(): Promise<void> {
     this.isLoading.set(true);
     try {
-      const { data, error } = await this.fetchPolls();
-      if (error) {
-        this.handleLoadError(error);
-        return;
-      }
-      const polls = this.mapPolls(data);
-      if (this.shouldSeedDefaults(polls)) {
-        await this.seedDefaultQuestions();
-        return;
-      }
-      this.error.set(null);
-      this.polls.set(polls);
+      const result = await this.fetchPolls();
+      if (result.error) return this.handleLoadError(result.error);
+      await this.applyLoadedPolls(this.mapPolls(result.data));
     } catch (error) {
       this.error.set(this.describeError(error, 'Surveys could not be loaded.'));
     } finally {
@@ -121,15 +113,11 @@ export class PollService implements OnDestroy {
   async voteMany(pollId: string, optionIds: string[]): Promise<boolean> {
     try {
       const { error } = await this.insertVotes(pollId, optionIds);
-      if (error) {
-        this.error.set(this.describeError(error, 'Your vote could not be saved.'));
-        return false;
-      }
+      if (error) return this.handleVoteError(error);
       await this.loadPolls();
       return true;
     } catch (error) {
-      this.error.set(this.describeError(error, 'Your vote could not be saved.'));
-      return false;
+      return this.handleVoteError(error);
     }
   }
 
@@ -138,6 +126,7 @@ export class PollService implements OnDestroy {
     return new Date(poll.endsAt).getTime() < Date.now();
   }
 
+  /** Queries polls with their options and associated vote rows, ordered by end date. */
   private fetchPolls() {
     return supabase
       .from('polls')
@@ -145,18 +134,38 @@ export class PollService implements OnDestroy {
       .order('ends_at', { ascending: true });
   }
 
+  /** Converts a loading failure into the user-facing service error state. */
   private handleLoadError(error: unknown): void {
     this.error.set(this.describeError(error, 'Surveys could not be loaded. Please check the Supabase schema.'));
   }
 
+  /** Seeds fallback surveys when Supabase has no currently active survey. */
+  private async applyLoadedPolls(polls: Poll[]): Promise<void> {
+    if (this.shouldSeedDefaults(polls)) {
+      await this.seedDefaultQuestions();
+      return;
+    }
+    this.error.set(null);
+    this.polls.set(polls);
+  }
+
+  /** Stores a vote failure and reports that the operation did not succeed. */
+  private handleVoteError(error: unknown): false {
+    this.error.set(this.describeError(error, 'Your vote could not be saved.'));
+    return false;
+  }
+
+  /** Determines whether initial sample surveys must be inserted. */
   private shouldSeedDefaults(polls: Poll[]): boolean {
     return polls.length === 0 || !polls.some((poll) => !this.isPast(poll));
   }
 
+  /** Converts the untyped Supabase response into the application's poll model. */
   private mapPolls(data: unknown): Poll[] {
     return (data as RawPoll[] | null ?? []).map((poll) => this.mapPoll(poll));
   }
 
+  /** Selects a useful message from an unknown error value. */
   private describeError(error: unknown, fallback: string): string {
     if (error instanceof Error && error.message.trim()) {
       return error.message;
@@ -167,6 +176,7 @@ export class PollService implements OnDestroy {
     return fallback;
   }
 
+  /** Inserts all configured sample surveys and refreshes the local signal. */
   private async seedDefaultQuestions(): Promise<void> {
     for (const question of defaultQuestions) {
       const poll = await this.insertDefaultPoll(question);
@@ -177,30 +187,32 @@ export class PollService implements OnDestroy {
     this.polls.set(await this.loadSeededPolls());
   }
 
+  /** Inserts one sample survey and returns its generated database id. */
   private async insertDefaultPoll(question: DefaultQuestion): Promise<{ id: string } | null> {
     const endsAt = this.createDefaultEndDate();
     const [name, describingText, category, answers] = question;
     const { data, error } = await supabase
       .from('polls')
-      .insert({
-        name,
-        data: { category, endsAt },
-        describing_text: describingText,
-        answers,
-        title: name,
-        description: describingText,
-        category,
-        ends_at: endsAt,
-      })
+      .insert(this.defaultPollData(name, describingText, category, answers, endsAt))
       .select('id')
       .single();
-    if (error || !data) {
-      this.error.set(this.describeError(error, 'Default surveys could not be created.'));
-      return null;
-    }
+    if (error || !data) return this.handleDefaultPollError(error);
     return data;
   }
 
+  /** Builds the database row for a configured sample survey. */
+  private defaultPollData(name: string, description: string, category: string, answers: readonly string[], endsAt: string) {
+    return { name, data: { category, endsAt }, describing_text: description, answers,
+      title: name, description, category, ends_at: endsAt };
+  }
+
+  /** Records an error raised while inserting a sample survey. */
+  private handleDefaultPollError(error: unknown): null {
+    this.error.set(this.describeError(error, 'Default surveys could not be created.'));
+    return null;
+  }
+
+  /** Inserts the answer options belonging to one sample survey. */
   private async insertDefaultOptions(pollId: string, answers: readonly string[]): Promise<void> {
     const { error } = await supabase.from('poll_options').insert(
       answers.map((label) => ({ poll_id: pollId, label })),
@@ -210,6 +222,7 @@ export class PollService implements OnDestroy {
     }
   }
 
+  /** Reloads all surveys after the initial sample data has been created. */
   private async loadSeededPolls(): Promise<Poll[]> {
     const { data } = await supabase
       .from('polls')
@@ -218,28 +231,28 @@ export class PollService implements OnDestroy {
     return this.mapPolls(data);
   }
 
+  /** Inserts a user-created survey and returns its generated database id. */
   private async insertPoll(newPoll: NewPoll, questionId: string): Promise<{ id: string } | null> {
     const { data, error } = await supabase
       .from('polls')
-      .insert({
-        name: newPoll.title.trim(),
-        data: { category: newPoll.category, endsAt: newPoll.endsAt, questionId, allowMultiple: newPoll.allowMultiple ?? false },
-        describing_text: newPoll.description.trim(),
-        answers: newPoll.options.map((label) => label.trim()),
-        title: newPoll.title.trim(),
-        description: newPoll.description.trim(),
-        category: newPoll.category,
-        ends_at: newPoll.endsAt,
-      })
+      .insert(this.newPollData(newPoll, questionId))
       .select('id, created_at, name, data, describing_text, answers, title, description, category, ends_at')
       .single();
-    if (error || !data) {
-      this.error.set(this.describeError(error, 'The survey could not be created.'));
-      return null;
-    }
+    if (error || !data) return this.failCreate();
     return data;
   }
 
+  /** Builds the normalized database row for a user-created survey. */
+  private newPollData(newPoll: NewPoll, questionId: string) {
+    const title = newPoll.title.trim();
+    const description = newPoll.description.trim();
+    return { name: title, data: { category: newPoll.category, endsAt: newPoll.endsAt, questionId,
+      allowMultiple: newPoll.allowMultiple ?? false }, describing_text: description,
+      answers: newPoll.options.map((label) => label.trim()), title, description,
+      category: newPoll.category, ends_at: newPoll.endsAt };
+  }
+
+  /** Saves answer options, reloads polls, and returns the created survey. */
   private async saveOptionsAndReturnPoll(newPoll: NewPoll, poll: { id: string }): Promise<Poll | null> {
     const { error } = await supabase.from('poll_options').insert(
       newPoll.options.map((label) => ({ poll_id: poll.id, label: label.trim() })),
@@ -252,17 +265,20 @@ export class PollService implements OnDestroy {
     return this.polls().find((item) => item.id === poll.id) ?? null;
   }
 
+  /** Stores the standard creation error and returns the null failure value. */
   private failCreate(): null {
     this.error.set('The survey could not be created.');
     return null;
   }
 
+  /** Creates one database row per selected answer option. */
   private insertVotes(pollId: string, optionIds: string[]) {
     return supabase.from('poll_votes').insert(
       optionIds.map((optionId) => ({ poll_id: pollId, option_id: optionId })),
     );
   }
 
+  /** Maps one raw Supabase survey, including its normalized category and options. */
   private mapPoll(poll: RawPoll): Poll {
     const category = this.translateCategory(poll.data?.category ?? poll.category);
     return {
@@ -273,14 +289,18 @@ export class PollService implements OnDestroy {
       category,
       endsAt: poll.data?.endsAt ?? poll.ends_at,
       allowMultiple: poll.data?.allowMultiple ?? false,
-      options: (poll.poll_options ?? []).map((option) => ({
-        id: option.id,
-        label: option.label,
-        votes: option.poll_votes?.length ?? 0,
-      })),
+      options: this.mapOptions(poll.poll_options),
     };
   }
 
+  /** Converts raw option rows into options with their current vote counts. */
+  private mapOptions(options: RawOption[] | null): PollOption[] {
+    return (options ?? []).map((option) => ({
+      id: option.id, label: option.label, votes: option.poll_votes?.length ?? 0,
+    }));
+  }
+
+  /** Creates a stable, unique question id from a category and current timestamp. */
   private createQuestionId(category: string): string {
     const prefix = this.slugifyCategory(category);
     const stamp = Date.now().toString(36).slice(-6);
@@ -288,15 +308,18 @@ export class PollService implements OnDestroy {
     return `${prefix}-${stamp}-${rand}`;
   }
 
+  /** Creates the one-week expiration timestamp used by seeded surveys. */
   private createDefaultEndDate(): string {
     const endsAt = new Date(Date.now() + 7 * 86_400_000);
     return endsAt.toISOString();
   }
 
+  /** Converts a category label into a URL- and id-safe lowercase slug. */
   private slugifyCategory(category: string): string {
     return category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'survey';
   }
 
+  /** Translates legacy category labels while preserving already normalized values. */
   private translateCategory(category: string): string {
     return { Alle: 'All', Produkt: 'Product', Freizeit: 'Leisure' }[category] ?? category;
   }

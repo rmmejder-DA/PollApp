@@ -13,5 +13,6 @@ import { Poll } from '../../core/services/poll.service';
 })
 export class PastSurveysSection {
   @Input() polls: Poll[] = [];
+  /** Formats each past survey date for display in the list. */
   @Input() formatDate: (poll: Poll) => string = () => '';
 }

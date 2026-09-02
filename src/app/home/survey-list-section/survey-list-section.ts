@@ -21,15 +21,18 @@ export class SurveyListSection {
   @Output() categoryChange = new EventEmitter<string>();
   protected readonly categoriesOpen = signal(false);
 
+  /** Opens or closes the category selector in the survey list. */
   protected toggleCategories(): void {
     this.categoriesOpen.update((open) => !open);
   }
 
+  /** Emits the selected category and closes the category selector. */
   protected selectCategory(category: string): void {
     this.categoryChange.emit(category);
     this.categoriesOpen.set(false);
   }
 
+  /** Builds the status label showing either a past state or remaining days. */
   protected endLabel(poll: Poll): string {
     if (this.past) return 'Past survey';
     const days = Math.max(0, Math.ceil((new Date(poll.endsAt).getTime() - Date.now()) / 86_400_000));

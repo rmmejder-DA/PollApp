@@ -13,6 +13,7 @@ import { Poll } from '../../core/services/poll.service';
 })
 export class UrgentSection {
   @Input() polls: Poll[] = [];
+  /** Calculates the remaining days shown on each urgent survey card. */
   @Input() daysLeft: (poll: Poll) => number = () => 0;
   protected readonly isDragging = signal(false);
   private activePointerId: number | null = null;
@@ -20,6 +21,7 @@ export class UrgentSection {
   private dragStartScrollLeft = 0;
   private suppressCardClick = false;
 
+  /** Starts horizontal dragging when the primary pointer button is used. */
   protected startDragging(event: PointerEvent): void {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
@@ -29,6 +31,7 @@ export class UrgentSection {
     this.dragStartScrollLeft = cards.scrollLeft;
   }
 
+  /** Scrolls the card track while the active pointer moves. */
   protected dragCards(event: PointerEvent): void {
     if (event.pointerId !== this.activePointerId) return;
 
@@ -42,6 +45,7 @@ export class UrgentSection {
     if (this.isDragging()) cards.scrollLeft = this.dragStartScrollLeft - distance;
   }
 
+  /** Releases pointer capture and resets the drag state after movement ends. */
   protected stopDragging(event: PointerEvent): void {
     if (event.pointerId !== this.activePointerId) return;
 
@@ -51,6 +55,7 @@ export class UrgentSection {
     this.isDragging.set(false);
   }
 
+  /** Prevents navigation for the click generated at the end of a drag gesture. */
   protected handleCardClick(event: MouseEvent): void {
     if (!this.suppressCardClick) return;
 

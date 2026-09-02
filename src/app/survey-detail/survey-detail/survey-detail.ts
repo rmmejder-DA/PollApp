@@ -12,14 +12,16 @@ import { NotFoundPage } from '../../not-found/not-found/not-found';
   standalone: true,
 })
 export class SurveyDetail {
+  private readonly votedStorageKey = 'pollapp-voted-polls';
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly service = inject(PollService);
-  protected readonly voted = signal<string[]>([]);
+  protected readonly voted = signal<string[]>(this.loadVotedPolls());
   protected readonly selectedOptionIds = signal<string[]>([]);
   protected readonly isSubmitting = signal(false);
   protected readonly isResultsOpen = signal(true);
 
+  /** Resolves the route parameters against the polls currently loaded in memory. */
   protected readonly poll = computed(() => {
     const categoryParam = this.route.snapshot.paramMap.get('category');
     const questionIdParam = this.route.snapshot.paramMap.get('questionId');
@@ -30,6 +32,7 @@ export class SurveyDetail {
     return null;
   });
 
+  /** Groups all loaded questions belonging to the same displayed survey. */
   protected readonly surveyQuestions = computed(() => {
     const current = this.poll();
     if (!current) return [];
@@ -47,6 +50,12 @@ export class SurveyDetail {
   /** Opens the creation route. */
   protected goToCreate(): void {
     this.router.navigate(['/new-survey']);
+  }
+
+  /** Returns to the overview for completed surveys or submits a new response. */
+  protected completeOrGoBack(poll: Poll): void {
+    if (this.isSurveyVoted()) return this.goBack(poll.category);
+    void this.completeSurvey(poll);
   }
 
   /** Toggles the results visibility on small screens. */
@@ -123,18 +132,22 @@ export class SurveyDetail {
     return this.service.isPast(poll) ? 'Closed' : 'Published';
   }
 
+  /** Finds the currently loaded poll by its stable question identifier. */
   private findByQuestionId(questionId: string): Poll | null {
     return this.service.polls().find((item) => item.questionId === questionId) ?? null;
   }
 
+  /** Finds a poll by its legacy database identifier for old links. */
   private findByLegacyId(id: string): Poll | null {
     return this.service.polls().find((item) => item.id === id) ?? null;
   }
 
+  /** Finds the first loaded poll matching a route category case-insensitively. */
   private findByCategory(category: string): Poll | null {
     return this.service.polls().find((item) => item.category.toLowerCase() === category.toLowerCase()) ?? null;
   }
 
+  /** Applies single-choice or multiple-choice selection rules to one poll. */
   private toggleSelection(ids: string[], poll: Poll, optionId: string): string[] {
     if (ids.includes(optionId)) return ids.filter((id) => id !== optionId);
     if (poll.allowMultiple) return [...ids, optionId];
@@ -142,14 +155,33 @@ export class SurveyDetail {
     return [...ids.filter((id) => !optionIds.has(id)), optionId];
   }
 
+  /** Sends selected options for every related question and records successful votes. */
   private async submitSelectedQuestions(selectedIds: string[]): Promise<void> {
     const questions = this.surveyQuestions();
     for (const question of questions) {
       const ids = question.options.map((option) => option.id).filter((id) => selectedIds.includes(id));
       if (ids.length > 0) {
-        await this.service.voteMany(question.id, ids);
-        this.voted.update((value) => [...value, question.id]);
+        const saved = await this.service.voteMany(question.id, ids);
+        if (saved) this.markAsVoted(question.id);
       }
     }
+  }
+
+  /** Loads only this browser's completed poll ids without treating database votes as local votes. */
+  private loadVotedPolls(): string[] {
+    const stored = localStorage.getItem(this.votedStorageKey);
+    if (!stored) return [];
+    try {
+      const value: unknown = JSON.parse(stored);
+      return Array.isArray(value) && value.every((id) => typeof id === 'string') ? value : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /** Adds a successfully submitted poll to local state and persists it for the next visit. */
+  private markAsVoted(pollId: string): void {
+    this.voted.update((value) => value.includes(pollId) ? value : [...value, pollId]);
+    localStorage.setItem(this.votedStorageKey, JSON.stringify(this.voted()));
   }
 }

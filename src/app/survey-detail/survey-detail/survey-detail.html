@@ -36,8 +36,7 @@
               <button class="answer" [class.selected]="isSelected(option.id)" type="button"
                 [disabled]="service.isPast(question) || isVoted(question) || isSubmitting()"
                 (click)="toggleOption(question, option.id)">
-                <input class="answer-marker" type="checkbox" [checked]="isSelected(option.id)" tabindex="-1"
-                  aria-hidden="true" />
+                <span class="answer-marker" [class.selected]="isSelected(option.id)" aria-hidden="true"></span>
                 <span class="answer-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
                 <span class="answer-text">{{ option.label }}</span>
               </button>
@@ -50,10 +49,13 @@
       </div>
 
       <div id="survey-actions" class="survey-actions">
-        <button class="button" type="button" [disabled]="isSurveyPast() || isSurveyVoted() || isSubmitting()"
-          (click)="completeSurvey(selected)">
-          <span class="complete-label">Complete survey</span>
-          <span class="complete-label--compact">Complete</span>
+        @if (isSurveyVoted()) {
+        <p class="notice">You have already voted on this question.</p>
+        }
+        <button class="button" type="button" [disabled]="isSurveyPast() || isSubmitting()"
+          (click)="completeOrGoBack(selected)">
+          <span class="complete-label">{{ isSurveyVoted() ? 'Go back' : 'Complete survey' }}</span>
+          <span class="complete-label--compact">{{ isSurveyVoted() ? 'Go back' : 'Complete' }}</span>
         </button>
       </div>
     </article>
@@ -89,7 +91,9 @@
             <span class="result-label">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}</span>
             <div id="result-track-{{ qIndex }}-{{ optionIndex + 1 }}" class="result-track" role="progressbar"
               [attr.aria-valuenow]="percent(question, option.id, option.votes)" aria-valuemin="0" aria-valuemax="100"
-              [attr.aria-label]="option.label">
+              title="Survey result"
+              [attr.aria-label]="option.label + ': ' + percent(question, option.id, option.votes) + ' percent'"
+              [attr.title]="option.label + ': ' + percent(question, option.id, option.votes) + ' percent'">
               <i [style.width.%]="percent(question, option.id, option.votes)"></i>
             </div>
             <strong>{{ percent(question, option.id, option.votes) }}%</strong>

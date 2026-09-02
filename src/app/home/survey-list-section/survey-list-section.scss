@@ -207,29 +207,54 @@
     color: #cbbdce;
     font-size: 16px;
 }
-@media (max-width: 1022px){
-    .tab{
+
+@media (max-width: 1022px) {
+    .tab {
         cursor: default;
-        &:active{
-                background: #ffb35f;
+
+        &:active {
+            background: #ffb35f;
+
         }
     }
-    .category-trigger{
-    cursor: default;}
-    .survey-card{
+
+    .category-trigger {
         cursor: default;
     }
+
+    @media (hover: hover) and (pointer: fine) {
+        .tab--active:hover {
+            background-color: #ffb35f !important;
+        }
+
+        .tab:hover {
+            background-color: #fee9d4;
+        }
+
+        .survey-card:hover {
+            background-color: #493a4d !important;
+            cursor: default;
+        }
+    }
 }
+
 @media (max-width: 600px) {
     .survey-toolbar {
         align-items: flex-start;
         flex-direction: column;
     }
-    .category-sort{
+
+    .category-sort {
         margin: 0 auto;
     }
+
     .survey-grid {
         grid-template-columns: 1fr;
         padding-inline: 10px;
+    }
+
+    .survey-toolbar {
+        flex-direction: column !important;
+        align-items: center;
     }
 }

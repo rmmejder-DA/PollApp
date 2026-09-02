@@ -84,6 +84,7 @@
     &--icon {
         font-size: 32px;
         font-weight: 600;
+        padding-top: 4px;
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -367,6 +368,7 @@ img {
     font-size: 17px;
     font-weight: 600;
     cursor: pointer;
+    height: 36px;
 }
 
 .category-button span:first-child {
@@ -784,11 +786,19 @@ img {
         height: 32px;
         font-size: 16px !important;
         margin-right: 12px;
-        &--label{
+
+        &--label {
             display: none;
         }
     }
-
+    @media (hover: hover) and (pointer: fine){
+        .cancel-button{
+            cursor: default;
+            &:hover{
+                background-color: #775c5a;
+            }
+        }
+    }
     .answer-row {
         display: grid;
         grid-template-columns: 1fr auto;
@@ -825,9 +835,22 @@ img {
         top: 172px;
         left: 418px;
     }
+        .publish-button{
+        cursor: default;
+        &::after{
+            position: inherit;
+            opacity: 1;
+        }
+        &:hover{
+            background-color: #ffd19f!important;
+        }
+    }
 }
 
 @media (max-width: 900px) {
+    .delete-button{
+        cursor: default;
+    }
     .date-category-row .field {
         height: 60px;
     }
@@ -859,6 +882,7 @@ img {
         padding: 0;
         justify-content: flex-start;
         gap: 12px;
+        cursor: default;
     }
 
     .field label {

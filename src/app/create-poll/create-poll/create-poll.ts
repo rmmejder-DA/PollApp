@@ -32,6 +32,7 @@ export class CreatePoll {
     questions: this.formBuilder.array([this.questionGroup()]),
   });
 
+  /** Returns the form array containing all editable survey questions. */
   protected get questions(): FormArray {
     return this.form.controls.questions;
   }
@@ -70,6 +71,7 @@ export class CreatePoll {
     this.published.set(false);
   }
 
+  /** Returns the category currently selected in the creation form. */
   protected get category(): string {
     return this.form.controls.category.value;
   }
@@ -119,11 +121,7 @@ export class CreatePoll {
     }
     this.beginSave();
     try {
-      const firstPoll = await this.persistQuestions();
-      if (firstPoll) {
-        this.published.set(true);
-        window.setTimeout(() => this.created.emit(firstPoll), 2000);
-      }
+      this.publish(await this.persistQuestions());
     } catch (error) {
       this.saveError.set(this.describeError(error, 'The survey could not be saved.'));
     } finally {
@@ -131,11 +129,20 @@ export class CreatePoll {
     }
   }
 
+  /** Shows the success state and emits the first created poll after the notice. */
+  private publish(firstPoll: Poll | null): void {
+    if (!firstPoll) return;
+    this.published.set(true);
+    window.setTimeout(() => this.created.emit(firstPoll), 2000);
+  }
+
+  /** Clears the previous save error and marks the form as busy. */
   private beginSave(): void {
     this.saveError.set('');
     this.isSaving.set(true);
   }
 
+  /** Checks every question for invalid answer controls. */
   private hasInvalidQuestions(): boolean {
     return this.questions.controls.some((question) => {
       const answers = this.questionAnswers(this.questions.controls.indexOf(question));
@@ -143,6 +150,7 @@ export class CreatePoll {
     });
   }
 
+  /** Persists questions in order and returns the first created poll for navigation. */
   private async persistQuestions(): Promise<Poll | null> {
     const value = this.form.getRawValue();
     let firstPoll: Poll | null = null;
@@ -157,6 +165,7 @@ export class CreatePoll {
     return firstPoll;
   }
 
+  /** Converts one form question into the service's poll input model. */
   private async createQuestionPoll(question: { name: string; allowMultiple: boolean; answers: string[] }, value: { surveyName: string; describingText: string; category: string; endsAt: string }) {
     return this.service.createPoll({
       title: question.name,
@@ -168,6 +177,7 @@ export class CreatePoll {
     } satisfies NewPoll);
   }
 
+  /** Extracts a readable message from an unknown save error. */
   private describeError(error: unknown, fallback: string): string {
     if (error instanceof Error && error.message.trim()) {
       return error.message;
@@ -178,6 +188,7 @@ export class CreatePoll {
     return fallback;
   }
 
+  /** Creates a validated form group containing one question and two answers. */
   private questionGroup() {
     return this.formBuilder.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -186,10 +197,12 @@ export class CreatePoll {
     });
   }
 
+  /** Creates a required, non-nullable answer input control. */
   private answerControl() {
     return this.formBuilder.nonNullable.control('', Validators.required);
   }
 
+  /** Calculates the default expiration date for newly created surveys. */
   private defaultEndDate(): string {
     const date = new Date();
     date.setDate(date.getDate() + 7);
@@ -197,6 +210,7 @@ export class CreatePoll {
     return date.toISOString();
   }
 
+  /** Rejects empty dates and dates that are today or earlier. */
   private futureDateValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     const selected = new Date(`${control.value}T00:00:00`);
@@ -208,6 +222,7 @@ export class CreatePoll {
     return null;
   }
 
+  /** Formats tomorrow as the minimum value accepted by the date input. */
   private getTomorrowStr(): string {
     const date = new Date();
     date.setDate(date.getDate() + 1);
